@@ -105,18 +105,18 @@
 
 ---
 
-## In Progress
-- [ ] **Phase 7 — Figma Extraction: Core Admin Flow (T-054 to T-056)**
-  - **T-054:** Room Management & Add Room (`/admin/rooms`)
-  - **T-055:** Staff Directory & Role Invitations (`/admin/staff`)
-  - **T-056:** Restyle `/register`, `/install`, `/login` to match Figma visual design language
+- [x] **Phase 7 — Figma Extraction: Core Admin Flow & Auth Restyling (COMPLETED):**
+  - **T-054 (Room Management & Add Room):** Implemented `/admin/rooms` and `/admin/rooms/new` with full room inventory listing, dynamic status controls, room deletion action, and room creation action scoped to `tenant.lodgeId`.
+  - **T-055 (Users & Roles / Staff Management):** Implemented `/admin/staff` displaying lodge staff profiles, role permissions matrix, and atomic staff invitation action using `createAdminClient()`.
+  - **T-056 (Auth & Onboarding Restyling):** Restyled `/login`, `/register`, and `/install` matching the Figma design system (`#0b1437` dark navy, subtle gray borders, minimal font-display headers).
+  - **Verification:** Verified live in production build (`next start -p 3000`) across all admin screens under both `pinecrest.localhost` and `lakeside.localhost`, confirmed restyled auth/onboarding routes render correctly, and re-verified cross-tenant direct UUID access yields HTTP 404.
 
 ---
 
-## Next Steps (Per Revised 08-features-ticket-list.md)
-- **T-054:** Extract `RoomManagement` and `AddRoom` modal from `design-reference/src/App.tsx` into `/admin/rooms`, wiring room creation, updates, and maintenance flags to Supabase PostgREST scoped to `tenant.lodgeId`.
-- **T-055:** Extract `UsersRoles` from Figma into `/admin/staff`.
-- **T-056:** Restyle onboarding and auth screens.
+## Next Steps
+- **Phase 8 — Secondary Screens (T-057 to T-058):**
+  - **T-057:** CustomerProfile view.
+  - **T-058:** PrintInvoice printable folio view.
 
 ---
 

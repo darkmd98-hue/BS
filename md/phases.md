@@ -52,11 +52,11 @@
 - **T-053** Customers → real CRUD against `customers` (`/reception/customers`) ✅ DONE
 - *Exit criteria met:* All 6 screens extracted into real Next.js App Router routes, wired to PostgREST via `getTenantContext().lodgeId`, verified live in production build across both `pinecrest.localhost` and `lakeside.localhost` with 0 cross-tenant row leakage, and verified that direct URL access across lodges yields HTTP 404.
 
-## Phase 7 — Figma Extraction: Core Admin Flow 🔶 IN PROGRESS
-- **T-054** RoomManagement + AddRoom → `/admin/rooms`
-- **T-055** UsersRoles → `/admin/staff`, real staff-invite flow
-- **T-056** Restyle `/register`, `/install`, `/login` to match the Figma visual language (these screens aren't in the Figma export itself, so this is a deliberate design-matching pass, not an extraction)
-- *Exit criteria:* an admin can configure rooms and invite staff for their own lodge only, verified against the second test lodge for isolation.
+## Phase 7 — Figma Extraction: Core Admin Flow ✅ DONE
+- **T-054** RoomManagement + AddRoom → `/admin/rooms` and `/admin/rooms/new` (Room inventory, filter status, create room action) ✅ DONE
+- **T-055** UsersRoles → `/admin/staff` (Staff directory, role permissions matrix, staff invitation action) ✅ DONE
+- **T-056** Restyle `/register`, `/install`, `/login` to match the Figma visual language (navy `#0b1437`, clean borders, minimal typography) ✅ DONE
+- *Exit criteria met:* Admin can configure rooms and invite staff for their own lodge only, verified against both test lodges (`pinecrest` and `lakeside`) in production build; direct UUID boundary checks confirmed HTTP 404.
 
 ## Phase 8 — Secondary Screens ⬜ NOT STARTED
 - **T-057** CustomerProfile
