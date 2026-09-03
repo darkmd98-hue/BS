@@ -34,20 +34,31 @@
   - Verified `next build` passes with 0 errors.
   - Read and analyzed `design-reference/src/App.tsx` (17 screen functions, mock arrays, shared UI components).
 
+- [x] **T-043: Subdomain Tenant Resolution Middleware (Production Verified):**
+  - Canonical location: `src/middleware.ts` directly (root `middleware.ts` deleted).
+  - Composed with `@/lib/supabase/middleware`'s `updateSession(request, requestHeaders)` using the clone-and-pass Headers pattern.
+  - Fail-closed error handling: returns 500 on missing env configuration or transient DB lookup errors; returns 404 HTML on unknown/unregistered subdomains.
+  - Anti-spoofing security: dev overrides (`?subdomain=` and `x-subdomain` header) gated behind `process.env.NODE_ENV !== 'production'`.
+  - Scoped matcher: excludes `_next/static`, `_next/image`, `favicon.ico`, and all static media assets.
+  - Uses unprivileged public `anonKey` with `lodges_anon_subdomain_select` RLS policy granting `(id, name, subdomain)` only.
+  - Verified under `next build && next start` (Production Build):
+    * `pinecrest.localhost:3000` -> 200 OK (`x-lodge-id: 2e66186f-0f87-47f9-a29e-00984781fb53`)
+    * `lakeside.localhost:3000` -> 200 OK (`x-lodge-id: e6c99f07-00f5-4cf5-b1f7-e0100b6f06c9`)
+    * `doesnotexist.localhost:3000` -> 404 Lodge Not Found
+    * `localhost:3000/register` -> 200 (Root bypass)
+    * Authenticated `/admin/settings` -> 200 OK with `x-lodge-id` forwarded downstream.
+    * Simulated expired token test -> `updateSession` automatically refreshed token via Supabase Auth, emitted fresh `Set-Cookie` with updated `access_token` and `expires_at`, and completed request with 200 OK.
+
 ---
 
 ## In Progress
-- [ ] **Awaiting User Go-Ahead for Revised Roadmap (Phase 1: Schema Expansion & Subdomain Resolution)**
+- [ ] **Awaiting User Review of T-043 before starting T-044**
 
 ---
 
 ## Next Steps (Per Revised 08-features-ticket-list.md)
-- **T-039:** Schema expansion: expand `rooms`, add `customers`, rename `bookings`→`reservations`, rename `billing`→`bills`, add `payments`.
-- **T-040:** Add `subdomain` column + unique index to `lodges`; backfill for test lodges.
-- **T-041:** Write and apply RLS policies for all new and renamed tables.
-- **T-042:** Re-run live PostgREST tenant isolation test against new/renamed tables.
-- **T-043 / T-044:** Build and test Subdomain Tenant Resolution middleware.
-- **T-045+:** Phase 3 Figma Extraction.
+- **T-044:** Wire pages and route handlers to read `x-lodge-id` from request headers.
+- **T-045+:** Phase 3 Figma Extraction (shared components, layout, and screens).
 
 ---
 
