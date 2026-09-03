@@ -37,13 +37,13 @@
 - **T-044:** Tenant context helper (`src/lib/tenant.ts`) reading `headers()` downstream + cross-tenant session mismatch guard (rejects with 403) ✅ DONE
 - *Exit criteria met:* visiting `pinecrest.localhost` and `lakeside.localhost` correctly resolves downstream tenant context for authenticated users; mismatched cross-tenant access attempts are strictly rejected with HTTP 403 Forbidden; fully verified under production build (`next start`).
 
-## Phase 5 — Figma Extraction: Foundation & Shared Components 🔶 IN PROGRESS
-- **T-045:** Extract `Sidebar`, `Header`, `StatusBadge`, `PayBadge`, `Avatar`, `Toast`, `Modal` into real shared component files
-- **T-046:** Set up `/admin` and `/reception` layouts using the extracted shell
-- **T-047:** Carry over `recharts` dependency, confirm charts render standalone before wiring real data
-- *Exit criteria:* shared shell renders correctly with no page content wired yet.
+## Phase 5 — Figma Extraction: Foundation & Shared Components ✅ DONE
+- **T-045:** Extract `Sidebar`, `Header`, `StatusBadge`, `PayBadge`, `Avatar`, `Toast`, `Modal` into real shared component files ✅ DONE
+- **T-046:** Set up `/admin` and `/reception` layouts using the extracted shell wired to `getTenantContext()` ✅ DONE
+- **T-047:** Carry over `recharts` dependency, confirm build passes and shell renders standalone with dynamic lodge branding ✅ DONE
+- *Exit criteria met:* shared shell renders cleanly in production mode under `pinecrest` and `lakeside` subdomains displaying respective lodge branding; 0 build errors.
 
-## Phase 6 — Figma Extraction: Core Reception Flow ⬜ NOT STARTED
+## Phase 6 — Figma Extraction: Core Reception Flow 🔶 IN PROGRESS
 - **T-048** Dashboard → real aggregate queries (occupancy, today's activity)
 - **T-049** RoomBooking + RoomCard → `/reception/rooms`, real `rooms` data, lodge-scoped, realtime status
 - **T-050** StayDetails → real `reservations`/`customers`/`bills` for a given room

@@ -74,20 +74,39 @@
     * Lodge B session -> `lakeside.localhost` (Matching): **200 OK**, returns Lakeside lodge context.
     * Lodge B session -> `pinecrest.localhost` (Mismatched): **403 Forbidden**, strictly rejected.
 
+- [x] **Phase 5 — Figma Extraction: Foundation & Shared Components (COMPLETED):**
+  - **T-045:** Extracted shared UI primitives from Figma `design-reference/src/App.tsx` into clean, modular TypeScript files under `src/components/shared/`:
+    * [`src/components/shared/Sidebar.tsx`](file:///c:/bs/src/components/shared/Sidebar.tsx) (Dynamic branding, active route highlighting, user profile, logout)
+    * [`src/components/shared/Header.tsx`](file:///c:/bs/src/components/shared/Header.tsx) (Global search dropdown, notifications menu, user initials/role)
+    * [`src/components/shared/StatusBadge.tsx`](file:///c:/bs/src/components/shared/StatusBadge.tsx) (Room status badges: available, occupied, reserved, cleaning, maintenance)
+    * [`src/components/shared/PayBadge.tsx`](file:///c:/bs/src/components/shared/PayBadge.tsx) (Payment status badges: paid, partial, unpaid, pending)
+    * [`src/components/shared/Avatar.tsx`](file:///c:/bs/src/components/shared/Avatar.tsx) (Deterministic colorized initials avatar)
+    * [`src/components/shared/Toast.tsx`](file:///c:/bs/src/components/shared/Toast.tsx) (Dismissible timed toast notifications)
+    * [`src/components/shared/Modal.tsx`](file:///c:/bs/src/components/shared/Modal.tsx) (Accessible backdrop-blur modal with keyboard escape listener)
+  - **T-046:** Implemented `/admin` and `/reception` layouts (`src/app/admin/layout.tsx`, `src/app/reception/layout.tsx`) wired to `getTenantContext()` for dynamic lodge branding and role identity.
+  - **T-047:** Installed `recharts@^2.15.4` dependency in `package.json`.
+  - Built with `next build` (0 errors, 0 type issues).
+  - Verified live in production mode (`next start`) with real authenticated sessions across both subdomains:
+    * `pinecrest.localhost:3000/admin`: HTTP 200, renders "Pinecrest Alpine Resort" & "pinecrest.lodge".
+    * `lakeside.localhost:3000/admin`: HTTP 200, renders "Lakeside Haven Inn" & "lakeside.lodge".
+    * `pinecrest.localhost:3000/reception`: HTTP 200, renders "Pinecrest Alpine Resort".
+    * `lakeside.localhost:3000/reception`: HTTP 200, renders "Lakeside Haven Inn".
+
 ---
 
 ## In Progress
-- [ ] **Phase 5 — Figma Extraction: Foundation & Shared Components**
-  - **T-045:** Extract `Sidebar`, `Header`, `StatusBadge`, `PayBadge`, `Avatar`, `Toast`, `Modal` into shared component files.
-  - **T-046:** Set up `/admin` and `/reception` layouts using the extracted shell.
-  - **T-047:** Wire `recharts` dependency and verify charts render standalone.
+- [ ] **Phase 6 — Figma Extraction: Reception Experience (T-048 to T-052)**
+  - **T-048:** Room Booking Grid (`src/components/reception/RoomGrid.tsx`, `/reception/rooms`)
+  - **T-049:** Walk-in Booking Modal (`src/components/reception/NewBookingModal.tsx`)
+  - **T-050:** Reservations List & Filter (`/reception/reservations`)
+  - **T-051:** Bills & Payments Screen (`/reception/billing`)
+  - **T-052:** Customer Directory Screen (`/reception/customers`)
 
 ---
 
 ## Next Steps (Per Revised 08-features-ticket-list.md)
-- **T-045:** Extract shared UI primitives from `design-reference/src/App.tsx`.
-- **T-046:** Establish App Router layouts for `/admin` and `/reception`.
-- **T-045+:** Phase 3 Figma Extraction (shared components, layout, and screens).
+- **T-048:** Port Figma room booking grid with real PostgREST query scoped to `x-lodge-id`.
+- **T-049:** Port Figma walk-in booking modal wired to server actions.
 
 ---
 
