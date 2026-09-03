@@ -121,10 +121,11 @@ export default async function ReceptionBillingPage() {
                     </td>
                     <td className="px-5 py-4 text-right">
                       <Link
-                        href={`/reception/rooms`}
+                        href={`/reception/billing/${b.id}/print`}
+                        target="_blank"
                         className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-semibold hover:bg-gray-200 transition-colors"
                       >
-                        Details
+                        Print Invoice
                       </Link>
                     </td>
                   </tr>

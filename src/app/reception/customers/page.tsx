@@ -79,12 +79,20 @@ export default async function ReceptionCustomersPage() {
                     {c.last_stay || "Recent"}
                   </td>
                   <td className="px-5 py-4 text-right">
-                    <Link
-                      href={`/reception/reservations/new`}
-                      className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-semibold hover:bg-blue-100 transition-colors"
-                    >
-                      Book Room
-                    </Link>
+                    <div className="flex items-center justify-end gap-2">
+                      <Link
+                        href={`/reception/customers/${c.id}`}
+                        className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-semibold hover:bg-gray-200 transition-colors"
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        href={`/reception/reservations/new`}
+                        className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-semibold hover:bg-blue-100 transition-colors"
+                      >
+                        Book Room
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

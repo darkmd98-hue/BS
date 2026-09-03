@@ -9,8 +9,8 @@ const PAY_CFG: Record<string, { label: string; bg: string; text: string }> = {
   pending: { label: "Pending", bg: "bg-amber-50",   text: "text-amber-700"  },
 };
 
-export function PayBadge({ status }: { status: PaymentStatus | string }) {
-  const normalized = (status.toLowerCase() as PaymentStatus) || "pending";
+export function PayBadge({ status }: { status: PaymentStatus | string | undefined | null }) {
+  const normalized = ((status || "pending").toLowerCase() as PaymentStatus);
   const c = PAY_CFG[normalized] || PAY_CFG.pending;
 
   return (

@@ -13,7 +13,7 @@
 ---
 
 ## Current Phase
-`Phase 1 — Schema Expansion & Subdomain Resolution (Figma Pivot)`
+`Phase 9 — Packaging & Distribution (Tauri + GitHub Releases)`
 
 ---
 
@@ -113,10 +113,24 @@
 
 ---
 
+- [x] **Phase 8 — Secondary Screens (COMPLETED):**
+  - **T-057 (CustomerProfile):** Implemented `/reception/customers/[id]` — full stay history, visit count, live totals (collected + outstanding), per-reservation billing summary with Print Invoice link, `notFound()` boundary guard. PostgREST `bills` join correctly unwrapped as array (`r.bills[0]`).
+  - **T-058 (PrintInvoice):** Implemented `/reception/billing/[billId]/print` — clean print layout (customer, room, stay dates, itemized charges, totals, payment receipts), `window.print()` isolated in `PrintPageClient.tsx` client component, `@media print` CSS hides navigation button.
+  - **Bonus fixes:** `PayBadge` hardened to guard `null`/`undefined` status; billing list "Details" wired to `/reception/billing/[billId]/print`; customers list wired with "Profile" link to `/reception/customers/[id]`.
+  - **Verification (all 6 checks PASS):** via `scripts/verify-phase8-secondary.ts` against `next start -p 3000`:
+    * Lodge A → `/reception/customers/6aab08b3...` (Customer Alpha): HTTP 200 ✅
+    * Lodge B → `/reception/customers/b988d66d...` (Customer Beta): HTTP 200 ✅
+    * Lodge A → `/reception/billing/13127803.../print`: HTTP 200 ✅
+    * Lodge B → `/reception/billing/8e1ba6d6.../print`: HTTP 200 ✅
+    * Lodge A → Lodge B Customer UUID: HTTP 404 ✅
+    * Lodge A → Lodge B Bill UUID: HTTP 404 ✅
+  - `next build` → 0 errors, 18 routes.
+
+---
+
 ## Next Steps
-- **Phase 8 — Secondary Screens (T-057 to T-058):**
-  - **T-057:** CustomerProfile view.
-  - **T-058:** PrintInvoice printable folio view.
+- **Phase 9 — Packaging & Distribution (T-029–T-031):** Tauri wrapper, GitHub Releases publishing, install-link wiring.
+- **Phase 10 — Polish & QA:** Design-system fidelity pass, full QA + tenant isolation smoke tests, accessibility.
 
 ---
 

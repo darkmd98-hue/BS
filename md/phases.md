@@ -58,10 +58,11 @@
 - **T-056** Restyle `/register`, `/install`, `/login` to match the Figma visual language (navy `#0b1437`, clean borders, minimal typography) ✅ DONE
 - *Exit criteria met:* Admin can configure rooms and invite staff for their own lodge only, verified against both test lodges (`pinecrest` and `lakeside`) in production build; direct UUID boundary checks confirmed HTTP 404.
 
-## Phase 8 — Secondary Screens ⬜ NOT STARTED
-- **T-057** CustomerProfile
-- **T-058** PrintInvoice
-- *Exit criteria:* both functional, non-blocking for v1 launch if deprioritized further.
+## Phase 8 — Secondary Screens ✅ DONE
+- **T-057** CustomerProfile → `/reception/customers/[id]` (full stay history, visit count, live totals, per-reservation bill summary, Print Invoice link) ✅ DONE
+- **T-058** PrintInvoice → `/reception/billing/[billId]/print` (clean print layout, `window.print()` via `PrintPageClient` client component, `@media print` CSS hides nav button) ✅ DONE
+- **Bonus fix:** `PayBadge` hardened against `null`/`undefined` payment_status; billing list "Details" link wired to real print invoice route; customers list "Profile" link wired to real customer profile route.
+- *Exit criteria met:* Both screens return HTTP 200 under correct lodge session, HTTP 404 for cross-lodge UUID access. Verified via `scripts/verify-phase8-secondary.ts` against production build (`next start`): Pinecrest Lodge A customer + bill → 200; Lakeside Lodge B customer + bill → 200; Lodge A → Lodge B customer UUID → 404; Lodge A → Lodge B bill UUID → 404. `next build` → 0 errors, 18 routes.
 
 ## Deferred Phase — Extended Feature Set ⬜ EXPLICITLY NOT IN CURRENT SCOPE
 - **T-059** Housekeeping
