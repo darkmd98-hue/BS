@@ -1,0 +1,94 @@
+{
+  "projectId": "10900859278101401158",
+  "projectTitle": "LodgeOS Hospitality Management",
+  "screens": [
+    {
+      "index": 1,
+      "slug": "01-registration-onboarding",
+      "name": "Registration & Onboarding Screen",
+      "screenId": "0b868106e7bc4124bee78e4c10315727",
+      "htmlFile": ".stitch/designs/01-registration-onboarding.html",
+      "htmlSizeBytes": 15399,
+      "screenshotFile": ".stitch/designs/01-registration-onboarding.png",
+      "screenshotSizeBytes": 29540,
+      "status": "READY"
+    },
+    {
+      "index": 2,
+      "slug": "02-install-link",
+      "name": "Install-Link Post-Registration Screen",
+      "screenId": "ca78dd4fd59349b598c2e7a57e0fb76a",
+      "htmlFile": ".stitch/designs/02-install-link.html",
+      "htmlSizeBytes": 11939,
+      "screenshotFile": ".stitch/designs/02-install-link.png",
+      "screenshotSizeBytes": 43969,
+      "status": "READY"
+    },
+    {
+      "index": 3,
+      "slug": "03-room-dashboard",
+      "name": "Reception Room Dashboard",
+      "screenId": "a2b74c95766c47d6b9d5eda19428cd73",
+      "htmlFile": ".stitch/designs/03-room-dashboard.html",
+      "htmlSizeBytes": 20753,
+      "screenshotFile": ".stitch/designs/03-room-dashboard.png",
+      "screenshotSizeBytes": 46151,
+      "status": "READY"
+    },
+    {
+      "index": 4,
+      "slug": "04-booking-panel-free-room",
+      "name": "Booking Panel — Free Room State",
+      "screenId": "a775b0a5b85c4c9280fcddac073c6ebd",
+      "htmlFile": ".stitch/designs/04-booking-panel-free-room.html",
+      "htmlSizeBytes": 15511,
+      "screenshotFile": ".stitch/designs/04-booking-panel-free-room.png",
+      "screenshotSizeBytes": 29682,
+      "status": "READY"
+    },
+    {
+      "index": 5,
+      "slug": "05-booking-panel-occupied-room",
+      "name": "Booking Panel — Occupied Room State",
+      "screenId": "d88c21463e2040a8a2a349bd2f1ccecd",
+      "htmlFile": ".stitch/designs/05-booking-panel-occupied-room.html",
+      "htmlSizeBytes": 12576,
+      "screenshotFile": ".stitch/designs/05-booking-panel-occupied-room.png",
+      "screenshotSizeBytes": 117509,
+      "status": "READY"
+    },
+    {
+      "index": 6,
+      "slug": "06-calendar-view",
+      "name": "Occupancy Calendar View",
+      "screenId": "16f4b96b4aa24cb3b8e92d9bbe9a07ec",
+      "htmlFile": ".stitch/designs/06-calendar-view.html",
+      "htmlSizeBytes": 27452,
+      "screenshotFile": ".stitch/designs/06-calendar-view.png",
+      "screenshotSizeBytes": 45054,
+      "status": "READY"
+    },
+    {
+      "index": 7,
+      "slug": "07-billing-view",
+      "name": "Guest Billing & Settlement View",
+      "screenId": "b01e07c7badb4b36a2c24757ec521466",
+      "htmlFile": ".stitch/designs/07-billing-view.html",
+      "htmlSizeBytes": 20043,
+      "screenshotFile": ".stitch/designs/07-billing-view.png",
+      "screenshotSizeBytes": 52012,
+      "status": "READY"
+    },
+    {
+      "index": 8,
+      "slug": "08-admin-dashboard",
+      "name": "Admin Management Dashboard",
+      "screenId": "f674de842f724fe1b1da249fe4a1dc00",
+      "htmlFile": ".stitch/designs/08-admin-dashboard.html",
+      "htmlSizeBytes": 24869,
+      "screenshotFile": ".stitch/designs/08-admin-dashboard.png",
+      "screenshotSizeBytes": 66572,
+      "status": "READY"
+    }
+  ]
+}

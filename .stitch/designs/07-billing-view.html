@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage Lodge Admin - Guest Billing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Newsreader:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb4a7",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#fe8672",
+                        "primary": "#061b0e",
+                        "tertiary-container": "#2b2c2c",
+                        "status-available": "#4d6453",
+                        "primary-container": "#1b3022",
+                        "surface-variant": "#dfe4dd",
+                        "tertiary-fixed-dim": "#c7c6c5",
+                        "secondary": "#a03f30",
+                        "surface-dim": "#d7dbd4",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f6fbf3",
+                        "secondary-fixed": "#ffdad4",
+                        "on-tertiary-fixed-variant": "#464746",
+                        "inverse-on-surface": "#eef2eb",
+                        "on-background": "#181d19",
+                        "inverse-primary": "#b4cdb8",
+                        "on-secondary-container": "#741f13",
+                        "tertiary-fixed": "#e4e2e1",
+                        "error-container": "#ffdad6",
+                        "status-maintenance": "#ffbf00",
+                        "surface-tint": "#4d6453",
+                        "primary-fixed": "#d0e9d4",
+                        "surface-container-low": "#f1f5ee",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#400200",
+                        "outline": "#737973",
+                        "surface-container": "#ebefe8",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#181d19",
+                        "on-tertiary-container": "#939392",
+                        "surface-container-high": "#e5e9e2",
+                        "surface-cream": "#fbf9f8",
+                        "surface": "#f6fbf3",
+                        "on-primary-container": "#819986",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#80281b",
+                        "background": "#f6fbf3",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "inverse-surface": "#2d322d",
+                        "on-surface-dark": "#1b1c1c",
+                        "outline-variant": "#c3c8c1",
+                        "on-tertiary-fixed": "#1b1c1b",
+                        "tertiary": "#171717",
+                        "on-surface-variant": "#434843",
+                        "surface-container-highest": "#dfe4dd",
+                        "on-primary-fixed": "#0b2013",
+                        "status-booked": "#c05746"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-lg-mobile": ["Newsreader"],
+                        "label-md": ["Manrope"],
+                        "headline-lg": ["Newsreader"],
+                        "display-lg": ["Newsreader"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .font-newsreader { font-family: 'Newsreader', serif; }
+        .glass-panel {
+            background: rgba(251, 249, 248, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(115, 121, 115, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col h-screen py-8 px-4 w-64 bg-surface-cream dark:bg-surface-container shadow-sm flex-shrink-0 z-20 sticky top-0">
+<div class="mb-10 px-4">
+<h1 class="font-headline-lg text-headline-lg text-primary">Riverwood Estate</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Reception Desk</p>
+</div>
+<ul class="space-y-2 flex-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-primary-fixed hover:text-primary transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+                    Guest Profile
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold bg-primary-fixed-dim transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+                    Billing Details
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-primary-fixed hover:text-primary transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">payments</span>
+                    Payment History
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-primary-fixed hover:text-primary transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+                    Invoices
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-primary-fixed hover:text-primary transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">engineering</span>
+                    Maintenance
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-4">
+<button class="w-full py-3 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-opacity">Settle Account</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-h-screen relative w-full overflow-y-auto">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-container-low shadow-sm docked full-width top-0 z-10 sticky">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 mx-auto max-w-max-width">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface-variant mr-4">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex-1">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary dark:text-primary-fixed font-bold tracking-tight">Heritage Lodge Admin</h2>
+</div>
+<!-- Desktop Nav Links (Hidden on Mobile) -->
+<nav class="hidden lg:flex items-center gap-6 mr-8">
+<a class="text-on-surface-variant hover:text-secondary hover:transition-colors font-label-md text-label-md" href="#">Dashboard</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Reservations</a>
+<a class="text-on-surface-variant hover:text-secondary hover:transition-colors font-label-md text-label-md" href="#">Billing</a>
+<a class="text-on-surface-variant hover:text-secondary hover:transition-colors font-label-md text-label-md" href="#">Reports</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-2">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:transition-colors rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">print</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:transition-colors rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">save</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:transition-colors rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+</div>
+<button class="hidden md:block px-4 py-2 border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors">Check-Out</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A macro, extremely detailed photograph of a textured linen fabric in a light cream color, representing a high-end luxury resort uniform fabric. Soft, diffuse lighting highlights the subtle weave and organic variations in the threads. Clean, minimalist, modern luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTys7goYPiManxeNI8sFFnDnxh8Y_WAzLB2x-eb7j1mBBOK9ujkYRtKS-XehAY0Yu1I61AVFu_1U57fxMs-4DuCyMEUsJBl30t_BErRBBzl8Tks9Rmw2PxJ8RGs7JsPk5KOD5X9oMHzPLXAgaFho4IG2jOtf8MwbqPXyWck-aJ9X0MdQPp0FzXtAwb3h3rI7ZVySbZkN_61dMDAMBOSSSrCk03ZVawHIRCLKzvQVXb_Hfvbc0vL1Qg5fLGGH24wraOyaQ-OYBiGt1P"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 w-full max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-8 pb-32">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-newsreader">Guest Billing &amp; Invoicing</h2>
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full font-label-sm text-label-sm border border-outline-variant">Room 201</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Booking ID <span class="font-bold text-on-surface">#BK-8821</span></p>
+</div>
+<div class="flex items-center gap-2 text-status-booked bg-error-container px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span class="font-label-md text-label-md font-bold">Balance Pending</span>
+</div>
+</div>
+<!-- Stay Info Banner -->
+<div class="bg-surface-cream border border-outline-variant rounded-xl p-6 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-primary text-lg">Vikram Mehta</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">Primary Guest</p>
+</div>
+</div>
+<div class="hidden md:block w-px h-12 bg-outline-variant"></div>
+<div class="grid grid-cols-2 gap-8 w-full md:w-auto">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Check-in</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Aug 20, 2023</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Check-out</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Aug 25, 2023</p>
+</div>
+</div>
+<div class="hidden md:block w-px h-12 bg-outline-variant"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Duration</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">nights_stay</span>
+                        5 Nights
+                    </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Billing Breakdown -->
+<div class="lg:col-span-7">
+<h3 class="font-label-md text-label-md text-primary text-xl mb-4 font-newsreader border-b border-outline-variant pb-2">Billing Breakdown</h3>
+<div class="bg-surface-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 p-4 bg-surface-container-low border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+<div class="col-span-6">Description</div>
+<div class="col-span-2 text-right">Qty</div>
+<div class="col-span-2 text-right">Rate</div>
+<div class="col-span-2 text-right">Amount</div>
+</div>
+<!-- Table Body -->
+<div class="divide-y divide-surface-variant">
+<div class="grid grid-cols-12 gap-4 p-4 items-center bg-surface-lowest">
+<div class="col-span-6 font-body-md text-body-md text-on-surface font-medium">Room Charges (Standard King)</div>
+<div class="col-span-2 text-right font-body-md text-body-md text-on-surface-variant">5 Nights</div>
+<div class="col-span-2 text-right font-body-md text-body-md text-on-surface-variant">₹1,800</div>
+<div class="col-span-2 text-right font-body-md text-body-md text-on-surface font-semibold">₹9,000</div>
+</div>
+</div>
+<!-- Totals Section -->
+<div class="bg-surface-cream p-6 border-t border-outline-variant space-y-3">
+<div class="flex justify-between items-center font-body-md text-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span>₹9,000</span>
+</div>
+<div class="flex justify-between items-center font-body-md text-body-md text-status-available">
+<span>Advance Paid</span>
+<span>-₹4,000</span>
+</div>
+<div class="pt-4 mt-2 border-t border-outline-variant flex justify-between items-end">
+<div>
+<span class="font-label-md text-label-md text-on-surface block text-sm">Balance Due</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-surface-variant text-on-surface-variant mt-1">
+                                        Status: Partial
+                                    </span>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary font-bold">₹5,000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Payment Collection -->
+<div class="lg:col-span-5">
+<h3 class="font-label-md text-label-md text-primary text-xl mb-4 font-newsreader border-b border-outline-variant pb-2">Record Payment</h3>
+<div class="glass-panel rounded-xl p-6">
+<form class="space-y-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="settlementAmount">Settlement Amount (₹)</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant pointer-events-none font-body-md">₹</span>
+<input class="block w-full pl-8 pr-3 py-3 border border-outline-variant rounded-lg bg-surface-lowest text-on-surface font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-colors" id="settlementAmount" name="settlementAmount" readonly="" type="text" value="5,000"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="paymentMode">Payment Mode</label>
+<select class="block w-full px-3 py-3 border border-outline-variant rounded-lg bg-surface-lowest text-on-surface font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-colors appearance-none" id="paymentMode" name="paymentMode">
+<option value="upi">UPI (GPay, PhonePe)</option>
+<option value="card">Credit / Debit Card</option>
+<option value="cash">Cash</option>
+<option value="bank">Bank Transfer</option>
+</select>
+<!-- Custom select arrow -->
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-on-surface-variant" style="top: 50%; transform: translateY(-10%);">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="transactionRef">Transaction Reference / Notes</label>
+<textarea class="block w-full px-3 py-3 border border-outline-variant rounded-lg bg-surface-lowest text-on-surface font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-colors placeholder-on-surface-variant/50" id="transactionRef" name="transactionRef" placeholder="Enter UTR, receipt number, or special notes..." rows="3"></textarea>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Action Bar (Bottom) -->
+<div class="fixed bottom-0 left-0 md:left-64 right-0 bg-surface border-t border-outline-variant p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-30">
+<div class="max-w-max-width mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-6 py-3 border border-outline text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2 bg-surface">
+<span class="material-symbols-outlined text-sm">draft</span>
+                        Save Draft
+                    </button>
+<button class="flex-1 sm:flex-none px-6 py-3 border border-outline text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2 bg-surface">
+<span class="material-symbols-outlined text-sm">print</span>
+                        Print Receipt
+                    </button>
+</div>
+<button class="w-full sm:w-auto px-8 py-3 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-opacity shadow-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Settle Balance &amp; Check-Out
+                </button>
+</div>
+</div>
+</main>
+</body></html>

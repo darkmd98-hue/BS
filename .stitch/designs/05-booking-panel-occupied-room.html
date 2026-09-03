@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Room 102 Booking Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#ebefe8",
+                        "background": "#f6fbf3",
+                        "inverse-on-surface": "#eef2eb",
+                        "on-primary-container": "#819986",
+                        "on-tertiary-container": "#939392",
+                        "tertiary": "#171717",
+                        "surface-cream": "#fbf9f8",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c7c6c5",
+                        "inverse-primary": "#b4cdb8",
+                        "surface-tint": "#4d6453",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#741f13",
+                        "tertiary-container": "#2b2c2c",
+                        "status-booked": "#c05746",
+                        "surface-container-high": "#e5e9e2",
+                        "on-error": "#ffffff",
+                        "on-background": "#181d19",
+                        "status-maintenance": "#ffbf00",
+                        "on-surface-dark": "#1b1c1c",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-secondary-fixed-variant": "#80281b",
+                        "on-tertiary-fixed": "#1b1c1b",
+                        "surface-dim": "#d7dbd4",
+                        "surface-container-low": "#f1f5ee",
+                        "inverse-surface": "#2d322d",
+                        "outline": "#737973",
+                        "on-primary-fixed": "#0b2013",
+                        "on-surface": "#181d19",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dfe4dd",
+                        "on-tertiary-fixed-variant": "#464746",
+                        "secondary-fixed": "#ffdad4",
+                        "primary-container": "#1b3022",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dfe4dd",
+                        "primary-fixed": "#d0e9d4",
+                        "surface-bright": "#f6fbf3",
+                        "primary": "#061b0e",
+                        "on-secondary-fixed": "#400200",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-surface-variant": "#434843",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "on-primary": "#ffffff",
+                        "surface": "#f6fbf3",
+                        "status-available": "#4d6453",
+                        "secondary-fixed-dim": "#ffb4a7",
+                        "secondary": "#a03f30",
+                        "secondary-container": "#fe8672",
+                        "outline-variant": "#c3c8c1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "max-width": "1440px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Newsreader"],
+                        "headline-lg-mobile": ["Newsreader"],
+                        "headline-lg": ["Newsreader"],
+                        "body-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-md": ["Manrope"],
+                        "label-sm": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen relative overflow-hidden">
+<!-- Mock Dashboard Background for Context -->
+<div class="absolute inset-0 z-0 opacity-40 blur-sm pointer-events-none" data-alt="A softly focused, elegant lodge management dashboard interface. Light cream background, subtle green accents, showing a blurred grid of room statuses. Premium, minimalist aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCrIkwC_CEMEYPIySL9KES58ThLuhUUr17Ie-hWJsvhRoWQUaWr5CaE3dGkO9AU1ovjR1nSHOaplu8uJB0e0QL-KD9Lh_N79unZKfRRV4zMyBB22yVtvbKaNM_Bh1OX9GyUwZtFB5B8KjTd5-CLPlPioEJtDvL8jxURf4siYHfmNB3jXiHLOcdYdM7pqe0sALyBBLWcB2QKrcRd0t-vcL6lnb2HzNvhtLWjaUqbSLEQxep4F25nIa12wH8i9r7LroQHMZ0JJKFOcRn7')"></div>
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-40 flex items-center justify-center p-margin-mobile md:p-margin-desktop transition-opacity">
+<!-- Modal Container (Level 2 Elevation) -->
+<div class="bg-surface-cream rounded-xl shadow-[0_12px_40px_-12px_rgba(27,48,34,0.15)] w-full max-w-[800px] max-h-[921px] flex flex-col overflow-hidden relative z-50 transform transition-all scale-100">
+<!-- Header -->
+<div class="flex items-start justify-between px-gutter py-6 border-b border-surface-variant bg-surface-container-lowest">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Room 102</h2>
+<span class="inline-flex items-center px-2 py-1 rounded bg-status-booked/15 text-status-booked font-label-sm text-label-sm uppercase tracking-wider">
+                            Occupied
+                        </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                        Anand Sharma
+                    </p>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 -mr-2 rounded-full hover:bg-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-gutter bg-surface-cream space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Guest Profile Card (Level 1 Elevation) -->
+<div class="bg-surface-container-lowest rounded-lg p-6 border border-surface-variant shadow-[0_4px_12px_-4px_rgba(27,48,34,0.05)]">
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-4 flex items-center gap-2 border-b border-surface-variant pb-2">
+<span class="material-symbols-outlined text-[18px]">account_circle</span>
+                            Guest Details
+                        </h3>
+<div class="space-y-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Full Name</p>
+<p class="font-body-lg text-body-lg text-primary">Anand Sharma</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Phone</p>
+<p class="font-body-md text-body-md text-on-surface">+91 98765 43210</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Address</p>
+<p class="font-body-md text-body-md text-on-surface">Bangalore, KA</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 bg-surface-container-low p-3 rounded-lg mt-2">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">login</span> Check-in
+                                    </p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Aug 21, 2:00 PM</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">logout</span> Expected Out
+                                    </p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Aug 23, 11:00 AM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Financial Summary Card (Level 1 Elevation) -->
+<div class="bg-surface-container-lowest rounded-lg p-6 border border-surface-variant shadow-[0_4px_12px_-4px_rgba(27,48,34,0.05)] flex flex-col">
+<div class="flex items-center justify-between mb-4 border-b border-surface-variant pb-2">
+<h3 class="font-label-md text-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                                Financial Summary
+                            </h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-status-maintenance/15 text-status-maintenance font-label-sm text-label-sm">
+                                Partial Payment
+                            </span>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex justify-between items-center py-1">
+<p class="font-body-md text-body-md text-on-surface-variant">Total Bill</p>
+<p class="font-body-lg text-body-lg text-on-surface">₹5,000</p>
+</div>
+<div class="flex justify-between items-center py-1">
+<p class="font-body-md text-body-md text-on-surface-variant">Advance Paid</p>
+<p class="font-body-md text-body-md text-surface-tint">- ₹2,000</p>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-end">
+<div>
+<p class="font-label-sm text-label-sm text-status-booked uppercase tracking-wider mb-1">Pending Balance</p>
+<p class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-status-booked font-bold">₹3,000</p>
+</div>
+<span class="material-symbols-outlined text-status-booked text-[24px]" title="Action Required">warning</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-between px-gutter py-5 border-t border-surface-variant bg-surface-container-lowest gap-4">
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="font-label-md text-label-md text-primary border border-primary px-4 py-2.5 rounded hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors flex items-center gap-2 w-full sm:w-auto justify-center">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+                        Edit Details
+                    </button>
+<button class="font-label-md text-label-md text-primary px-4 py-2.5 rounded hover:bg-surface-variant transition-colors hidden sm:block">
+                        View Full Bill
+                    </button>
+</div>
+<button class="font-label-md text-label-md text-on-primary bg-primary-container px-6 py-2.5 rounded hover:bg-primary transition-colors flex items-center gap-2 w-full sm:w-auto justify-center shadow-sm">
+                    Check Out &amp; Settle Balance
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

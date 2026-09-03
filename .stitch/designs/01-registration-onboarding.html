@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LodgeOS - Register Your Lodge</title>
+<!-- Google Fonts: Newsreader (Serif) & Manrope (Sans-serif) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#f0bd8b",
+                        "on-background": "#1b1c1b",
+                        "surface-bright": "#fbf9f8",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e9e8e7",
+                        "on-secondary-fixed-variant": "#623f18",
+                        "on-surface": "#1b1c1b",
+                        "cream-surface": "#fbf9f8",
+                        "surface": "#fbf9f8",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "surface-container-highest": "#e4e2e1",
+                        "secondary": "#7d562d",
+                        "forest-deep": "#061b0e",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efedec",
+                        "secondary-container": "#ffca98",
+                        "inverse-primary": "#b4cdb8",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#303030",
+                        "on-secondary-container": "#7a532b",
+                        "secondary-fixed": "#ffdcbe",
+                        "tertiary-fixed-dim": "#b3cdb8",
+                        "sage-muted": "#b4cdb8",
+                        "tertiary-fixed": "#cfe9d3",
+                        "background": "#fbf9f8",
+                        "on-surface-variant": "#434843",
+                        "on-primary-fixed": "#0a2012",
+                        "surface-container-low": "#f5f3f2",
+                        "on-secondary-fixed": "#2c1600",
+                        "surface-tint": "#4d6452",
+                        "on-tertiary-fixed": "#0a2013",
+                        "primary-container": "#0a2012",
+                        "outline": "#737972",
+                        "tertiary": "#000000",
+                        "on-primary-container": "#728a77",
+                        "on-tertiary-fixed-variant": "#364c3c",
+                        "outline-variant": "#c3c8c1",
+                        "inverse-on-surface": "#f2f0ef",
+                        "charcoal-dark": "#1b1c1c",
+                        "ochre-hearth": "#7d562d",
+                        "on-tertiary-container": "#728a77",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dbdad9",
+                        "primary": "#000000",
+                        "surface-variant": "#e4e2e1",
+                        "primary-fixed": "#cfe9d3",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#0a2013"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "max-width": "1440px",
+                        "sidebar-width": "280px",
+                        "base-unit": "8px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Newsreader"],
+                        "body-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Newsreader"],
+                        "label-md": ["Manrope"],
+                        "display-lg": ["Newsreader"],
+                        "headline-md": ["Newsreader"],
+                        "label-sm": ["Manrope"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Autofill styling to match floating labels */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: #1b1c1b !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+<body class="bg-cream-surface text-on-surface min-h-screen flex flex-col font-body-md antialiased selection:bg-ochre-hearth selection:text-white">
+<!-- Auth layout wrapper: Centered content, suppressed navigation shell for transactional intent -->
+<div class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop w-full relative z-10">
+<main class="w-full max-w-[640px] flex flex-col items-center gap-10">
+<!-- Branding Header (Extracted from TopAppBar JSON style for centered auth) -->
+<header class="flex flex-col items-center gap-4 text-center">
+<div class="font-headline-md text-headline-md font-semibold text-forest-deep tracking-tight">
+                    LodgeOS
+                </div>
+<h1 class="font-display-lg text-display-lg text-forest-deep">
+                    Register Your Lodge
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                    Join the premier platform for luxury hospitality management. Experience calm control over your operations.
+                </p>
+</header>
+<!-- Registration Card: Glassmorphism / Premium Card execution -->
+<div class="w-full bg-surface-container-lowest rounded-xl border border-surface-variant shadow-[0_8px_30px_rgb(6,27,14,0.04)] overflow-hidden">
+<form action="#" class="flex flex-col p-8 md:p-10 gap-10" method="POST">
+<!-- Section: Lodge Details -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center gap-3 border-b border-surface-variant pb-4">
+<span class="material-symbols-outlined text-ochre-hearth" style="font-variation-settings: 'FILL' 1;">domain</span>
+<h2 class="font-headline-md text-headline-md text-forest-deep">Lodge Details</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Floating Label Input: Lodge Name -->
+<div class="relative col-span-1 md:col-span-2">
+<input class="block rounded px-4 pb-2.5 pt-6 w-full text-body-md text-on-surface bg-surface-container-lowest border border-outline-variant appearance-none focus:outline-none focus:ring-1 focus:ring-ochre-hearth focus:border-ochre-hearth peer transition-colors" id="lodge_name" name="lodge_name" placeholder=" " required="" type="text"/>
+<label class="absolute font-label-md text-label-md text-outline duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-4 peer-focus:text-ochre-hearth peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text" for="lodge_name">
+                                    Lodge Name
+                                </label>
+</div>
+<!-- Floating Label Input: Address -->
+<div class="relative col-span-1 md:col-span-2">
+<input class="block rounded px-4 pb-2.5 pt-6 w-full text-body-md text-on-surface bg-surface-container-lowest border border-outline-variant appearance-none focus:outline-none focus:ring-1 focus:ring-ochre-hearth focus:border-ochre-hearth peer transition-colors" id="address" name="address" placeholder=" " required="" type="text"/>
+<label class="absolute font-label-md text-label-md text-outline duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-4 peer-focus:text-ochre-hearth peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text" for="address">
+                                    Primary Address
+                                </label>
+</div>
+<!-- Floating Label Input: Number of Rooms -->
+<div class="relative col-span-1 md:col-span-1">
+<input class="block rounded px-4 pb-2.5 pt-6 w-full text-body-md text-on-surface bg-surface-container-lowest border border-outline-variant appearance-none focus:outline-none focus:ring-1 focus:ring-ochre-hearth focus:border-ochre-hearth peer transition-colors" id="rooms" min="1" name="rooms" placeholder=" " required="" type="number"/>
+<label class="absolute font-label-md text-label-md text-outline duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-4 peer-focus:text-ochre-hearth peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text" for="rooms">
+                                    Number of Rooms
+                                </label>
+</div>
+</div>
+</section>
+<!-- Section: Owner Account -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center gap-3 border-b border-surface-variant pb-4">
+<span class="material-symbols-outlined text-ochre-hearth" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<h2 class="font-headline-md text-headline-md text-forest-deep">Owner Account</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Floating Label Input: Owner Name -->
+<div class="relative col-span-1 md:col-span-2">
+<input class="block rounded px-4 pb-2.5 pt-6 w-full text-body-md text-on-surface bg-surface-container-lowest border border-outline-variant appearance-none focus:outline-none focus:ring-1 focus:ring-ochre-hearth focus:border-ochre-hearth peer transition-colors" id="owner_name" name="owner_name" placeholder=" " required="" type="text"/>
+<label class="absolute font-label-md text-label-md text-outline duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-4 peer-focus:text-ochre-hearth peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text" for="owner_name">
+                                    Full Name
+                                </label>
+</div>
+<!-- Floating Label Input: Email -->
+<div class="relative col-span-1">
+<input class="block rounded px-4 pb-2.5 pt-6 w-full text-body-md text-on-surface bg-surface-container-lowest border border-outline-variant appearance-none focus:outline-none focus:ring-1 focus:ring-ochre-hearth focus:border-ochre-hearth peer transition-colors" id="email" name="email" placeholder=" " required="" type="email"/>
+<label class="absolute font-label-md text-label-md text-outline duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-4 peer-focus:text-ochre-hearth peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text" for="email">
+                                    Email Address
+                                </label>
+</div>
+<!-- Floating Label Input: Password -->
+<div class="relative col-span-1">
+<input class="block rounded px-4 pb-2.5 pt-6 w-full text-body-md text-on-surface bg-surface-container-lowest border border-outline-variant appearance-none focus:outline-none focus:ring-1 focus:ring-ochre-hearth focus:border-ochre-hearth peer transition-colors" id="password" name="password" placeholder=" " required="" type="password"/>
+<label class="absolute font-label-md text-label-md text-outline duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-4 peer-focus:text-ochre-hearth peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text" for="password">
+                                    Password
+                                </label>
+</div>
+</div>
+</section>
+<!-- Trust Indicator Panel -->
+<div class="bg-surface-container-low rounded-lg p-5 flex items-start gap-4 border border-surface-variant">
+<span class="material-symbols-outlined text-forest-deep shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 1;">shield_lock</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+<strong class="text-forest-deep font-bold block mb-1">Dedicated Tenant Isolation</strong>
+                            Your lodge's data is secured with row-level security, ensuring complete privacy and isolation from other platform users.
+                        </p>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-4 mt-2">
+<button class="w-full h-14 bg-forest-deep text-on-primary rounded font-label-md text-label-md shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2)] hover:bg-primary-container transition-colors duration-200 flex items-center justify-center gap-2" type="submit">
+                            Register Lodge &amp; Get Started
+                            <span class="material-symbols-outlined text-on-primary">arrow_forward</span>
+</button>
+<a class="text-center font-label-md text-label-md text-on-surface-variant hover:text-ochre-hearth transition-colors duration-200" href="#signin">
+                            Already have an account? Sign in
+                        </a>
+</div>
+</form>
+</div>
+<!-- Simplified Footer for Auth Flow -->
+<footer class="text-center pb-8">
+<p class="font-label-sm text-label-sm text-outline">
+                    © 2024 LodgeOS. Secure Hospitality Management.
+                </p>
+</footer>
+</main>
+</div>
+</body></html>

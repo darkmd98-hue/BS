@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hill View Heritage Lodge - Reception Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Newsreader:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#737973",
+                        "surface-container-high": "#e5e9e2",
+                        "secondary-fixed": "#ffdad4",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-secondary-fixed": "#400200",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "on-background": "#181d19",
+                        "on-tertiary-fixed": "#1b1c1b",
+                        "on-primary-fixed": "#0b2013",
+                        "on-tertiary-container": "#939392",
+                        "on-secondary-fixed-variant": "#80281b",
+                        "on-surface-variant": "#434843",
+                        "surface-container": "#ebefe8",
+                        "tertiary-fixed-dim": "#c7c6c5",
+                        "inverse-surface": "#2d322d",
+                        "tertiary": "#171717",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#ffb4a7",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#464746",
+                        "status-maintenance": "#ffbf00",
+                        "on-secondary-container": "#741f13",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d0e9d4",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4d6453",
+                        "primary-container": "#1b3022",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f6fbf3",
+                        "surface-container-low": "#f1f5ee",
+                        "inverse-primary": "#b4cdb8",
+                        "on-surface": "#181d19",
+                        "status-booked": "#c05746",
+                        "secondary-container": "#fe8672",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d7dbd4",
+                        "tertiary-fixed": "#e4e2e1",
+                        "surface-container-highest": "#dfe4dd",
+                        "inverse-on-surface": "#eef2eb",
+                        "surface-variant": "#dfe4dd",
+                        "on-primary-container": "#819986",
+                        "surface": "#f6fbf3",
+                        "background": "#f6fbf3",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-dark": "#1b1c1c",
+                        "status-available": "#4d6453",
+                        "outline-variant": "#c3c8c1",
+                        "tertiary-container": "#2b2c2c",
+                        "surface-cream": "#fbf9f8",
+                        "primary": "#061b0e",
+                        "secondary": "#a03f30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "max-width": "1440px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Newsreader"],
+                        "label-md": ["Manrope"],
+                        "headline-lg-mobile": ["Newsreader"],
+                        "body-lg": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-lg": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.surface-cream'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface-cream shadow-sm flex justify-between items-center px-margin-desktop w-full mx-auto w-full h-20 shadow-sm sticky top-0 z-50">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-display-lg text-primary truncate max-w-sm">Hill View Heritage Lodge</h1>
+<div class="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-full">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Reception Desk</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-white border border-outline-variant rounded-full px-4 py-2 w-64 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-[20px]" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none w-full font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 p-0 focus:ring-0" placeholder="Search room or guest..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<!-- Status Pills -->
+<div class="flex items-center gap-1 bg-primary-fixed/20 px-3 py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-status-available"></span>
+<span class="font-label-sm text-label-sm text-status-available">Available: 4</span>
+</div>
+<div class="flex items-center gap-1 bg-secondary-fixed/30 px-3 py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-status-booked"></span>
+<span class="font-label-sm text-label-sm text-status-booked">Booked: 14</span>
+</div>
+<div class="flex items-center gap-1 bg-status-maintenance/10 px-3 py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-status-maintenance"></span>
+<span class="font-label-sm text-label-sm text-status-maintenance">Maintenance: 1</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-secondary hover:bg-surface-container-high transition-colors p-2 rounded-full scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary hover:bg-surface-container-high transition-colors p-2 rounded-full scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover border-2 border-surface-container-highest" data-alt="A small circular avatar portrait of a professional hotel receptionist in a well-lit environment. The image is a placeholder for a user profile picture, utilizing the brand's sophisticated cream and deep green aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDftEAcDljqxXSt-dM53rA1IE_2r9lr1oi1i-MvqJTtzW9twN9WqNTEk9OOMlafYQpi9p9VNNqBMBMcR_aFaQHSpj5kDtjePIshWXAUVfQSV0BbC2D2TQ1i6Zw9FuSnq2fSu6en_wTec9UE2sFkmp3zIQbHsnrmxzznPkcGxUTs3M1ja_aTV8KV7hTeiar4rHLpXTckHfjy0MrOBlhtbH0QdXj1FIKs4_xXpwj78vh1RvMkv9g4tiIoqlcuyjN_QfEex1DnQkNib6Z-"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden max-w-[1920px] mx-auto w-full">
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto px-margin-mobile md:px-margin-desktop py-8 bg-surface-cream">
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Room Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage check-ins, check-outs, and room statuses for the current date.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Walk-in
+                </button>
+</div>
+<!-- Bento Grid Room Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Floor 1 Heading - Span full width -->
+<div class="col-span-full border-b border-surface-container-highest pb-2 mb-2 mt-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">First Floor Wing</h3>
+</div>
+<!-- Room 101 - Available -->
+<div class="bg-white rounded-xl shadow-sm border border-surface-container hover:shadow-md transition-shadow p-6 flex flex-col justify-between h-64 border-l-4 border-l-status-available group relative overflow-hidden">
+<div class="absolute inset-0 bg-status-available/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+<div class="relative z-10 flex justify-between items-start mb-4">
+<div>
+<span class="font-headline-lg text-headline-lg text-primary">101</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">King Suite</p>
+</div>
+<div class="bg-status-available/10 text-status-available px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                            Available
+                        </div>
+</div>
+<div class="relative z-10 mt-auto">
+<div class="flex justify-between items-end mb-4">
+<span class="font-body-md text-body-md text-on-surface-variant">Rate</span>
+<span class="font-label-md text-label-md text-primary">$150/night</span>
+</div>
+<button class="w-full bg-surface-container-low text-primary border border-primary-fixed-dim hover:bg-primary hover:text-white font-label-md text-label-md py-2.5 rounded transition-colors text-center">
+                            Click to Book
+                        </button>
+</div>
+</div>
+<!-- Room 102 - Booked -->
+<div class="bg-white rounded-xl shadow-sm border border-surface-container p-6 flex flex-col justify-between h-64 border-l-4 border-l-status-booked relative">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-headline-lg text-headline-lg text-primary">102</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Deluxe Double</p>
+</div>
+<div class="bg-status-booked/10 text-status-booked px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">person</span>
+                            Occupied
+                        </div>
+</div>
+<div class="bg-surface-bright rounded p-3 mb-2 flex-1">
+<p class="font-label-md text-label-md text-primary mb-1">Anand Sharma</p>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant mb-1">
+<span>In: May 10</span>
+<span class="material-symbols-outlined text-[12px] opacity-50">arrow_forward</span>
+<span>Out: May 15</span>
+</div>
+</div>
+<div class="mt-auto flex justify-between items-center border-t border-surface-container-highest pt-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Bill</span>
+<span class="font-label-md text-label-md text-secondary">$750</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+</button>
+</div>
+</div>
+<!-- Room 103 - Maintenance -->
+<div class="bg-white rounded-xl shadow-sm border border-surface-container p-6 flex flex-col justify-between h-64 border-l-4 border-l-status-maintenance opacity-80 bg-surface-container-lowest">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="font-headline-lg text-headline-lg text-primary opacity-70">103</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Standard Queen</p>
+</div>
+<div class="bg-status-maintenance/10 text-status-maintenance px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">build</span>
+                            Maintenance
+                        </div>
+</div>
+<div class="mt-auto flex flex-col items-center justify-center h-full text-center">
+<span class="material-symbols-outlined text-[32px] text-status-maintenance mb-2 opacity-50">handyman</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Plumbing Repair</span>
+<span class="font-label-sm text-label-sm text-outline mt-1">Est. completion: 4:00 PM</span>
+</div>
+</div>
+<!-- Room 104 - Available -->
+<div class="bg-white rounded-xl shadow-sm border border-surface-container hover:shadow-md transition-shadow p-6 flex flex-col justify-between h-64 border-l-4 border-l-status-available group relative overflow-hidden">
+<div class="absolute inset-0 bg-status-available/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+<div class="relative z-10 flex justify-between items-start mb-4">
+<div>
+<span class="font-headline-lg text-headline-lg text-primary">104</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Standard Queen</p>
+</div>
+<div class="bg-status-available/10 text-status-available px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                            Available
+                        </div>
+</div>
+<div class="relative z-10 mt-auto">
+<div class="flex justify-between items-end mb-4">
+<span class="font-body-md text-body-md text-on-surface-variant">Rate</span>
+<span class="font-label-md text-label-md text-primary">$120/night</span>
+</div>
+<button class="w-full bg-surface-container-low text-primary border border-primary-fixed-dim hover:bg-primary hover:text-white font-label-md text-label-md py-2.5 rounded transition-colors text-center">
+                            Click to Book
+                        </button>
+</div>
+</div>
+<!-- Floor 2 Heading - Span full width -->
+<div class="col-span-full border-b border-surface-container-highest pb-2 mb-2 mt-8">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Second Floor Balcony</h3>
+</div>
+<!-- Room 201 - Booked (Check-out today) -->
+<div class="bg-white rounded-xl shadow-sm border border-surface-container p-6 flex flex-col justify-between h-64 border-l-4 border-l-status-booked relative overflow-hidden">
+<!-- Indicator for checkout today -->
+<div class="absolute top-0 right-0 bg-secondary text-white font-label-sm text-[10px] px-2 py-1 rounded-bl-lg uppercase tracking-wide">Checkout Today</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-headline-lg text-headline-lg text-primary">201</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Premium View King</p>
+</div>
+<div class="bg-status-booked/10 text-status-booked px-3 py-1 rounded-full font-label-sm text-label-sm mt-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">person</span>
+                            Occupied
+                        </div>
+</div>
+<div class="bg-surface-bright rounded p-3 mb-2 flex-1">
+<p class="font-label-md text-label-md text-primary mb-1">E. Thompson</p>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant mb-1">
+<span>In: May 08</span>
+<span class="material-symbols-outlined text-[12px] opacity-50">arrow_forward</span>
+<span class="text-secondary font-bold">Out: Today</span>
+</div>
+</div>
+<div class="mt-auto flex justify-between items-center border-t border-surface-container-highest pt-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Balance</span>
+<span class="font-label-md text-label-md text-status-available">$0.00</span>
+</div>
+<button class="bg-secondary text-white px-3 py-1.5 rounded font-label-sm hover:bg-secondary/90 transition-colors">
+                            Process Checkout
+                        </button>
+</div>
+</div>
+<!-- Room 202 - Available -->
+<div class="bg-white rounded-xl shadow-sm border border-surface-container hover:shadow-md transition-shadow p-6 flex flex-col justify-between h-64 border-l-4 border-l-status-available group relative overflow-hidden">
+<div class="absolute inset-0 bg-status-available/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+<div class="relative z-10 flex justify-between items-start mb-4">
+<div>
+<span class="font-headline-lg text-headline-lg text-primary">202</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Premium View King</p>
+</div>
+<div class="bg-status-available/10 text-status-available px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                            Available
+                        </div>
+</div>
+<div class="relative z-10 mt-auto">
+<div class="flex justify-between items-end mb-4">
+<span class="font-body-md text-body-md text-on-surface-variant">Rate</span>
+<span class="font-label-md text-label-md text-primary">$180/night</span>
+</div>
+<button class="w-full bg-surface-container-low text-primary border border-primary-fixed-dim hover:bg-primary hover:text-white font-label-md text-label-md py-2.5 rounded transition-colors text-center">
+                            Click to Book
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer - Keyboard Shortcuts -->
+<footer class="bg-surface-container-highest bottom-0 py-2 border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop w-full mx-auto fixed bottom-0 z-40 h-10">
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<kbd class="bg-white border border-outline-variant rounded px-2 py-0.5 font-label-sm text-label-sm text-on-surface-variant font-mono shadow-sm">F1</kbd>
+<span class="font-label-sm text-label-sm text-on-surface-variant">New Booking</span>
+</div>
+<div class="flex items-center gap-2">
+<kbd class="bg-white border border-outline-variant rounded px-2 py-0.5 font-label-sm text-label-sm text-on-surface-variant font-mono shadow-sm">F2</kbd>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Search</span>
+</div>
+<div class="flex items-center gap-2">
+<kbd class="bg-white border border-outline-variant rounded px-2 py-0.5 font-label-sm text-label-sm text-on-surface-variant font-mono shadow-sm">Esc</kbd>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Clear Selection</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+<span class="font-label-sm text-label-sm">Last synchronized: 2 mins ago</span>
+</div>
+</footer>
+</body></html>

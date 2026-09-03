@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Room Booking Modal - Heritage Lodge Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Newsreader:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c3c8c1",
+                        "surface-container-low": "#f1f5ee",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eef2eb",
+                        "background": "#f6fbf3",
+                        "surface-cream": "#fbf9f8",
+                        "outline": "#737973",
+                        "surface-container-highest": "#dfe4dd",
+                        "on-tertiary-fixed-variant": "#464746",
+                        "surface-dim": "#d7dbd4",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#181d19",
+                        "on-surface-dark": "#1b1c1c",
+                        "on-surface-variant": "#434843",
+                        "on-tertiary-container": "#939392",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e5e9e2",
+                        "inverse-primary": "#b4cdb8",
+                        "tertiary-fixed": "#e4e2e1",
+                        "surface": "#f6fbf3",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#0b2013",
+                        "surface-bright": "#f6fbf3",
+                        "secondary-container": "#fe8672",
+                        "tertiary": "#171717",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "surface-tint": "#4d6453",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2d322d",
+                        "secondary-fixed": "#ffdad4",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#1b1c1b",
+                        "secondary-fixed-dim": "#ffb4a7",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "status-maintenance": "#ffbf00",
+                        "tertiary-container": "#2b2c2c",
+                        "on-secondary-fixed-variant": "#80281b",
+                        "primary-fixed": "#d0e9d4",
+                        "on-secondary-fixed": "#400200",
+                        "secondary": "#a03f30",
+                        "on-secondary-container": "#741f13",
+                        "surface-container": "#ebefe8",
+                        "status-booked": "#c05746",
+                        "status-available": "#4d6453",
+                        "primary": "#061b0e",
+                        "tertiary-fixed-dim": "#c7c6c5",
+                        "surface-variant": "#dfe4dd",
+                        "on-primary-container": "#819986",
+                        "on-background": "#181d19",
+                        "primary-container": "#1b3022"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg": ["Newsreader"],
+                        "display-lg": ["Newsreader"],
+                        "label-md": ["Manrope"],
+                        "headline-lg-mobile": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen text-on-surface font-body-md antialiased overflow-hidden">
+<!-- Blurred Background (Simulating Dashboard) -->
+<div aria-hidden="true" class="fixed inset-0 z-0 bg-surface-dim/30 backdrop-blur-md"></div>
+<!-- Modal Container -->
+<div class="fixed inset-0 z-10 flex items-center justify-center p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<!-- Modal Card -->
+<div class="relative w-full max-w-3xl bg-surface-cream rounded-xl shadow-[0_20px_40px_-15px_rgba(27,48,34,0.1)] border border-surface-container-high transform transition-all flex flex-col max-h-full">
+<!-- Modal Header -->
+<header class="flex items-center justify-between px-gutter py-6 border-b border-surface-container-high bg-surface-container-lowest rounded-t-xl shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">New Guest Booking - Room 104 <span class="text-on-surface-variant font-body-md text-body-md">(Floor 1)</span></h2>
+<span class="inline-flex items-center px-2 py-1 rounded bg-status-available/10 text-status-available font-label-sm text-label-sm border border-status-available/20">
+                        Available
+                    </span>
+</div>
+<button aria-label="Close modal" class="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">close</span>
+</button>
+</header>
+<!-- Modal Body (Scrollable) -->
+<div class="p-gutter overflow-y-auto space-y-8 custom-scrollbar">
+<!-- Guest Details Section -->
+<section>
+<h3 class="font-label-md text-label-md text-primary mb-4 flex items-center gap-2 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                        Guest Details
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="guestName">Guest Full Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="guestName" placeholder="Enter guest name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="guestPhone">Mobile Phone Number</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="guestPhone" placeholder="+91 " type="tel"/>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="guestId">ID / Home Address</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none" id="guestId" placeholder="Provide ID details or home address..." rows="2"></textarea>
+</div>
+</div>
+</section>
+<!-- Stay Duration Section -->
+<section class="pt-6 border-t border-surface-container">
+<h3 class="font-label-md text-label-md text-primary mb-4 flex items-center gap-2 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                        Stay Duration
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2 relative">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="checkIn">Check-In Date &amp; Time</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 pl-10 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="checkIn" type="datetime-local"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]">login</span>
+</div>
+</div>
+<div class="space-y-2 relative">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="checkOut">Check-Out Date &amp; Time</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 pl-10 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="checkOut" type="datetime-local"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]">logout</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Billing Summary Section -->
+<section class="pt-6 border-t border-surface-container">
+<h3 class="font-label-md text-label-md text-primary mb-4 flex items-center gap-2 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+                        Billing Summary
+                    </h3>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Inputs Grid -->
+<div class="lg:col-span-7 space-y-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="roomRate">Room Rate Total (₹)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md">₹</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 pl-8 font-body-md text-body-md text-on-surface focus:outline-none cursor-default" id="roomRate" readonly="" type="number" value="4500"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="advancePaid">Advance Amount Paid (₹)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md">₹</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 pl-8 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="advancePaid" placeholder="0" type="number"/>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block" for="paymentMode">Payment Mode</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 appearance-none font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="paymentMode">
+<option value="cash">Cash</option>
+<option value="upi">UPI</option>
+<option value="card">Card</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Balance Highlight Card -->
+<div class="lg:col-span-5">
+<div class="bg-surface-container rounded-xl p-6 h-full flex flex-col justify-center border border-outline-variant/20 relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-24 h-24 bg-primary-fixed-dim/20 rounded-full blur-xl pointer-events-none"></div>
+<div class="relative z-10 space-y-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Balance Due</p>
+<p class="font-headline-lg text-headline-lg text-primary" id="balanceDisplay">₹ 4,500</p>
+</div>
+<div class="relative z-10 mt-4 text-sm text-on-surface-variant/80 font-body-md">
+                                    Total room rate minus advance paid. To be collected at check-out.
+                                </div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Modal Footer -->
+<footer class="p-gutter border-t border-surface-container-high bg-surface-container-lowest rounded-b-xl shrink-0 flex flex-col sm:flex-row justify-between items-center gap-4">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg font-label-md text-label-md text-on-surface-variant border border-outline-variant hover:bg-surface-container-low transition-colors duration-200">
+                    Cancel
+                </button>
+<button class="w-full sm:w-auto px-8 py-3 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm shadow-primary-container/20">
+                    Confirm &amp; Book Room
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</footer>
+</div>
+</div>
+<!-- Inline script for dynamic balance calculation (aesthetic purpose) -->
+<script>
+        const roomRateInput = document.getElementById('roomRate');
+        const advanceInput = document.getElementById('advancePaid');
+        const balanceDisplay = document.getElementById('balanceDisplay');
+
+        function calculateBalance() {
+            const total = parseFloat(roomRateInput.value) || 0;
+            const advance = parseFloat(advanceInput.value) || 0;
+            const balance = Math.max(0, total - advance); // Prevent negative balance for this demo
+            
+            // Format with commas for Indian Rupees
+            balanceDisplay.textContent = `₹ ${balance.toLocaleString('en-IN')}`;
+        }
+
+        advanceInput.addEventListener('input', calculateBalance);
+    </script>
+</body></html>

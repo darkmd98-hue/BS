@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Executive Oversight Dashboard - Hill View Heritage Lodge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Newsreader:opsz,wght@6..72,400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#4d6453",
+                        "surface-container-low": "#f1f5ee",
+                        "surface-container": "#ebefe8",
+                        "surface": "#f6fbf3",
+                        "on-tertiary-container": "#939392",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "primary": "#061b0e",
+                        "surface-container-highest": "#dfe4dd",
+                        "on-tertiary-fixed": "#1b1c1b",
+                        "secondary-fixed-dim": "#ffb4a7",
+                        "on-surface": "#181d19",
+                        "status-booked": "#c05746",
+                        "primary-container": "#1b3022",
+                        "tertiary-fixed-dim": "#c7c6c5",
+                        "outline": "#737973",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dfe4dd",
+                        "tertiary-container": "#2b2c2c",
+                        "on-primary-fixed": "#0b2013",
+                        "secondary-container": "#fe8672",
+                        "primary-fixed": "#d0e9d4",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#e4e2e1",
+                        "status-available": "#4d6453",
+                        "surface-dim": "#d7dbd4",
+                        "on-tertiary-fixed-variant": "#464746",
+                        "on-secondary-fixed-variant": "#80281b",
+                        "secondary-fixed": "#ffdad4",
+                        "on-surface-variant": "#434843",
+                        "inverse-primary": "#b4cdb8",
+                        "surface-container-high": "#e5e9e2",
+                        "outline-variant": "#c3c8c1",
+                        "surface-cream": "#fbf9f8",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d322d",
+                        "background": "#f6fbf3",
+                        "secondary": "#a03f30",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "status-maintenance": "#ffbf00",
+                        "on-surface-dark": "#1b1c1c",
+                        "on-secondary-container": "#741f13",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#400200",
+                        "inverse-on-surface": "#eef2eb",
+                        "on-primary-container": "#819986",
+                        "on-background": "#181d19",
+                        "tertiary": "#171717",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f6fbf3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "base": "8px",
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Newsreader"],
+                        "body-lg": ["Manrope"],
+                        "label-md": ["Manrope"],
+                        "display-lg": ["Newsreader"],
+                        "label-sm": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full top-0 sticky bg-surface-cream dark:bg-surface-dim shadow-sm z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-max-width mx-auto">
+<div class="flex items-center gap-6">
+<!-- Brand Logo -->
+<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-primary dark:text-primary-fixed">
+                    Hill View Heritage Lodge
+                </div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex gap-6 font-body-md text-body-md">
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all px-2 rounded-DEFAULT cursor-pointer active:scale-95 transition-transform duration-200" href="#">Reports</a>
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all px-2 rounded-DEFAULT cursor-pointer active:scale-95 transition-transform duration-200" href="#">Staff</a>
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all px-2 rounded-DEFAULT cursor-pointer active:scale-95 transition-transform duration-200" href="#">Inventory</a>
+</nav>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<span class="hidden md:inline-flex items-center px-2 py-1 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm">
+                    Owner Admin
+                </span>
+<button class="hidden md:inline-flex bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors cursor-pointer active:scale-95">
+                    Quick Add Room
+                </button>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all rounded-full cursor-pointer active:scale-95 text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all rounded-full cursor-pointer active:scale-95 text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all rounded-full cursor-pointer active:scale-95 text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<img alt="Owner Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="Professional headshot of a mature estate manager with a warm expression, wearing a tailored tweed jacket in a luxurious lodge setting. Soft natural light, high-end hospitality photography style, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKMWd4ZN_yOj8cU6zw6l5Gf4HUnxjAkowqJftOtTdiya9lQOVNOuBW9vtfyiX_vvmJd8EMB_KIub2nKkyJrN1uIXYRmDsggzyowgBlcj_CUWUGO94w__NxVPMweGzm7mbam0USWJw4Mm-6_s7sQ2SVDo59Ep05x43wW4ONAaEIUdy_sZ54gtCuoQ6ICpErAAAsqrPhC1T-soaRemLFZvrGdbog9PKlb7jVXhdHxvZBWPP_qudxYWf7HLfdbCZmDacddnnlbxgo77aa"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col md:flex-row gap-gutter">
+<!-- Left/Main Column -->
+<div class="flex-1 flex flex-col gap-8">
+<!-- Page Header & Filter -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Executive Oversight</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">Live property status and daily performance.</p>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="date_range">date_range</span>
+<span class="font-label-md text-label-md text-on-surface">Last 30 Days</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-2 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-md text-label-md">Occupancy Rate</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="bed">bed</span>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary mt-2">78%</div>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-md text-body-md text-on-surface-variant text-sm">14 / 18 rooms</span>
+<span class="font-label-sm text-label-sm text-status-available bg-status-available/10 px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> +5%
+                        </span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-2 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-md text-label-md">Today's Revenue</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary mt-2">₹42,500</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex flex-col mt-1">
+<span>Advances: ₹18,000</span>
+<span>Settled: ₹24,500</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-2 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-md text-label-md">Check-ins Today</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="luggage">luggage</span>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary mt-2">6</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex flex-col mt-1">
+<span class="text-status-available">4 completed</span>
+<span>2 upcoming</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-2 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-md text-label-md">Outstanding Balances</span>
+<span class="material-symbols-outlined text-secondary" data-icon="receipt_long">receipt_long</span>
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-secondary mt-2">₹18,200</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">
+                        Active guests
+                    </div>
+</div>
+</div>
+<!-- Live Room Status Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="p-6 border-b border-outline-variant/50 flex justify-between items-center bg-surface-cream">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Live Room Status</h2>
+<button class="font-label-md text-label-md text-primary flex items-center gap-1 hover:text-surface-tint transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span> Filter
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4 font-semibold">Room #</th>
+<th class="px-6 py-4 font-semibold">Category</th>
+<th class="px-6 py-4 font-semibold">Floor</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold">Current Guest</th>
+<th class="px-6 py-4 font-semibold text-right">Rate</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant/50">
+<!-- Row 101 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">101</td>
+<td class="px-6 py-4 text-on-surface">King Suite</td>
+<td class="px-6 py-4 text-on-surface-variant">1st</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-booked/10 text-status-booked font-label-sm text-label-sm">
+                                        Occupied
+                                    </span>
+</td>
+<td class="px-6 py-4 text-on-surface">Mr. A. Sharma</td>
+<td class="px-6 py-4 text-right text-on-surface font-medium">₹8,500</td>
+</tr>
+<!-- Row 102 -->
+<tr class="bg-surface-cream hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">102</td>
+<td class="px-6 py-4 text-on-surface">Deluxe Double</td>
+<td class="px-6 py-4 text-on-surface-variant">1st</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-available/10 text-status-available font-label-sm text-label-sm">
+                                        Available
+                                    </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">-</td>
+<td class="px-6 py-4 text-right text-on-surface font-medium">₹6,000</td>
+</tr>
+<!-- Row 103 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">103</td>
+<td class="px-6 py-4 text-on-surface">Deluxe Double</td>
+<td class="px-6 py-4 text-on-surface-variant">1st</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-maintenance/10 text-status-maintenance font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="build">build</span> Maintenance
+                                    </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">-</td>
+<td class="px-6 py-4 text-right text-on-surface font-medium">-</td>
+</tr>
+<!-- Row 104 -->
+<tr class="bg-surface-cream hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">104</td>
+<td class="px-6 py-4 text-on-surface">King Suite</td>
+<td class="px-6 py-4 text-on-surface-variant">1st</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-booked/10 text-status-booked font-label-sm text-label-sm">
+                                        Occupied
+                                    </span>
+</td>
+<td class="px-6 py-4 text-on-surface">Dr. V. Kapoor</td>
+<td class="px-6 py-4 text-right text-on-surface font-medium">₹8,500</td>
+</tr>
+<!-- Row 201 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">201</td>
+<td class="px-6 py-4 text-on-surface">Premium View</td>
+<td class="px-6 py-4 text-on-surface-variant">2nd</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-available/10 text-status-available font-label-sm text-label-sm">
+                                        Available
+                                    </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">-</td>
+<td class="px-6 py-4 text-right text-on-surface font-medium">₹10,000</td>
+</tr>
+<!-- Row 202 -->
+<tr class="bg-surface-cream hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">202</td>
+<td class="px-6 py-4 text-on-surface">Premium View</td>
+<td class="px-6 py-4 text-on-surface-variant">2nd</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-booked/10 text-status-booked font-label-sm text-label-sm">
+                                        Occupied
+                                    </span>
+</td>
+<td class="px-6 py-4 text-on-surface">Ms. R. Desai</td>
+<td class="px-6 py-4 text-right text-on-surface font-medium">₹10,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right/Sidebar Column -->
+<div class="w-full md:w-72 lg:w-80 flex flex-col gap-6">
+<!-- Staff Overview Sidebar -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex flex-col">
+<div class="p-5 border-b border-outline-variant/50 bg-surface-cream">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-xl">Active Staff</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Currently on duty</p>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<!-- Staff 1 -->
+<div class="flex items-center gap-3">
+<img alt="Amit S." class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="Professional headshot of a smiling male hotel front desk admin, wearing a crisp white shirt and a green tie. Warm lighting, heritage lodge reception background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApKlC4u8CxSz29G_f4UV2q5Chc3i0i-PslS11AbuPjC7r1gnDGYVKYg4PZyehRutZZoQ3co7uTq3iz1swWLXmOHfYSAjPPvIszRSjKGAY0kRnxVjNCUenDRxIOxMyeN-FNolmR8KYSLVgRAEQ-z6wMemuAlX6XerXOCC1nEbr7mJOQta821sRbmBFdr9ak9pRyCQQl8tKqhq1bdWNSG1hI_2yHv_i2MbnqQ6IYZhmyWzwYLRZmSdWoA66KH3npUyhQfTgIp4MGQNEX"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Amit S.</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Front Desk - Admin</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-status-available ml-auto"></div>
+</div>
+<!-- Staff 2 -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-label-md text-label-md border border-outline-variant">
+                            PK
+                        </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Priya K.</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reception - Limited</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-status-available ml-auto"></div>
+</div>
+<!-- Staff 3 -->
+<div class="flex items-center gap-3">
+<img alt="Vikram R." class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="Professional headshot of a mature male hotel manager, serious but welcoming expression, dark suit. Warm ambient lighting, luxurious heritage lodge background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQxX615OuVlZMANTnurXTb9FnPW2--KX_MwSh3SZCRytZ7JKM1GCMZBBz4BHiR8rWgck-oZzXT4GV8R1L137vl8qa09MIOUDGllLFlHdXj2KqxGqzqkhLTZ_9AXWTQX7aQTZKryn6tTvQ3sGXQAWbNC4HwThjNVXcvpdkkBj4m6eub57o7bdMAWp7MwUDhtY1Ss-iuhr4Njdk_tENTrQT7Ywp4ediPEx7umFLcybYE9utWSvSMLoBUppnfNDU9VhsV2HDfibUVrflu"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Vikram R.</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Manager - Full</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-status-available ml-auto"></div>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant/50 bg-surface-cream text-center">
+<button class="font-label-md text-label-md text-primary hover:text-surface-tint transition-colors w-full">
+                        View All Staff
+                    </button>
+</div>
+</div>
+<!-- Contextual Graphic / Map Area (Placeholder for upscale UI feel) -->
+<div class="bg-primary-container rounded-xl shadow-sm border border-primary-container/20 overflow-hidden flex flex-col relative min-h-[200px]">
+<div class="absolute inset-0 opacity-20 bg-[url('placeholder')] bg-cover bg-center" data-alt="Aerial view of a sprawling heritage lodge estate nestled in lush green hills. Soft morning mist, warm sunrise lighting casting long shadows. High-end real estate photography style, deep greens and earthy tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzavfFc215h5JRx2hPF7nn0DGIJ1lQ4DbnbmLLUSFEMbl0Ysc_aj0dEh7pMRQudbXWKT1jqE1TIb2q_P0Fyix4ch1Hl87wwYL7r9flAaqSBOgGzn2rXTwxj-Mw6_M_bBfBfH6nep34S43MCxkDTsd-ip-iRrNCPeao2Woav2fex-ZBeTpZAZj73X025it2yDKtlByx2KtJGK_2mXckelnpjSHvREzFh1TlsQ4ouXYkFOvOy18Y0EVrHi9bUA-tK4RnyiCrBo9SWKOg')"></div>
+<div class="relative z-10 p-6 flex flex-col h-full justify-between">
+<span class="material-symbols-outlined text-primary-fixed mb-4" data-icon="forest">forest</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-primary-container text-primary-fixed mb-1">Estate Weather</h4>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary-fixed">18°C, Mist</div>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim mt-2">Optimal conditions for guided nature walks.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-4 mt-auto bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop w-full max-w-max-width mx-auto gap-4 md:gap-0">
+<div class="font-label-sm text-label-sm font-bold text-on-surface-variant dark:text-surface-variant text-center md:text-left">
+                © 2024 Hill View Heritage Lodge. All Rights Reserved.
+            </div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-surface-variant font-label-sm text-label-sm">
+<a class="hover:text-secondary transition-colors" href="#">Tenant Isolation: Active</a>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<a class="hover:text-secondary transition-colors" href="#">Security Protocol</a>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<a class="hover:text-secondary transition-colors flex items-center gap-1" href="#">
+<span class="w-2 h-2 rounded-full bg-status-available"></span> System Status
+                </a>
+</div>
+</div>
+</footer>
+</body></html>

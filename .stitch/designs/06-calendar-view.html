@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage Lodge Admin - Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#f1f5ee",
+                      "on-primary-fixed": "#0b2013",
+                      "on-primary-fixed-variant": "#364c3c",
+                      "status-available": "#4d6453",
+                      "outline": "#737973",
+                      "on-surface-variant": "#434843",
+                      "surface-variant": "#dfe4dd",
+                      "status-maintenance": "#ffbf00",
+                      "primary-fixed": "#d0e9d4",
+                      "inverse-surface": "#2d322d",
+                      "on-background": "#181d19",
+                      "tertiary-fixed": "#e4e2e1",
+                      "surface-dim": "#d7dbd4",
+                      "on-secondary-fixed": "#400200",
+                      "surface-cream": "#fbf9f8",
+                      "secondary-container": "#fe8672",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#4d6453",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-surface-dark": "#1b1c1c",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed-variant": "#80281b",
+                      "on-primary-container": "#819986",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-primary": "#b4cdb8",
+                      "error-container": "#ffdad6",
+                      "surface-container-highest": "#dfe4dd",
+                      "tertiary-fixed-dim": "#c7c6c5",
+                      "outline-variant": "#c3c8c1",
+                      "secondary-fixed": "#ffdad4",
+                      "secondary": "#a03f30",
+                      "primary-container": "#1b3022",
+                      "surface-container-high": "#e5e9e2",
+                      "on-tertiary-container": "#939392",
+                      "on-tertiary-fixed": "#1b1c1b",
+                      "surface-bright": "#f6fbf3",
+                      "status-booked": "#c05746",
+                      "background": "#f6fbf3",
+                      "tertiary-container": "#2b2c2c",
+                      "on-error-container": "#93000a",
+                      "primary": "#061b0e",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#b4cdb8",
+                      "on-secondary-container": "#741f13",
+                      "surface-container": "#ebefe8",
+                      "secondary-fixed-dim": "#ffb4a7",
+                      "surface": "#f6fbf3",
+                      "on-tertiary-fixed-variant": "#464746",
+                      "on-surface": "#181d19",
+                      "inverse-on-surface": "#eef2eb",
+                      "tertiary": "#171717"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "margin-mobile": "16px",
+                      "max-width": "1440px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "label-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg-mobile": [
+                              "Newsreader"
+                      ],
+                      "headline-lg": [
+                              "Newsreader"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ],
+                      "display-lg": [
+                              "Newsreader"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.03em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface h-full flex flex-col antialiased">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-bright shadow-sm hidden md:flex">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg text-primary">Heritage Lodge Admin</span>
+<nav class="flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Calendar</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Guests</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Reports</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Inventory</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<input class="bg-surface-container-low border border-outline-variant rounded-full py-2 px-4 pl-10 text-label-md font-label-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+</div>
+<button aria-label="Notifications" class="p-2 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Account" class="p-2 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar Shell (Web Only) -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-80px)] w-64 flex flex-col p-4 gap-2 bg-surface-container-low shadow-sm hidden md:flex z-40">
+<div class="flex items-center gap-3 mb-6 p-2">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="A small, circular avatar portrait of a mature professional woman with grey hair, wearing a tailored navy blazer. She is softly lit with warm, natural light, implying an approachable yet authoritative property manager in a premium heritage lodge setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASHuHMOdKdyIQoPeOnujIqfiUaVKA6xPHxMUAXR0kDHRJhoZNu4ZXJ-sG2ZUYqgRq8eoyx8uheM0WAfvzH0fyUXioD20oJ-CA6J3wI4lprFiK6ModYH0MwVmQ3PCvdJ7cz-uDhmbLh3R9fWVb31Urcjqpx79QeknFQ0LGG2LkAFqj9T1EGTV0ido8q98xoJvTkfBNaVB6SBaSiA8ikqrAQ-CZkVxay0BcZgxibXUz6eZIrV4lUKTlIEGUaTb7tnyFQpIJh9QTbwEYR"/>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">River Rock Lodge</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Main Wing - 24 Rooms</p>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md py-3 px-4 rounded-xl flex justify-center items-center gap-2 hover:opacity-90 transition-opacity mb-4">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+             New Booking
+        </button>
+<nav class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="login">login</span>
+<span class="font-label-md text-label-md">Arrivals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Departures</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="cleaning_services">cleaning_services</span>
+<span class="font-label-md text-label-md">Housekeeping</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+<span class="font-label-md text-label-md">Maintenance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="room_service">room_service</span>
+<span class="font-label-md text-label-md">Concierge</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 md:mt-20 flex flex-col h-[calc(100vh-80px)] overflow-hidden">
+<!-- Header -->
+<header class="bg-surface-container-lowest px-8 py-6 border-b border-surface-variant flex justify-between items-center z-10 shadow-sm relative">
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<h1 class="font-headline-lg text-headline-lg text-primary">August 2026</h1>
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant">
+<button class="px-4 py-1.5 rounded-md bg-white shadow-sm text-primary font-label-md text-label-md transition-all">Month</button>
+<button class="px-4 py-1.5 rounded-md text-on-surface-variant hover:text-primary font-label-md text-label-md transition-all">Week</button>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+<span class="font-label-md text-label-md">Main Wing - All Rooms</span>
+</div>
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<!-- Calendar Grid -->
+<div class="flex-1 overflow-auto bg-surface-container-lowest p-6">
+<div class="grid grid-cols-7 gap-px bg-surface-variant rounded-xl overflow-hidden border border-surface-variant">
+<!-- Days of Week Header -->
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Sun</div>
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Mon</div>
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Tue</div>
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Wed</div>
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Thu</div>
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Fri</div>
+<div class="bg-surface-container-lowest p-3 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Sat</div>
+<!-- Calendar Cells (Sample Row 1) -->
+<!-- Empty Cell -->
+<div class="bg-surface-container-lowest min-h-[140px] p-2 relative opacity-50"></div>
+<!-- Empty Cell -->
+<div class="bg-surface-container-lowest min-h-[140px] p-2 relative opacity-50"></div>
+<!-- Empty Cell -->
+<div class="bg-surface-container-lowest min-h-[140px] p-2 relative opacity-50"></div>
+<!-- Empty Cell -->
+<div class="bg-surface-container-lowest min-h-[140px] p-2 relative opacity-50"></div>
+<!-- Empty Cell -->
+<div class="bg-surface-container-lowest min-h-[140px] p-2 relative opacity-50"></div>
+<!-- Empty Cell -->
+<div class="bg-surface-container-lowest min-h-[140px] p-2 relative opacity-50"></div>
+<!-- Day 1 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-on-surface font-semibold group-hover:text-primary transition-colors">1</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">45% Full</span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-available"></div><span class="font-label-sm text-label-sm text-on-surface-variant">1 In</span></div>
+</div>
+<div class="mt-auto space-y-1">
+<div class="bg-primary-container text-on-primary-container text-[11px] font-semibold px-2 py-1 rounded truncate leading-tight shadow-sm relative z-10 w-[200%] -ml-1">Rm 102 - Sharma</div>
+</div>
+</div>
+<!-- Row 2 -->
+<!-- Day 2 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-on-surface font-semibold group-hover:text-primary transition-colors">2</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">60% Full</span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-available"></div><span class="font-label-sm text-label-sm text-on-surface-variant">3 In</span></div>
+</div>
+<!-- Spacer for spanning bar from previous day -->
+<div class="mt-auto space-y-1">
+<div class="h-[22px] opacity-0 pointer-events-none"></div>
+</div>
+</div>
+<!-- Day 3 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-on-surface font-semibold group-hover:text-primary transition-colors">3</span>
+<span class="bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full">85% Full</span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-available"></div><span class="font-label-sm text-label-sm text-on-surface-variant">2 In</span></div>
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-booked"></div><span class="font-label-sm text-label-sm text-on-surface-variant">1 Out</span></div>
+</div>
+<div class="mt-auto space-y-1">
+<!-- End of Sharma span -->
+<div class="h-[22px] opacity-0 pointer-events-none"></div>
+<div class="bg-surface-variant text-on-surface-variant text-[11px] font-semibold px-2 py-1 rounded truncate leading-tight shadow-sm relative z-10 w-[150%] -ml-1">Rm 204 - Thompson</div>
+</div>
+</div>
+<!-- Day 4 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-on-surface font-semibold group-hover:text-primary transition-colors">4</span>
+<span class="bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-0.5 rounded-full">95% Full</span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-booked"></div><span class="font-label-sm text-label-sm text-on-surface-variant">4 Out</span></div>
+</div>
+<div class="mt-auto space-y-1">
+<!-- End of Thompson span -->
+<div class="h-[22px] opacity-0 pointer-events-none"></div>
+</div>
+</div>
+<!-- Day 5 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary bg-blue-50/30">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-primary font-bold">5</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">70% Full</span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-available"></div><span class="font-label-sm text-label-sm text-on-surface-variant">1 In</span></div>
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-booked"></div><span class="font-label-sm text-label-sm text-on-surface-variant">2 Out</span></div>
+</div>
+</div>
+<!-- Day 6 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-on-surface font-semibold group-hover:text-primary transition-colors">6</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">40% Full</span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-status-booked"></div><span class="font-label-sm text-label-sm text-on-surface-variant">3 Out</span></div>
+</div>
+</div>
+<!-- Day 7 -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3 relative flex flex-col gap-2 hover:bg-surface-bright transition-colors cursor-pointer group border-t-2 border-transparent hover:border-primary">
+<div class="flex justify-between items-start">
+<span class="font-body-md text-body-md text-on-surface font-semibold group-hover:text-primary transition-colors">7</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">30% Full</span>
+</div>
+</div>
+<!-- Populate rest roughly for visual weight -->
+<!-- We'll just add empty generic days to fill the grid to look good -->
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">8</span></div>
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">9</span></div>
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">10</span></div>
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">11</span></div>
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">12</span></div>
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">13</span></div>
+<div class="bg-surface-container-lowest min-h-[140px] p-3"><span class="font-body-md text-body-md text-on-surface font-semibold">14</span></div>
+</div>
+</div>
+<!-- Sidebar (Today's Schedule) -->
+<aside class="w-80 bg-surface-container-lowest border-l border-surface-variant flex flex-col shadow-[-4px_0_15px_rgba(0,0,0,0.03)] z-10 hidden xl:flex">
+<div class="p-6 border-b border-surface-variant bg-surface-bright">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-1">Today's Schedule</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">August 5, 2026</p>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Arriving Section -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-4 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-available"></div>
+                             Arriving (1)
+                        </h3>
+<div class="space-y-3">
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-body-md font-bold text-on-surface">Anand Sharma</span>
+<span class="font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded-full">Rm 102</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Est. Arrival: 3:00 PM</p>
+</div>
+</div>
+</div>
+<!-- Departing Section -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-4 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-booked"></div>
+                             Departing (2)
+                        </h3>
+<div class="space-y-3">
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-body-md font-bold text-on-surface">E. Thompson</span>
+<span class="font-label-sm text-label-sm bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full">Rm 204</span>
+</div>
+<div class="flex justify-between items-center mt-2 pt-2 border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Balance</span>
+<span class="font-label-sm text-label-sm font-semibold text-status-available">$0.00</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-body-md font-bold text-on-surface">J. Doe</span>
+<span class="font-label-sm text-label-sm bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full">Rm 115</span>
+</div>
+<div class="flex justify-between items-center mt-2 pt-2 border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Balance</span>
+<span class="font-label-sm text-label-sm font-semibold text-error">$145.50</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Footer Legend -->
+<footer class="bg-surface-container-low border-t border-surface-variant py-3 px-6 flex justify-between items-center shadow-[0_-4px_15px_rgba(0,0,0,0.02)] z-20">
+<div class="flex gap-6">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-status-available"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Check-ins</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-status-booked"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Check-outs</span>
+</div>
+<div class="flex items-center gap-2 ml-4">
+<div class="w-8 h-3 rounded bg-primary-container"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confirmed Booking</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-3 rounded bg-surface-variant"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Pending/Hold</span>
+</div>
+</div>
+<div class="text-on-surface-variant font-label-sm text-label-sm">
+                Heritage Hospitality Systems v2.4
+            </div>
+</footer>
+</main>
+</body></html>
