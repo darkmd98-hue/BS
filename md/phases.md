@@ -24,19 +24,17 @@
 - Git checkpoint taken before deletion
 - *Exit criteria met:* `next build` passes with only `/register`, `/install`, `/login` live; Figma structure reviewed and understood (17 screens, mock data shape, shared primitives identified).
 
-## Phase 3 — Schema Expansion for Figma Data Model 🔶 IN PROGRESS — verify before trusting
+## Phase 3 — Schema Expansion for Figma Data Model ✅ DONE
 *(New phase — the original schema was too simple for the Figma design's richer model)*
 - **T-039:** Expand `rooms` (floor/type/bed/amenities/cleaning/maintenance), add `customers`, rename `bookings`→`reservations`, `billing`→`bills`, add `payments` child table
 - **T-040:** Add `lodges.subdomain` + unique index, backfill existing test lodges
 - **T-041:** RLS policies on all 6 new/changed tables (lodge_id-first pattern, consistent with T-005)
 - **T-042:** Re-verify tenant isolation on the new schema, same real-PostgREST rigor as T-005
-- **Status as of last confirmed check:** migration SQL was written and reviewed (looked structurally sound), but **whether it was actually run in the Supabase SQL Editor, and whether T-042 passed, was NOT yet confirmed.** Do not proceed past this phase until both are verified with raw query output — this is exactly the kind of claim that's been wrong before on this project.
-- **Also pending:** decision on deleting `/admin/reports` and `/admin/settings` stub pages (recommendation on the table: delete now, rebuild from Figma at T-059/T-060) — confirm this got done or do it now.
-- *Exit criteria (not yet met):* new tables exist and confirmed via raw `information_schema` query; RLS confirmed via real PostgREST test with real UUIDs; stub pages resolved one way or the other.
+- *Exit criteria met:* Live database schema verified; RLS policies verified with real JWT PostgREST test against all 5 tables (`rooms`, `customers`, `reservations`, `bills`, `payments`), confirming 0 row leakage, 0 rows visible by ID, and 0 rows affected by update; stub pages removed; migration files synced to repository.
 
-## Phase 4 — Subdomain Tenant Resolution ⬜ NOT STARTED
-- **T-043:** Next.js `middleware.ts` reads `Host` header, extracts subdomain, resolves to `lodge_id` via DB lookup, before any route handler runs
-- **T-044:** Test against the two existing seeded test lodges (`pinecrest`, `lakeside` subdomains) — confirm correct resolution and that this sits in front of, not instead of, existing RLS
+## Phase 4 — Subdomain Tenant Resolution 🔶 IN PROGRESS
+- **T-043:** Next.js `middleware.ts` reads `Host` header, extracts subdomain, resolves to `lodge_id` via DB lookup, before any route handler runs ✅ DONE
+- **T-044:** Tenant context helper (`src/lib/tenant.ts`) reading `headers()` downstream + cross-tenant session mismatch guard.
 - *Exit criteria:* visiting `pinecrest.<domain>` and `lakeside.<domain>` (or local equivalents) correctly scopes all data to the right lodge, verified with real requests, not assumed from the middleware code alone.
 
 ## Phase 5 — Figma Extraction: Foundation & Shared Components ⬜ NOT STARTED

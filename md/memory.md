@@ -49,15 +49,30 @@
     * Authenticated `/admin/settings` -> 200 OK with `x-lodge-id` forwarded downstream.
     * Simulated expired token test -> `updateSession` automatically refreshed token via Supabase Auth, emitted fresh `Set-Cookie` with updated `access_token` and `expires_at`, and completed request with 200 OK.
 
+- [x] **T-042: Live PostgREST RLS Tenant Isolation Verification (PASSED WITH 100% RIGOR):**
+  - Authenticated as `test-lodge-a@example.com` (`8a26af81-edc8-415e-b8c0-c48e833b6878`, Pinecrest `2e66186f-0f87-47f9-a29e-00984781fb53`).
+  - Tested across all 5 expanded schema tables: `rooms`, `customers`, `reservations`, `bills`, `payments`.
+  - For every table:
+    * `SELECT *` returned only Lodge A's rows (0 rows leaked).
+    * `SELECT WHERE id = <known Lodge B UUID>` returned 0 rows (Lodge B completely invisible).
+    * `UPDATE <known Lodge B UUID>` returned 0 rows affected (cross-tenant mutation completely blocked).
+  - Target Lodge B row UUIDs verified isolated:
+    * rooms: `1f28eb57-d21c-4a7a-872d-5e532cd69858`
+    * customers: `b988d66d-f187-4d4a-b332-54f52128575f`
+    * reservations: `4da63bfd-693d-4a66-9d28-b1869ac1eae0`
+    * bills: `8e1ba6d6-299f-4967-9100-f72b3782c995`
+    * payments: `46e234b7-07ad-4f26-a724-29e28959199d`
+
 ---
 
 ## In Progress
-- [ ] **Awaiting User Review of T-043 before starting T-044**
+- [ ] **T-044: Tenant Context Utility (`src/lib/tenant.ts`) & Cross-Tenant Session Guard**
 
 ---
 
 ## Next Steps (Per Revised 08-features-ticket-list.md)
-- **T-044:** Wire pages and route handlers to read `x-lodge-id` from request headers.
+- **T-044:** Create `getTenantContext()` server helper and cross-tenant session mismatch guard.
+- **T-045+:** Phase 5 Figma Extraction (shared components, shell, and screens).
 - **T-045+:** Phase 3 Figma Extraction (shared components, layout, and screens).
 
 ---
