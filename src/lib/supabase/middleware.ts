@@ -120,22 +120,57 @@ export async function updateSession(request: NextRequest, customHeaders?: Header
   }
 
 
-  if (user && isAuthRoute) {
-    // If logged in, fetch user's profile to redirect to proper route group
-    const { data } = await supabase
+  // When an authenticated user accesses auth routes (/login, /register)
+  // or a protected route WITHOUT a subdomain (targetLodgeId is null):
+  // Resolve their lodge and redirect them directly to their lodge's subdomain portal!
+  if (user && (isAuthRoute || (isProtectedRoute && !targetLodgeId))) {
+    const { data: profileData } = await supabase
       .from("profiles")
       .select("role, lodge_id")
       .eq("id", user.id)
       .single();
 
-    const profile = data as Pick<Profile, "role" | "lodge_id"> | null;
+    const profile = profileData as Pick<Profile, "role" | "lodge_id"> | null;
 
-    if (profile) {
-      const url = request.nextUrl.clone();
-      url.pathname = profile.role === "admin" ? "/admin" : "/reception";
-      return NextResponse.redirect(url);
+    if (profile?.lodge_id) {
+      // Look up lodge's assigned subdomain
+      const { data: lodgeData } = await supabase
+        .from("lodges")
+        .select("subdomain")
+        .eq("id", profile.lodge_id)
+        .single();
+
+      const lodge = lodgeData as { subdomain?: string | null } | null;
+      if (lodge?.subdomain) {
+        const url = request.nextUrl.clone();
+        // Construct hostname with subdomain: e.g. "pinecrest.localhost"
+        const host = request.headers.get("host") || "localhost:3000";
+        const [hostnameOnly, port] = host.split(":");
+        const portSuffix = port ? `:${port}` : "";
+
+        // If current hostname doesn't already start with their subdomain
+        if (!hostnameOnly.startsWith(`${lodge.subdomain}.`)) {
+          // If accessing /admin as non-admin, send to /reception
+          if (pathname.startsWith("/admin") && profile.role !== "admin") {
+            url.pathname = "/reception";
+          } else if (isAuthRoute) {
+            url.pathname = profile.role === "admin" ? "/admin" : "/reception";
+          }
+          // Set target host with subdomain
+          // In localhost dev: <subdomain>.localhost:3000
+          // In production: <subdomain>.<root-domain>
+          if (hostnameOnly === "localhost" || hostnameOnly.endsWith(".localhost")) {
+            url.host = `${lodge.subdomain}.localhost${portSuffix}`;
+          } else {
+            const rootDomain = hostnameOnly.replace(/^(?:[a-zA-Z0-9-]+\.)*/, "");
+            url.host = `${lodge.subdomain}.${rootDomain || hostnameOnly}${portSuffix}`;
+          }
+          return NextResponse.redirect(url);
+        }
+      }
     }
   }
 
   return supabaseResponse;
 }
+

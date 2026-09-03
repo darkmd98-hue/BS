@@ -173,17 +173,15 @@ export async function middleware(request: NextRequest) {
 
   const subdomain = extractSubdomain(request);
 
-  // If on a global root route and no subdomain was specified, resolve auth session directly
-  if (!subdomain && isGlobalRoute) {
+  // If no subdomain was specified (e.g. hitting localhost:3000/admin or localhost:3000/login):
+  // Let updateSession check auth first!
+  // - If user is logged in: updateSession redirects them to their own lodge's subdomain (e.g. pinecrest.localhost:3000/admin)
+  // - If user is not logged in: updateSession redirects protected routes (/admin, /reception) to /login
+  // - If on global route (/register, /install): proceeds cleanly
+  if (!subdomain) {
     return await updateSession(request);
   }
 
-  // If trying to access protected tenant app routes (/admin, /reception) without a subdomain
-  if (!subdomain) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/login";
-    return NextResponse.redirect(loginUrl);
-  }
 
   // 2. Fail closed if backend configuration is missing (do NOT fall through silently)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
