@@ -4,7 +4,9 @@ import Link from "next/link";
 import { Download, CheckCircle2, Monitor, Rocket, ArrowRight, ShieldCheck } from "lucide-react";
 
 export function InstallLinkScreen() {
-  const downloadUrl = process.env.NEXT_PUBLIC_TAURI_RELEASES_URL || "https://github.com/your-org/lodge-saas/releases/latest";
+  const downloadUrl =
+    process.env.NEXT_PUBLIC_TAURI_RELEASES_URL ||
+    "https://github.com/darkmd98-hue/BS/releases/latest";
 
   return (
     <div className="max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -43,7 +45,7 @@ export function InstallLinkScreen() {
           <Download className="w-4 h-4" />
           <span>Download Desktop App (Windows)</span>
         </a>
-        <p className="text-[11px] text-gray-400 mt-4">v1.0.0 via GitHub Releases</p>
+        <p className="text-[11px] text-gray-400 mt-4">v0.1.0-beta via GitHub Releases</p>
       </div>
 
       {/* Setup Guide Card (Bento Style) */}

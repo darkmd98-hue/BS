@@ -128,8 +128,25 @@
 
 ---
 
+- [x] **Phase 9 — Packaging & Distribution Setup & Release Wiring (IN PROGRESS / TOOLCHAIN GATED):**
+  - **T-029 (Tauri Scaffolding & Configuration):**
+    - Installed `@tauri-apps/cli@2.11.4` and added `tauri` run script to `package.json`.
+    - Generated complete Tauri v2 project structure under `src-tauri/` (`Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/lib.rs`, `src/main.rs`).
+    - Configured `tauri.conf.json`: package identifier `com.lodgeos.frontdesk`, title `LodgeOS Front Desk`, default resolution 1280x800 (min 960x640), bundle targets `"all"`, devUrl `http://localhost:3000`.
+  - **T-030 (Install Link & Release Wiring):**
+    - Updated [`src/components/auth/InstallLinkScreen.tsx`](file:///c:/bs/src/components/auth/InstallLinkScreen.tsx) and `.env.local` to point directly to `https://github.com/darkmd98-hue/BS/releases/latest`.
+    - Tag set to `v0.1.0-beta`.
+    - Verified live `/install` route returns HTTP 200 and renders the release URL link.
+  - **T-031 (Local Build Environment Assessment):**
+    - Audited environment with `npx tauri info`.
+    - Verified WebView2 runtime is present (`152.0.4191.53`).
+    - Identified that the local machine environment does not have Rust/Cargo or MSVC C++ Build Tools installed in PATH.
+    - Added automated GitHub Actions CI/CD release workflow (`.github/workflows/release.yml`) so that pushing tag `v0.1.0-beta` runs on GitHub hosted Windows runners with full MSVC/Rust tools to generate and publish `.exe` and `.msi` installers to GitHub Releases.
+
+---
+
 ## Next Steps
-- **Phase 9 — Packaging & Distribution (T-029–T-031):** Tauri wrapper, GitHub Releases publishing, install-link wiring.
+- **Push tag / install local Rust:** Tag `v0.1.0-beta` to trigger CI build of installers, or install `rustup` + VS Build Tools locally if local compilation is required.
 - **Phase 10 — Polish & QA:** Design-system fidelity pass, full QA + tenant isolation smoke tests, accessibility.
 
 ---

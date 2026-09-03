@@ -72,8 +72,10 @@
 - **T-063** Backup (likely platform-level, not app-level)
 - Do not start these without a deliberate re-scoping conversation — they exist in the Figma design but were never part of the original PRD.
 
-## Phase 9 — Packaging & Distribution ⬜ NOT STARTED
-- **T-029–T-031:** Tauri wrapper, GitHub Releases publishing, install-link wiring — unchanged from original plan, just renumbered here for sequencing clarity.
+## Phase 9 — Packaging & Distribution 🔶 IN PROGRESS / ENVIRONMENT AUDIT COMPLETE
+- **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).
+- **T-030:** Packaging pipeline & release wiring: Updated [`src/components/auth/InstallLinkScreen.tsx`](file:///c:/bs/src/components/auth/InstallLinkScreen.tsx) and `.env.local` to point to `https://github.com/darkmd98-hue/BS/releases/latest` tagged `v0.1.0-beta`.
+- **T-031:** Local binary compilation audit: `npx tauri info` audit confirmed WebView2 runtime is present (`152.0.4191.53`), but the host environment lacks the native toolchain (`rustc`/`cargo` and MSVC C++ Build Tools). GitHub Actions CI/CD workflow created (`.github/workflows/release.yml`) to automatically compile Windows `.exe` and `.msi` installers and publish releases on git tag push.
 
 ## Phase 10 — Polish & QA ⬜ NOT STARTED
 - Design-system fidelity pass against the actual Figma screens (pixel/behavior check, not just "looks close")
