@@ -94,19 +94,29 @@
 
 ---
 
+- [x] **Phase 6 — Figma Extraction: Reception Experience Batch (COMPLETED):**
+  - **T-048 (Dashboard):** Implemented `/reception` route with metric cards, today's arrivals, today's departures, and financial totals wired strictly to `tenant.lodgeId`.
+  - **T-049 (Room Booking):** Implemented `/reception/rooms` route with interactive status filtering (`all`, `available`, `occupied`, `reserved`, `cleaning`, `maintenance`) and room cards using real PostgREST queries.
+  - **T-050 (Stay Details):** Implemented `/reception/rooms/[id]` with room status, check-in details, bill folios, and payment histories.
+  - **T-051 (Reservations):** Implemented `/reception/reservations` list and `/reception/reservations/new` booking form with Next.js Server Action atomically inserting customer and reservation records.
+  - **T-052 (Billing):** Implemented `/reception/billing` with financial breakdown metrics and bill ledger.
+  - **T-053 (Customers):** Implemented `/reception/customers` directory with stay counts, total spent, and contact details.
+  - **Verification:** Verified live against production build (`next start -p 3000`) across all 6 screens under both `pinecrest.localhost` and `lakeside.localhost`, confirming 0 cross-tenant data leakage and HTTP 404 on cross-lodge room access.
+
+---
+
 ## In Progress
-- [ ] **Phase 6 — Figma Extraction: Reception Experience (T-048 to T-052)**
-  - **T-048:** Room Booking Grid (`src/components/reception/RoomGrid.tsx`, `/reception/rooms`)
-  - **T-049:** Walk-in Booking Modal (`src/components/reception/NewBookingModal.tsx`)
-  - **T-050:** Reservations List & Filter (`/reception/reservations`)
-  - **T-051:** Bills & Payments Screen (`/reception/billing`)
-  - **T-052:** Customer Directory Screen (`/reception/customers`)
+- [ ] **Phase 7 — Figma Extraction: Core Admin Flow (T-054 to T-056)**
+  - **T-054:** Room Management & Add Room (`/admin/rooms`)
+  - **T-055:** Staff Directory & Role Invitations (`/admin/staff`)
+  - **T-056:** Restyle `/register`, `/install`, `/login` to match Figma visual design language
 
 ---
 
 ## Next Steps (Per Revised 08-features-ticket-list.md)
-- **T-048:** Port Figma room booking grid with real PostgREST query scoped to `x-lodge-id`.
-- **T-049:** Port Figma walk-in booking modal wired to server actions.
+- **T-054:** Extract `RoomManagement` and `AddRoom` modal from `design-reference/src/App.tsx` into `/admin/rooms`, wiring room creation, updates, and maintenance flags to Supabase PostgREST scoped to `tenant.lodgeId`.
+- **T-055:** Extract `UsersRoles` from Figma into `/admin/staff`.
+- **T-056:** Restyle onboarding and auth screens.
 
 ---
 

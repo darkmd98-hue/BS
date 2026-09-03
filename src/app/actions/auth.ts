@@ -107,7 +107,7 @@ export async function registerLodgeAction(
     createdUserId = userData.user.id;
 
     // 3. Atomically create the lodges row + profiles row via Postgres RPC
-    const { data: tenantData, error: rpcError } = await adminClient.rpc(
+    const { data: tenantData, error: rpcError } = await (adminClient as any).rpc(
       "create_new_lodge_tenant",
       {
         p_user_id: createdUserId,

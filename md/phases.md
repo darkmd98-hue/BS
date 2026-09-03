@@ -43,16 +43,16 @@
 - **T-047:** Carry over `recharts` dependency, confirm build passes and shell renders standalone with dynamic lodge branding ✅ DONE
 - *Exit criteria met:* shared shell renders cleanly in production mode under `pinecrest` and `lakeside` subdomains displaying respective lodge branding; 0 build errors.
 
-## Phase 6 — Figma Extraction: Core Reception Flow 🔶 IN PROGRESS
-- **T-048** Dashboard → real aggregate queries (occupancy, today's activity)
-- **T-049** RoomBooking + RoomCard → `/reception/rooms`, real `rooms` data, lodge-scoped, realtime status
-- **T-050** StayDetails → real `reservations`/`customers`/`bills` for a given room
-- **T-051** Reservations + CreateReservation → real create/list against `reservations` + `customers`
-- **T-052** Billing → real `bills` + `payments`
-- **T-053** Customers → real CRUD against `customers`
-- *Exit criteria:* a reception staff member can complete a full real booking → billing cycle in the live app.
+## Phase 6 — Figma Extraction: Core Reception Flow ✅ DONE
+- **T-048** Dashboard → real aggregate queries (occupancy, today's activity) (`/reception`) ✅ DONE
+- **T-049** RoomBooking + RoomCard → `/reception/rooms`, real `rooms` data, lodge-scoped, realtime status ✅ DONE
+- **T-050** StayDetails → real `reservations`/`customers`/`bills` for a given room (`/reception/rooms/[id]`) ✅ DONE
+- **T-051** Reservations + CreateReservation → real create/list against `reservations` + `customers` (`/reception/reservations`, `/reception/reservations/new`) ✅ DONE
+- **T-052** Billing → real `bills` + `payments` (`/reception/billing`) ✅ DONE
+- **T-053** Customers → real CRUD against `customers` (`/reception/customers`) ✅ DONE
+- *Exit criteria met:* All 6 screens extracted into real Next.js App Router routes, wired to PostgREST via `getTenantContext().lodgeId`, verified live in production build across both `pinecrest.localhost` and `lakeside.localhost` with 0 cross-tenant row leakage, and verified that direct URL access across lodges yields HTTP 404.
 
-## Phase 7 — Figma Extraction: Core Admin Flow ⬜ NOT STARTED
+## Phase 7 — Figma Extraction: Core Admin Flow 🔶 IN PROGRESS
 - **T-054** RoomManagement + AddRoom → `/admin/rooms`
 - **T-055** UsersRoles → `/admin/staff`, real staff-invite flow
 - **T-056** Restyle `/register`, `/install`, `/login` to match the Figma visual language (these screens aren't in the Figma export itself, so this is a deliberate design-matching pass, not an extraction)
