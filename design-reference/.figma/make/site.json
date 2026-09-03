@@ -1,0 +1,10 @@
+{
+  "description": "Streamline lodge operations with this management software, enabling efficient room bookings, billing, and guest services for receptionists and managers.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

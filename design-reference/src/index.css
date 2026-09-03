@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --color-navy-50: #f0f4ff;
+  --color-navy-100: #e0e8ff;
+  --color-navy-200: #c2d0ff;
+  --color-navy-300: #8fa3f5;
+  --color-navy-400: #6070e8;
+  --color-navy-500: #3d4fce;
+  --color-navy-600: #2d3ab5;
+  --color-navy-700: #1e2d8a;
+  --color-navy-800: #162268;
+  --color-navy-900: #0f1a52;
+  --color-navy-950: #090e30;
+
+  --color-slate-25: #f8f9fc;
+  --color-status-available: #16a34a;
+  --color-status-occupied: #dc2626;
+  --color-status-reserved: #d97706;
+  --color-status-cleaning: #2563eb;
+  --color-status-maintenance: #6b7280;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fc;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+.font-display {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
