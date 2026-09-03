@@ -138,9 +138,13 @@ async function main() {
   console.log(`   GET http://pinecrest.localhost:3000/api/tenant-test with Valley Retreat session:`);
   console.log(`   HTTP Status Code: ${crossApiRes.status} (Expected: 403 Forbidden)`);
 
-  const crossPageRes = await testRequest("pinecrest.localhost", "/reception", cookieHeader);
+  const crossReceptionRes = await testRequest("pinecrest.localhost", "/reception", cookieHeader);
   console.log(`   GET http://pinecrest.localhost:3000/reception with Valley Retreat session:`);
-  console.log(`   HTTP Status Code: ${crossPageRes.status} (Server rejected with Error: ${crossPageRes.status === 500 || crossPageRes.status === 403})`);
+  console.log(`   HTTP Status Code: ${crossReceptionRes.status} (Expected: 403 Forbidden)`);
+
+  const crossAdminRes = await testRequest("pinecrest.localhost", "/admin/rooms", cookieHeader);
+  console.log(`   GET http://pinecrest.localhost:3000/admin/rooms with Valley Retreat session:`);
+  console.log(`   HTTP Status Code: ${crossAdminRes.status} (Expected: 403 Forbidden)`);
 
   const passed =
     regResult.success &&
@@ -149,7 +153,9 @@ async function main() {
     containsLodgeName &&
     adminRes.status === 200 &&
     crossApiRes.status === 403 &&
-    (crossPageRes.status === 403 || crossPageRes.status === 500);
+    crossReceptionRes.status === 403 &&
+    crossAdminRes.status === 403;
+
 
 
   console.log("\n================================================================================");
