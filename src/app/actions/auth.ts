@@ -10,6 +10,7 @@ export interface RegisterLodgeInput {
   lodgeName: string;
   address?: string;
   roomCount?: number;
+  subdomain?: string;
 }
 
 export interface AuthActionResult {
@@ -54,6 +55,7 @@ export async function registerLodgeAction(
   const normalizedFullName = fullName.trim();
   const normalizedLodgeName = lodgeName.trim();
   const normalizedAddress = address?.trim() || null;
+  const normalizedSubdomain = input.subdomain?.trim().toLowerCase() || null;
 
   let adminClient;
   try {
@@ -114,6 +116,7 @@ export async function registerLodgeAction(
         p_owner_name: normalizedFullName,
         p_lodge_name: normalizedLodgeName,
         p_address: normalizedAddress,
+        p_subdomain: normalizedSubdomain,
       }
     );
 

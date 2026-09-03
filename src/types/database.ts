@@ -291,10 +291,12 @@ export interface Database {
           p_owner_name: string;
           p_lodge_name: string;
           p_address?: string | null;
+          p_subdomain?: string | null;
         };
         Returns: {
           lodge_id: string;
           lodge_name: string;
+          subdomain?: string;
           user_id: string;
           role: string;
         };

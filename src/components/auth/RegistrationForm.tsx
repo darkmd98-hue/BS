@@ -10,6 +10,7 @@ export function RegistrationForm() {
   const router = useRouter();
 
   const [lodgeName, setLodgeName] = useState("");
+  const [subdomain, setSubdomain] = useState("");
   const [address, setAddress] = useState("");
   const [rooms, setRooms] = useState(18);
   const [ownerName, setOwnerName] = useState("");
@@ -27,6 +28,7 @@ export function RegistrationForm() {
     try {
       const result = await registerLodgeAction({
         lodgeName,
+        subdomain: subdomain || undefined,
         address,
         roomCount: rooms,
         fullName: ownerName,
@@ -95,11 +97,41 @@ export function RegistrationForm() {
                   type="text"
                   required
                   value={lodgeName}
-                  onChange={(e) => setLodgeName(e.target.value)}
+                  onChange={(e) => {
+                    const name = e.target.value;
+                    setLodgeName(name);
+                    if (!subdomain) {
+                      setSubdomain(name.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 20));
+                    }
+                  }}
                   placeholder="e.g. Hill View Heritage Lodge"
                   disabled={isLoading}
                   className="block w-full rounded-lg px-3.5 py-2 text-sm text-gray-900 bg-white border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-[#0b1437] transition-colors disabled:opacity-50"
                 />
+              </div>
+
+              <div className="col-span-1 md:col-span-2">
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400" htmlFor="subdomain">
+                    Subdomain / Property Slug
+                  </label>
+                  <span className="text-[11px] text-gray-400">Used for staff login URL</span>
+                </div>
+                <div className="flex rounded-lg border border-gray-200 bg-white overflow-hidden focus-within:ring-2 focus-within:ring-blue-50 focus-within:border-[#0b1437]">
+                  <input
+                    id="subdomain"
+                    name="subdomain"
+                    type="text"
+                    value={subdomain}
+                    onChange={(e) => setSubdomain(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+                    placeholder="e.g. hillview"
+                    disabled={isLoading}
+                    className="block w-full px-3.5 py-2 text-sm text-gray-900 bg-transparent focus:outline-none disabled:opacity-50 font-mono"
+                  />
+                  <span className="px-3 py-2 bg-gray-50 text-xs text-gray-500 font-medium border-l border-gray-200 flex items-center shrink-0">
+                    .localhost:3000
+                  </span>
+                </div>
               </div>
 
               <div className="col-span-1 md:col-span-2">
