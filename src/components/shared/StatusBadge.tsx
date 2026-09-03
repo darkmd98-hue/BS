@@ -21,3 +21,4 @@ export function StatusBadge({ status }: { status: RoomStatus | string }) {
     </span>
   );
 }
+

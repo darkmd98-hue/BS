@@ -46,3 +46,4 @@ export function Modal({ title, children, onClose, danger }: ModalProps) {
     </div>
   );
 }
+

@@ -19,3 +19,4 @@ export function PayBadge({ status }: { status: PaymentStatus | string }) {
     </span>
   );
 }
+
