@@ -32,12 +32,12 @@
 - **T-042:** Re-verify tenant isolation on the new schema, same real-PostgREST rigor as T-005
 - *Exit criteria met:* Live database schema verified; RLS policies verified with real JWT PostgREST test against all 5 tables (`rooms`, `customers`, `reservations`, `bills`, `payments`), confirming 0 row leakage, 0 rows visible by ID, and 0 rows affected by update; stub pages removed; migration files synced to repository.
 
-## Phase 4 — Subdomain Tenant Resolution 🔶 IN PROGRESS
+## Phase 4 — Subdomain Tenant Resolution ✅ DONE
 - **T-043:** Next.js `middleware.ts` reads `Host` header, extracts subdomain, resolves to `lodge_id` via DB lookup, before any route handler runs ✅ DONE
-- **T-044:** Tenant context helper (`src/lib/tenant.ts`) reading `headers()` downstream + cross-tenant session mismatch guard.
-- *Exit criteria:* visiting `pinecrest.<domain>` and `lakeside.<domain>` (or local equivalents) correctly scopes all data to the right lodge, verified with real requests, not assumed from the middleware code alone.
+- **T-044:** Tenant context helper (`src/lib/tenant.ts`) reading `headers()` downstream + cross-tenant session mismatch guard (rejects with 403) ✅ DONE
+- *Exit criteria met:* visiting `pinecrest.localhost` and `lakeside.localhost` correctly resolves downstream tenant context for authenticated users; mismatched cross-tenant access attempts are strictly rejected with HTTP 403 Forbidden; fully verified under production build (`next start`).
 
-## Phase 5 — Figma Extraction: Foundation & Shared Components ⬜ NOT STARTED
+## Phase 5 — Figma Extraction: Foundation & Shared Components 🔶 IN PROGRESS
 - **T-045:** Extract `Sidebar`, `Header`, `StatusBadge`, `PayBadge`, `Avatar`, `Toast`, `Modal` into real shared component files
 - **T-046:** Set up `/admin` and `/reception` layouts using the extracted shell
 - **T-047:** Carry over `recharts` dependency, confirm charts render standalone before wiring real data

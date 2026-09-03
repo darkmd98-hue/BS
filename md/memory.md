@@ -63,16 +63,30 @@
     * bills: `8e1ba6d6-299f-4967-9100-f72b3782c995`
     * payments: `46e234b7-07ad-4f26-a724-29e28959199d`
 
+- [x] **T-044: Tenant Context Server Utility & Cross-Tenant Session Mismatch Guard (PASSED WITH 100% RIGOR):**
+  - Created [`src/lib/tenant.ts`](file:///c:/bs/src/lib/tenant.ts) providing `getTenantContext()` helper for Server Components, Actions, and Route Handlers.
+  - Resolves `x-lodge-id`, `x-lodge-subdomain`, `x-lodge-name` from request headers.
+  - Authenticates requesting user with Supabase server client and fetches their `profile`.
+  - **Cross-tenant session guard:** Compares `profile.lodge_id` against `headerLodgeId`. If a session arrives where the targeted subdomain/lodge does not match the authenticated user's own lodge (e.g. Lodge A user attempting to hit `lakeside.domain`), it immediately throws `TenantMismatchError` which renders an explicit **HTTP 403 Forbidden** response.
+  - Live tested bi-directionally on production build (`next start`):
+    * Lodge A session -> `pinecrest.localhost` (Matching): **200 OK**, returns Pinecrest lodge context.
+    * Lodge A session -> `lakeside.localhost` (Mismatched): **403 Forbidden**, strictly rejected.
+    * Lodge B session -> `lakeside.localhost` (Matching): **200 OK**, returns Lakeside lodge context.
+    * Lodge B session -> `pinecrest.localhost` (Mismatched): **403 Forbidden**, strictly rejected.
+
 ---
 
 ## In Progress
-- [ ] **T-044: Tenant Context Utility (`src/lib/tenant.ts`) & Cross-Tenant Session Guard**
+- [ ] **Phase 5 — Figma Extraction: Foundation & Shared Components**
+  - **T-045:** Extract `Sidebar`, `Header`, `StatusBadge`, `PayBadge`, `Avatar`, `Toast`, `Modal` into shared component files.
+  - **T-046:** Set up `/admin` and `/reception` layouts using the extracted shell.
+  - **T-047:** Wire `recharts` dependency and verify charts render standalone.
 
 ---
 
 ## Next Steps (Per Revised 08-features-ticket-list.md)
-- **T-044:** Create `getTenantContext()` server helper and cross-tenant session mismatch guard.
-- **T-045+:** Phase 5 Figma Extraction (shared components, shell, and screens).
+- **T-045:** Extract shared UI primitives from `design-reference/src/App.tsx`.
+- **T-046:** Establish App Router layouts for `/admin` and `/reception`.
 - **T-045+:** Phase 3 Figma Extraction (shared components, layout, and screens).
 
 ---
