@@ -1,4 +1,3 @@
-import React from "react";
 import { getTenantContext } from "@/lib/tenant";
 
 export default async function AdminPage() {

@@ -35,8 +35,9 @@ export async function registerLodgeAction(
   const { email, password, fullName, lodgeName, address } = input;
 
   // 1. Server-side validation
-  if (!email || !email.includes("@")) {
-    return { success: false, error: "A valid email address is required." };
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) {
+    return { success: false, error: "Please provide a valid email address." };
   }
   if (!password || password.length < 6) {
     return {
@@ -56,6 +57,20 @@ export async function registerLodgeAction(
   const normalizedLodgeName = lodgeName.trim();
   const normalizedAddress = address?.trim() || null;
   const normalizedSubdomain = input.subdomain?.trim().toLowerCase() || null;
+
+  const RESERVED_SUBDOMAINS = new Set([
+    'www', 'admin', 'api', 'app', 'login', 'register', 'install',
+    'mail', 'support', 'help', 'status', 'blog', 'docs',
+  ]);
+
+  if (normalizedSubdomain) {
+    if (!/^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/.test(normalizedSubdomain)) {
+      return { success: false, error: 'Subdomain must contain only lowercase letters, numbers, and hyphens.' };
+    }
+    if (RESERVED_SUBDOMAINS.has(normalizedSubdomain)) {
+      return { success: false, error: `"${normalizedSubdomain}" is a reserved subdomain. Please choose another.` };
+    }
+  }
 
   let adminClient;
   try {
@@ -142,10 +157,13 @@ export async function registerLodgeAction(
     // 4. Authenticate the newly registered user session on the server
     try {
       const serverSupabase = await createServerSupabaseClient();
-      await serverSupabase.auth.signInWithPassword({
+      const { error: signInError } = await serverSupabase.auth.signInWithPassword({
         email: normalizedEmail,
         password: password,
       });
+      if (signInError) {
+        console.warn("[registerLodgeAction] Auto-signin failed:", signInError.message);
+      }
     } catch (sessionError) {
       console.warn(
         "[registerLodgeAction] Auto-signin cookie set skipped/deferred:",

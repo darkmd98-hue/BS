@@ -1,7 +1,7 @@
-import React from "react";
 import { getTenantContext } from "@/lib/tenant";
 import { Sidebar } from "@/components/shared/Sidebar";
 import { Header } from "@/components/shared/Header";
+import { redirect } from 'next/navigation';
 
 export default async function AdminLayout({
   children,
@@ -9,6 +9,9 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const tenant = await getTenantContext();
+  if (tenant.role !== 'admin') {
+    redirect('/reception');
+  }
 
   return (
     <div className="flex h-screen bg-[#f4f6fc] overflow-hidden font-sans">

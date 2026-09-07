@@ -1,6 +1,6 @@
-import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
 
@@ -28,27 +28,45 @@ export default async function CreateReservationPage({
     const tenantCtx = await getTenantContext();
     const serverSupabase = await createClient();
 
-    const name = formData.get("name") as string;
-    const mobile = formData.get("mobile") as string;
-    const email = (formData.get("email") as string) || null;
+    const name = (formData.get("name") as string)?.trim();
+    const mobile = (formData.get("mobile") as string)?.trim();
+    const email = (formData.get("email") as string)?.trim() || null;
     const roomId = formData.get("room_id") as string;
     const checkIn = formData.get("check_in") as string;
     const checkOut = formData.get("check_out") as string;
     const guests = parseInt((formData.get("guests") as string) || "1", 10);
     const advance = parseFloat((formData.get("advance") as string) || "0");
-    const specialRequest = (formData.get("special_request") as string) || null;
+    const specialRequest = (formData.get("special_request") as string)?.trim() || null;
+
+    if (!roomId) {
+      throw new Error("Please select a room.");
+    }
+    if (!name || !mobile) {
+      throw new Error("Guest name and mobile number are required.");
+    }
+    if (!checkIn || !checkOut || checkOut <= checkIn) {
+      throw new Error("Check-out date must be after check-in date.");
+    }
 
     // 1. Create or Find Customer
     let customerId = "";
     const { data: existingCustomer } = await (serverSupabase as any)
       .from("customers")
-      .select("id")
+      .select("id, visits")
       .eq("lodge_id", tenantCtx.lodgeId)
       .eq("mobile", mobile)
       .maybeSingle();
 
     if (existingCustomer) {
       customerId = existingCustomer.id;
+      await (serverSupabase as any)
+        .from("customers")
+        .update({
+          visits: (existingCustomer.visits || 1) + 1,
+          last_stay: checkIn,
+        })
+        .eq("id", customerId)
+        .eq("lodge_id", tenantCtx.lodgeId);
     } else {
       const { data: newCust, error: custErr } = await (serverSupabase as any)
         .from("customers")
@@ -58,6 +76,7 @@ export default async function CreateReservationPage({
           mobile,
           email,
           visits: 1,
+          last_stay: checkIn,
         })
         .select("id")
         .single();
@@ -89,13 +108,55 @@ export default async function CreateReservationPage({
       throw new Error(`Failed to create reservation: ${resErr?.message}`);
     }
 
-    // 3. Mark room as reserved if needed
+    // 3. Mark room as reserved
     await (serverSupabase as any)
       .from("rooms")
       .update({ status: "reserved" })
       .eq("id", roomId)
       .eq("lodge_id", tenantCtx.lodgeId);
 
+    // 4. Calculate stay totals & create Bill and Payment record
+    const { data: roomData } = await (serverSupabase as any)
+      .from("rooms")
+      .select("rent")
+      .eq("id", roomId)
+      .eq("lodge_id", tenantCtx.lodgeId)
+      .single();
+
+    const rent = Number(roomData?.rent || 0);
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const nights = Math.max(1, Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / 86400000));
+    const netAmount = rent * nights;
+    const advanceAmount = Number(advance) || 0;
+
+    const { data: billData } = await (serverSupabase as any)
+      .from("bills")
+      .insert({
+        lodge_id: tenantCtx.lodgeId,
+        reservation_id: newRes.id,
+        net_amount: netAmount,
+        received: advanceAmount,
+        balance: Math.max(0, netAmount - advanceAmount),
+        payment_status: advanceAmount >= netAmount ? "paid" : advanceAmount > 0 ? "partial" : "unpaid",
+      })
+      .select("id")
+      .single();
+
+    if (advanceAmount > 0 && billData) {
+      await (serverSupabase as any).from("payments").insert({
+        lodge_id: tenantCtx.lodgeId,
+        bill_id: billData.id,
+        amount: advanceAmount,
+        method: "Cash",
+        paid_at: new Date().toISOString(),
+      });
+    }
+
+    revalidatePath("/reception/reservations");
+    revalidatePath("/reception/billing");
+    revalidatePath("/reception/rooms");
+    revalidatePath("/reception");
     redirect("/reception/reservations");
   }
 
@@ -117,7 +178,7 @@ export default async function CreateReservationPage({
         <h1 className="text-xl font-bold text-gray-900">New Reservation</h1>
       </div>
 
-      <form action={createReservationAction} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-xs space-y-6">
+      <form action={createReservationAction} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-6">
         {/* Customer Information */}
         <div>
           <h2 className="text-sm font-bold text-gray-900 border-b border-gray-100 pb-2 mb-4">
@@ -125,10 +186,11 @@ export default async function CreateReservationPage({
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="guest_name" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Guest Name *
               </label>
               <input
+                id="guest_name"
                 name="name"
                 required
                 placeholder="Full Name"
@@ -136,10 +198,11 @@ export default async function CreateReservationPage({
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="guest_mobile" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Mobile Number *
               </label>
               <input
+                id="guest_mobile"
                 name="mobile"
                 type="tel"
                 required
@@ -148,10 +211,11 @@ export default async function CreateReservationPage({
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="guest_email" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Email Address
               </label>
               <input
+                id="guest_email"
                 name="email"
                 type="email"
                 placeholder="guest@example.com"
@@ -168,27 +232,35 @@ export default async function CreateReservationPage({
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="select_room" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Select Room *
               </label>
-              <select
-                name="room_id"
-                required
-                defaultValue={selectedRoomId || ""}
-                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-100"
-              >
-                {roomList.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    Room {r.room_number} — {r.room_type} ({r.bed_type} Bed, ₹{r.rent}/night)
-                  </option>
-                ))}
-              </select>
+              {roomList.length === 0 ? (
+                <div className="text-sm text-red-600 p-2.5 bg-red-50 rounded-lg border border-red-200">
+                  No rooms available. Please add rooms in Admin Portal first.
+                </div>
+              ) : (
+                <select
+                  id="select_room"
+                  name="room_id"
+                  required
+                  defaultValue={selectedRoomId || ""}
+                  className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                >
+                  {roomList.map((r) => (
+                    <option key={r.id} value={r.id}>
+                      Room {r.room_number} — {r.room_type} ({r.bed_type} Bed, ₹{r.rent}/night)
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="guests_count" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Guests Count
               </label>
               <input
+                id="guests_count"
                 name="guests"
                 type="number"
                 min="1"
@@ -197,10 +269,11 @@ export default async function CreateReservationPage({
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="check_in_date" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Check-in Date *
               </label>
               <input
+                id="check_in_date"
                 name="check_in"
                 type="date"
                 required
@@ -209,10 +282,11 @@ export default async function CreateReservationPage({
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="check_out_date" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Check-out Date *
               </label>
               <input
+                id="check_out_date"
                 name="check_out"
                 type="date"
                 required
@@ -221,10 +295,11 @@ export default async function CreateReservationPage({
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="advance_paid" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Advance Paid (₹)
               </label>
               <input
+                id="advance_paid"
                 name="advance"
                 type="number"
                 min="0"
@@ -233,10 +308,11 @@ export default async function CreateReservationPage({
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
+              <label htmlFor="special_requests" className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">
                 Special Requests
               </label>
               <textarea
+                id="special_requests"
                 name="special_request"
                 rows={2}
                 placeholder="Late arrival, extra pillows, etc."
@@ -255,7 +331,8 @@ export default async function CreateReservationPage({
           </Link>
           <button
             type="submit"
-            className="flex-1 py-2.5 bg-[#0b1437] text-white rounded-xl font-bold text-sm hover:bg-[#162268] transition-colors shadow-xs cursor-pointer"
+            disabled={roomList.length === 0}
+            className="flex-1 py-2.5 bg-[#0b1437] text-white rounded-xl font-bold text-sm hover:bg-[#162268] transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Confirm Reservation
           </button>

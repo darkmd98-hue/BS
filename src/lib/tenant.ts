@@ -77,9 +77,7 @@ export async function getTenantContext(): Promise<TenantContext> {
 
   // Cross-tenant session mismatch guard
   if (profile.lodge_id !== headerLodgeId) {
-    throw new TenantMismatchError(
-      `Cross-tenant mismatch: User (${user.email}) belongs to lodge '${profile.lodge_id}', but request header targeted '${headerLodgeId}'.`
-    );
+    throw new TenantMismatchError('Access denied: cross-tenant access is not permitted.');
   }
 
   return {

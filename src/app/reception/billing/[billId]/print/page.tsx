@@ -1,4 +1,3 @@
-import React from "react";
 import { notFound } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
@@ -23,7 +22,7 @@ export default async function PrintInvoicePage({
       reservations (
         *,
         customers ( * ),
-        rooms ( room_number, room_type, bed_type, capacity )
+        rooms ( room_number, room_type, bed_type, capacity, rent )
       )
     `)
     .eq("id", billId)
@@ -62,7 +61,6 @@ export default async function PrintInvoicePage({
         )
       : 1;
 
-  const rentTotal = nights * (Number(reservation?.advance || 0) > 0 ? 0 : 0);
   const paymentStatusLabel: Record<string, string> = {
     paid: "PAID IN FULL",
     partial: "PARTIALLY PAID",
@@ -81,6 +79,7 @@ export default async function PrintInvoicePage({
           .no-print { display: none !important; }
           body { background: white !important; }
           .print-page { box-shadow: none !important; border: none !important; max-width: 100% !important; margin: 0 !important; }
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
         @media screen {
           body { background: #f4f6fc; }

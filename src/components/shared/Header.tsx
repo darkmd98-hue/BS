@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -42,7 +42,7 @@ export function Header({
     <header className="h-16 bg-white border-b border-gray-100 flex items-center px-6 gap-4 shrink-0 z-30 relative">
       {/* Search Input */}
       <div className="relative flex-1 max-w-sm">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm select-none">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm select-none" aria-hidden="true">
           🔍
         </span>
         <input
@@ -69,7 +69,7 @@ export function Header({
               }}
               className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-blue-50 text-left transition-colors"
             >
-              <span className="text-base">🛏</span>
+              <span className="text-base" aria-hidden="true">🛏</span>
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold text-gray-900 truncate">Rooms & Status</div>
                 <div className="text-xs text-gray-400 truncate">View room booking grid</div>
@@ -87,7 +87,7 @@ export function Header({
             className="relative w-9 h-9 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors text-base cursor-pointer"
             aria-label="Notifications"
           >
-            🔔
+            <span aria-hidden="true">🔔</span>
             {notifs && (
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
             )}
@@ -111,7 +111,7 @@ export function Header({
                       n.unread ? "bg-blue-50/50" : ""
                     }`}
                   >
-                    <span className="text-lg shrink-0 mt-0.5">{n.icon}</span>
+                    <span className="text-lg shrink-0 mt-0.5" aria-hidden="true">{n.icon}</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-[13px] text-gray-800 leading-snug">{n.text}</p>
                       <p className="text-[11px] text-gray-400 mt-0.5">{n.time}</p>

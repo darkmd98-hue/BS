@@ -58,7 +58,7 @@ export function RegistrationForm() {
           <Building2 className="w-4 h-4 text-[#0b1437]" />
           <span>LodgeOS Cloud</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 font-display">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 font-sans">
           Register Your Lodge
         </h1>
         <p className="text-xs text-gray-500 max-w-md">
@@ -67,7 +67,7 @@ export function RegistrationForm() {
       </header>
 
       {/* Registration Card */}
-      <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
+      <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <form className="flex flex-col p-6 sm:p-8 gap-6" onSubmit={handleSubmit}>
           {/* Error Message Alert */}
           {errorMessage && (
@@ -243,7 +243,7 @@ export function RegistrationForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-11 bg-[#0b1437] hover:bg-[#162268] disabled:opacity-60 text-white rounded-xl text-sm font-semibold shadow-xs transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full h-11 bg-[#0b1437] hover:bg-[#162268] disabled:opacity-60 text-white rounded-xl text-sm font-semibold shadow-sm transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
             >
               {isLoading ? (
                 <>

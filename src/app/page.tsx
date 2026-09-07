@@ -3,7 +3,7 @@ import { Building2, ShieldCheck, Zap, ArrowRight, UserPlus, LogIn } from "lucide
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-stone-50 via-lodge-50/30 to-stone-100">
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-stone-50 via-lodge-50/30 to-stone-100">
       {/* Header */}
       <header className="border-b border-stone-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -31,7 +31,7 @@ export default function HomePage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center flex-1 flex flex-col justify-center">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center flex-1 flex flex-col justify-center">
         <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-lodge-100/80 border border-lodge-200 text-lodge-800 text-xs font-semibold uppercase tracking-wider mb-6 mx-auto">
           <ShieldCheck className="w-4 h-4 text-lodge-700" />
           <span>Multi-Tenant Cloud Hospitality Platform</span>
@@ -89,16 +89,16 @@ export default function HomePage() {
             </div>
             <h3 className="font-semibold text-stone-900 text-sm">Desktop App Packaging</h3>
             <p className="mt-1 text-xs text-stone-500 leading-relaxed">
-              Native desktop experience distributed via GitHub Releases for easy staff deployment.
+              Native desktop experience distributed via GitHub Releases for easy staff deployment. <Link href="/install" className="text-lodge-700 font-medium hover:underline">Download App &rarr;</Link>
             </p>
           </div>
         </div>
-      </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-stone-200 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} LodgeOS SaaS Platform. Multi-Tenant Architecture.</p>
       </footer>
-    </main>
+    </div>
   );
 }

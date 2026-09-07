@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
@@ -24,11 +23,12 @@ export default async function ReceptionDashboardPage() {
   const cleaningRooms = allRooms.filter((r) => r.status === "cleaning").length;
 
   // 2. Fetch Reservations for Today
-  const todayStr = new Date().toISOString().split("T")[0];
+  const todayStr = new Date().toLocaleDateString("en-CA");
   const { data: reservations } = await supabase
     .from("reservations")
     .select(`
       id,
+      room_id,
       check_in,
       check_out,
       guests,
@@ -41,8 +41,12 @@ export default async function ReceptionDashboardPage() {
     .order("created_at", { ascending: false });
 
   const allRes: any[] = (reservations as any[]) || [];
-  const checkIns = allRes.filter((r) => r.check_in === todayStr || r.status === "upcoming" || r.status === "checked_in").slice(0, 5);
-  const checkOuts = allRes.filter((r) => r.check_out === todayStr || r.status === "checked_in").slice(0, 5);
+  const checkIns = allRes
+    .filter((r) => (r.check_in === todayStr || r.status === "today") && r.status !== "completed" && r.status !== "cancelled")
+    .slice(0, 5);
+  const checkOuts = allRes
+    .filter((r) => r.check_out === todayStr && (r.status === "checked-in" || r.status === "checked_in"))
+    .slice(0, 5);
 
   // 3. Fetch Bills & Payments
   const { data: bills } = await supabase
@@ -77,13 +81,13 @@ export default async function ReceptionDashboardPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/reception/reservations/new"
-            className="flex items-center gap-1.5 px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-sm"
           >
             + New Reservation
           </Link>
           <Link
             href="/reception/rooms"
-            className="flex items-center gap-1.5 px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm"
           >
             View Room Grid
           </Link>
@@ -93,7 +97,7 @@ export default async function ReceptionDashboardPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {STATS.map((s) => (
-          <div key={s.label} className={`bg-white rounded-xl border ${s.bd} p-4 shadow-xs hover:shadow-md transition-shadow`}>
+          <div key={s.label} className={`bg-white rounded-xl border ${s.bd} p-4 shadow-sm hover:shadow-md transition-shadow`}>
             <div className={`w-9 h-9 ${s.ibg} rounded-xl flex items-center justify-center text-lg mb-3`}>
               {s.icon}
             </div>
@@ -109,7 +113,7 @@ export default async function ReceptionDashboardPage() {
       {/* Check-ins & Check-outs Lists */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Today's Check-ins */}
-        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-xs">
+        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
           <div className="px-5 py-3.5 border-b border-gray-50 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="font-semibold text-gray-900 text-sm">Today's Check-ins & Arrivals</h2>
@@ -140,10 +144,10 @@ export default async function ReceptionDashboardPage() {
                     <div className="text-[10px] text-gray-400 capitalize">{c.status}</div>
                   </div>
                   <Link
-                    href={`/reception/reservations?id=${c.id}`}
+                    href={c.room_id ? `/reception/rooms/${c.room_id}` : `/reception/reservations`}
                     className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors shrink-0"
                   >
-                    View
+                    View Stay
                   </Link>
                 </div>
               );
@@ -155,7 +159,7 @@ export default async function ReceptionDashboardPage() {
         </div>
 
         {/* Today's Check-outs */}
-        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-xs">
+        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
           <div className="px-5 py-3.5 border-b border-gray-50 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="font-semibold text-gray-900 text-sm">Active Stays & Check-outs</h2>
@@ -197,7 +201,7 @@ export default async function ReceptionDashboardPage() {
       </div>
 
       {/* Revenue & Billing Overview Strip */}
-      <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-xs">
+      <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
         <h2 className="font-semibold text-gray-900 mb-4">Financial Summary (Scoped to {tenant.lodgeName})</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 rounded-xl bg-gray-50">

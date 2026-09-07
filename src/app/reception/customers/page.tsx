@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
@@ -30,7 +29,7 @@ export default async function ReceptionCustomersPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-xs">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -76,7 +75,7 @@ export default async function ReceptionCustomersPage() {
                     </span>
                   </td>
                   <td className="px-5 py-4 text-xs text-gray-500">
-                    {c.last_stay || "Recent"}
+                    {c.last_stay || "—"}
                   </td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">

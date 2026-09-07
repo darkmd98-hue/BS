@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest, customHeaders?: Header
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    return supabaseResponse;
+    return new NextResponse('Server configuration error', { status: 500 });
   }
 
   const supabase = createServerClient<Database>(
@@ -58,17 +58,26 @@ export async function updateSession(request: NextRequest, customHeaders?: Header
     return NextResponse.redirect(url);
   }
 
+  let cachedProfile: Pick<Profile, "role" | "lodge_id"> | null = null;
+  let profileFetched = false;
+
+  const getProfile = async () => {
+    if (profileFetched) return cachedProfile;
+    const { data } = await supabase
+      .from("profiles")
+      .select("role, lodge_id")
+      .eq("id", user!.id)
+      .single();
+    cachedProfile = data as Pick<Profile, "role" | "lodge_id"> | null;
+    profileFetched = true;
+    return cachedProfile;
+  };
+
   // If user is authenticated and hitting protected tenant routes (/admin, /reception),
   // verify they belong to the lodge resolved for this subdomain!
   const targetLodgeId = requestHeaders.get("x-lodge-id");
   if (user && isProtectedRoute && targetLodgeId) {
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("role, lodge_id")
-      .eq("id", user.id)
-      .single();
-
-    const profile = profileData as Pick<Profile, "role" | "lodge_id"> | null;
+    const profile = await getProfile();
 
     if (profile && profile.lodge_id !== targetLodgeId) {
       // Cross-tenant mismatch!
@@ -124,13 +133,7 @@ export async function updateSession(request: NextRequest, customHeaders?: Header
   // or a protected route WITHOUT a subdomain (targetLodgeId is null):
   // Resolve their lodge and redirect them directly to their lodge's subdomain portal!
   if (user && (isAuthRoute || (isProtectedRoute && !targetLodgeId))) {
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("role, lodge_id")
-      .eq("id", user.id)
-      .single();
-
-    const profile = profileData as Pick<Profile, "role" | "lodge_id"> | null;
+    const profile = await getProfile();
 
     if (profile?.lodge_id) {
       // Look up lodge's assigned subdomain
@@ -162,8 +165,9 @@ export async function updateSession(request: NextRequest, customHeaders?: Header
           if (hostnameOnly === "localhost" || hostnameOnly.endsWith(".localhost")) {
             url.host = `${lodge.subdomain}.localhost${portSuffix}`;
           } else {
-            const rootDomain = hostnameOnly.replace(/^(?:[a-zA-Z0-9-]+\.)*/, "");
-            url.host = `${lodge.subdomain}.${rootDomain || hostnameOnly}${portSuffix}`;
+            const parts = hostnameOnly.split('.');
+            const rootDomain = parts.length >= 2 ? parts.slice(-2).join('.') : hostnameOnly;
+            url.host = `${lodge.subdomain}.${rootDomain}${portSuffix}`;
           }
           return NextResponse.redirect(url);
         }

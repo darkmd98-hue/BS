@@ -1,4 +1,3 @@
-import React from "react";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -22,15 +21,22 @@ export default async function AdminStaffPage() {
   async function inviteStaffAction(formData: FormData) {
     "use server";
     const tenantCtx = await getTenantContext();
+    if (tenantCtx.role !== 'admin') {
+      throw new Error('Only administrators can invite staff members.');
+    }
     const adminSupabase = createAdminClient();
 
     const fullName = (formData.get("fullName") as string)?.trim();
     const email = (formData.get("email") as string)?.trim().toLowerCase();
-    const password = (formData.get("password") as string)?.trim() || "Password123!";
+    const password = (formData.get("password") as string)?.trim();
     const role = (formData.get("role") as string) || "reception";
 
     if (!fullName || !email) {
       throw new Error("Full name and email are required");
+    }
+    
+    if (!password || password.length < 8) {
+      throw new Error('Password is required and must be at least 8 characters.');
     }
 
     // 1. Create auth user with service client
@@ -61,19 +67,6 @@ export default async function AdminStaffPage() {
     revalidatePath("/admin/staff");
   }
 
-  const ROLES = [
-    {
-      name: "Admin",
-      color: "bg-red-50 text-red-700",
-      description: "Full access to rooms, staff, billing, settings & reports",
-    },
-    {
-      name: "Reception",
-      color: "bg-blue-50 text-blue-700",
-      description: "Front desk access to room booking, check-ins, customers & billing",
-    },
-  ];
-
   const PERMISSIONS = [
     { module: "Dashboard & Analytics", admin: true, reception: true },
     { module: "Room Booking & Realtime Inventory", admin: true, reception: true },
@@ -88,7 +81,7 @@ export default async function AdminStaffPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="font-display text-[26px] font-bold text-gray-900">Users & Roles</h1>
+          <h1 className="font-sans text-[26px] font-bold text-gray-900">Users & Roles</h1>
           <p className="text-gray-500 text-sm mt-1">
             Manage staff access and permissions for <span className="font-semibold text-gray-800">{tenant.lodgeName}</span>
           </p>
@@ -96,9 +89,9 @@ export default async function AdminStaffPage() {
       </div>
 
       {/* Staff Members List */}
-      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-xs">
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
         <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/70 flex items-center justify-between">
-          <h2 className="font-display font-semibold text-gray-900 text-sm">
+          <h2 className="font-sans font-semibold text-gray-900 text-sm">
             Active Staff Members ({staffList.length})
           </h2>
         </div>
@@ -157,8 +150,8 @@ export default async function AdminStaffPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Invite New Staff Form */}
-        <div className="lg:col-span-6 bg-white rounded-xl border border-gray-100 p-6 shadow-xs">
-          <h2 className="font-display font-semibold text-gray-900 text-base mb-1">
+        <div className="lg:col-span-6 bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+          <h2 className="font-sans font-semibold text-gray-900 text-base mb-1">
             Add Staff Member
           </h2>
           <p className="text-xs text-gray-500 mb-5">
@@ -166,46 +159,50 @@ export default async function AdminStaffPage() {
           </p>
           <form action={inviteStaffAction} className="space-y-4">
             <div>
-              <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+              <label htmlFor="staffFullName" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                 Full Name *
               </label>
               <input
                 type="text"
                 name="fullName"
+                id="staffFullName"
                 required
                 placeholder="e.g. Fatima Receptionist"
                 className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
               />
             </div>
             <div>
-              <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+              <label htmlFor="staffEmail" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                 Email Address *
               </label>
               <input
                 type="email"
                 name="email"
+                id="staffEmail"
                 required
                 placeholder="e.g. staff@yourlodge.com"
                 className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
               />
             </div>
             <div>
-              <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+              <label htmlFor="staffPassword" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                 Initial Password
               </label>
               <input
                 type="text"
                 name="password"
+                id="staffPassword"
                 defaultValue="Password123!"
                 className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
               />
             </div>
             <div>
-              <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+              <label htmlFor="staffRole" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                 Role Assignment
               </label>
               <select
                 name="role"
+                id="staffRole"
                 className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 text-gray-800"
               >
                 <option value="reception">Receptionist (Front Desk)</option>
@@ -214,7 +211,7 @@ export default async function AdminStaffPage() {
             </div>
             <button
               type="submit"
-              className="w-full py-2.5 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-xs mt-2"
+              className="w-full py-2.5 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-sm mt-2"
             >
               + Create Staff Account
             </button>
@@ -222,10 +219,10 @@ export default async function AdminStaffPage() {
         </div>
 
         {/* Role Permissions Matrix */}
-        <div className="lg:col-span-6 bg-white rounded-xl border border-gray-100 overflow-hidden shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm flex flex-col justify-between">
           <div>
             <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/70">
-              <h2 className="font-display font-semibold text-gray-900 text-sm">
+              <h2 className="font-sans font-semibold text-gray-900 text-sm">
                 Role Permissions Matrix
               </h2>
             </div>

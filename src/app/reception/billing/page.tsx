@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
@@ -46,19 +45,19 @@ export default async function ReceptionBillingPage() {
 
       {/* Metrics Strip */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-xs">
+        <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
           <div className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-1.5">
             Total Billed
           </div>
           <div className="text-2xl font-bold text-gray-900">{fmt(totals.billed)}</div>
         </div>
-        <div className="bg-emerald-50/60 rounded-xl border border-emerald-100 p-4 shadow-xs">
+        <div className="bg-emerald-50/60 rounded-xl border border-emerald-100 p-4 shadow-sm">
           <div className="text-[11px] text-emerald-700 font-bold uppercase tracking-wider mb-1.5">
             Total Collected
           </div>
           <div className="text-2xl font-bold text-emerald-800">{fmt(totals.collected)}</div>
         </div>
-        <div className="bg-red-50/60 rounded-xl border border-red-100 p-4 shadow-xs">
+        <div className="bg-red-50/60 rounded-xl border border-red-100 p-4 shadow-sm">
           <div className="text-[11px] text-red-600 font-bold uppercase tracking-wider mb-1.5">
             Outstanding Balance
           </div>
@@ -67,7 +66,7 @@ export default async function ReceptionBillingPage() {
       </div>
 
       {/* Bills Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-xs">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -92,7 +91,7 @@ export default async function ReceptionBillingPage() {
                 return (
                   <tr key={b.id} className="hover:bg-gray-50/60 transition-colors">
                     <td className="px-5 py-4 font-mono text-xs font-bold text-gray-600">
-                      #{b.id.slice(0, 8)}
+                      #{(b.id || "").slice(0, 8)}
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2.5">
@@ -123,6 +122,7 @@ export default async function ReceptionBillingPage() {
                       <Link
                         href={`/reception/billing/${b.id}/print`}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-semibold hover:bg-gray-200 transition-colors"
                       >
                         Print Invoice

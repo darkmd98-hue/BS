@@ -1,8 +1,8 @@
-import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export default async function AddRoomPage() {
   const tenant = await getTenantContext();
@@ -10,14 +10,19 @@ export default async function AddRoomPage() {
   async function createRoomAction(formData: FormData) {
     "use server";
     const tenantCtx = await getTenantContext();
+    if (tenantCtx.role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
     const serverSupabase = await createClient();
 
     const roomNumber = (formData.get("roomNumber") as string)?.trim();
-    const floor = Number(formData.get("floor")) || null;
+    const floorStr = formData.get("floor");
+    const floor = floorStr ? Number(floorStr) : null;
     const roomType = (formData.get("roomType") as string) || "AC";
     const bedType = (formData.get("bedType") as string) || "Double Bed";
     const capacity = Number(formData.get("capacity")) || 2;
-    const rent = Number(formData.get("rent")) || 1500;
+    const rentStr = formData.get("rent") as string;
+    const rent = rentStr ? Number(rentStr) : 1500;
     const extraPerson = Number(formData.get("extraPerson")) || 0;
     const extraBed = Number(formData.get("extraBed")) || 0;
     const status = (formData.get("status") as string) || "available";
@@ -26,7 +31,8 @@ export default async function AddRoomPage() {
     const amenities = formData.getAll("amenities") as string[];
 
     if (!roomNumber) {
-      throw new Error("Room number is required");
+      console.error("Room number is required");
+      return;
     }
 
     const { error } = await (serverSupabase as any).from("rooms").insert({
@@ -44,9 +50,11 @@ export default async function AddRoomPage() {
     });
 
     if (error) {
-      throw new Error(`Failed to create room: ${error.message}`);
+      console.error(`Failed to create room: ${error.message}`);
+      return;
     }
 
+    revalidatePath("/admin/rooms");
     redirect("/admin/rooms");
   }
 
@@ -71,38 +79,40 @@ export default async function AddRoomPage() {
           ← Back to Rooms
         </Link>
         <span className="text-gray-300">/</span>
-        <h1 className="font-display text-[22px] font-bold text-gray-900">
+        <h1 className="font-sans text-[22px] font-bold text-gray-900">
           Add New Room — {tenant.lodgeName}
         </h1>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8 shadow-xs">
+      <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8 shadow-sm">
         <form action={createRoomAction} className="space-y-6">
           {/* Basic Info */}
           <div>
-            <h2 className="font-display font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
+            <h2 className="font-sans font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
               Basic Information
             </h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="roomNumber" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Room Number *
                 </label>
                 <input
                   type="text"
                   name="roomNumber"
+                  id="roomNumber"
                   required
                   placeholder="e.g. 101, 204"
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
                 />
               </div>
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="floor" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Floor
                 </label>
                 <input
                   type="number"
                   name="floor"
+                  id="floor"
                   placeholder="e.g. 1, 2, 3"
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
                 />
@@ -112,40 +122,43 @@ export default async function AddRoomPage() {
 
           {/* Pricing */}
           <div>
-            <h2 className="font-display font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
+            <h2 className="font-sans font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
               Pricing Details
             </h2>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="rent" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Rent / Night (₹) *
                 </label>
                 <input
                   type="number"
                   name="rent"
+                  id="rent"
                   required
                   defaultValue={1500}
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
                 />
               </div>
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="extraPerson" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Extra Person (₹)
                 </label>
                 <input
                   type="number"
                   name="extraPerson"
+                  id="extraPerson"
                   defaultValue={300}
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
                 />
               </div>
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="extraBed" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Extra Bed (₹)
                 </label>
                 <input
                   type="number"
                   name="extraBed"
+                  id="extraBed"
                   defaultValue={500}
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 text-gray-800"
                 />
@@ -155,16 +168,17 @@ export default async function AddRoomPage() {
 
           {/* Room Configuration */}
           <div>
-            <h2 className="font-display font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
+            <h2 className="font-sans font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
               Configuration & Capacity
             </h2>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="roomType" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Room Type
                 </label>
                 <select
                   name="roomType"
+                  id="roomType"
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 text-gray-800"
                 >
                   <option value="AC">AC</option>
@@ -174,11 +188,12 @@ export default async function AddRoomPage() {
                 </select>
               </div>
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="bedType" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Bed Type
                 </label>
                 <select
                   name="bedType"
+                  id="bedType"
                   className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 text-gray-800"
                 >
                   <option value="Single Bed">Single Bed</option>
@@ -188,12 +203,13 @@ export default async function AddRoomPage() {
                 </select>
               </div>
               <div>
-                <label className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
+                <label htmlFor="capacity" className="text-[11px] text-gray-400 font-semibold block mb-1 uppercase tracking-wide">
                   Capacity (Persons)
                 </label>
                 <input
                   type="number"
                   name="capacity"
+                  id="capacity"
                   defaultValue={2}
                   min={1}
                   max={10}
@@ -205,7 +221,7 @@ export default async function AddRoomPage() {
 
           {/* Amenities */}
           <div>
-            <h2 className="font-display font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
+            <h2 className="font-sans font-semibold text-gray-800 mb-3.5 pb-2 border-b border-gray-100 text-sm">
               Amenities
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -229,7 +245,7 @@ export default async function AddRoomPage() {
 
           {/* Initial Status */}
           <div>
-            <h2 className="font-display font-semibold text-gray-800 mb-3 pb-2 border-b border-gray-100 text-sm">
+            <h2 className="font-sans font-semibold text-gray-800 mb-3 pb-2 border-b border-gray-100 text-sm">
               Initial Status
             </h2>
             <div className="flex gap-4">
@@ -258,7 +274,7 @@ export default async function AddRoomPage() {
             </Link>
             <button
               type="submit"
-              className="flex-1 py-2.5 bg-[#0b1437] text-white rounded-xl font-bold hover:bg-[#162268] text-sm transition-colors shadow-xs"
+              className="flex-1 py-2.5 bg-[#0b1437] text-white rounded-xl font-bold hover:bg-[#162268] text-sm transition-colors shadow-sm"
             >
               Save Room
             </button>

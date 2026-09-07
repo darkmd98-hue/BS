@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
@@ -22,16 +21,28 @@ export default async function AdminRoomsPage() {
   async function deleteRoomAction(formData: FormData) {
     "use server";
     const tenantCtx = await getTenantContext();
+    if (tenantCtx.role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
     const serverSupabase = await createClient();
     const roomId = formData.get("roomId") as string;
 
     if (!roomId) return;
 
-    await (serverSupabase as any)
+    const { error } = await (serverSupabase as any)
       .from("rooms")
       .delete()
       .eq("id", roomId)
       .eq("lodge_id", tenantCtx.lodgeId);
+
+    if (error) {
+      if (error.code === '23503') {
+        // FK violation — soft-fail
+        return; // silently fail, room stays
+      }
+      console.error('Delete room error:', error.message);
+      return;
+    }
 
     revalidatePath("/admin/rooms");
   }
@@ -40,17 +51,25 @@ export default async function AdminRoomsPage() {
   async function updateRoomStatusAction(formData: FormData) {
     "use server";
     const tenantCtx = await getTenantContext();
+    if (tenantCtx.role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
     const serverSupabase = await createClient();
     const roomId = formData.get("roomId") as string;
     const newStatus = formData.get("status") as string;
 
     if (!roomId || !newStatus) return;
 
-    await (serverSupabase as any)
+    const { error } = await (serverSupabase as any)
       .from("rooms")
       .update({ status: newStatus })
       .eq("id", roomId)
       .eq("lodge_id", tenantCtx.lodgeId);
+
+    if (error) {
+      console.error('Update room status error:', error.message);
+      return;
+    }
 
     revalidatePath("/admin/rooms");
   }
@@ -60,21 +79,21 @@ export default async function AdminRoomsPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="font-display text-[26px] font-bold text-gray-900">Room Management</h1>
+          <h1 className="font-sans text-[26px] font-bold text-gray-900">Room Management</h1>
           <p className="text-gray-500 text-sm mt-1">
             {roomList.length} rooms configured for <span className="font-semibold text-gray-800">{tenant.lodgeName}</span>
           </p>
         </div>
         <Link
           href="/admin/rooms/new"
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-xs"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-sm"
         >
           + Add Room
         </Link>
       </div>
 
       {/* Rooms Table */}
-      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-xs">
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[13px]">
             <thead className="bg-gray-50 border-b border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
@@ -96,7 +115,7 @@ export default async function AdminRoomsPage() {
                   <td className="px-4 py-3.5">
                     <Link
                       href={`/reception/rooms/${r.id}`}
-                      className="font-display font-bold text-gray-900 text-[15px] hover:text-blue-600 transition-colors"
+                      className="font-sans font-bold text-gray-900 text-[15px] hover:text-blue-600 transition-colors"
                     >
                       Room {r.room_number}
                     </Link>

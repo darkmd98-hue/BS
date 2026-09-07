@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
@@ -41,13 +40,13 @@ export default async function ReservationsListPage() {
         </div>
         <Link
           href="/reception/reservations/new"
-          className="px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-xs"
+          className="px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-sm"
         >
           + New Reservation
         </Link>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-xs">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -89,7 +88,7 @@ export default async function ReservationsListPage() {
                     <td className="px-5 py-4 font-bold text-gray-900">{fmt(Number(r.advance))}</td>
                     <td className="px-5 py-4">
                       <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-bold capitalize ${badge.bg} ${badge.text}`}>
-                        {r.status.replace("_", " ")}
+                        {(r.status || "unknown").replace("_", " ")}
                       </span>
                     </td>
                     <td className="px-5 py-4 text-right">

@@ -2,6 +2,15 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { updateSession } from "@/lib/supabase/middleware";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /**
  * Extracts the tenant subdomain from the incoming request hostname or dev overrides.
  *
@@ -65,7 +74,7 @@ function render500Response(title: string, message: string): NextResponse {
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>500 - ${title}</title>
+  <title>500 - ${escapeHtml(title)}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f8f9fc; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: #111827; }
@@ -78,8 +87,8 @@ function render500Response(title: string, message: string): NextResponse {
 <body>
   <div class="card">
     <div class="badge">500 Server Error</div>
-    <h1>${title}</h1>
-    <p>${message}</p>
+    <h1>${escapeHtml(title)}</h1>
+    <p>${escapeHtml(message)}</p>
   </div>
 </body>
 </html>`,
@@ -113,7 +122,7 @@ function render404Response(subdomain: string): NextResponse {
   <div class="card">
     <div class="badge">404 Error</div>
     <h1>Lodge Not Found</h1>
-    <p>No lodge is registered under the subdomain <code>${subdomain}</code>.</p>
+    <p>No lodge is registered under the subdomain <code>${escapeHtml(subdomain)}</code>.</p>
     <p>Please check the URL or contact support.</p>
     <a href="/register">Register a new lodge &rarr;</a>
   </div>
@@ -126,50 +135,9 @@ function render404Response(subdomain: string): NextResponse {
   );
 }
 
-function render403Response(reason: string): NextResponse {
-  return new NextResponse(
-    `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>403 - Access Forbidden</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f8f9fc; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: #111827; }
-    .card { background: #ffffff; padding: 2.5rem; border-radius: 1rem; border: 1px solid #fed7aa; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); max-width: 440px; text-align: center; }
-    .badge { display: inline-block; background: #ffedd5; color: #c2410c; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
-    h1 { font-size: 1.5rem; margin: 0 0 0.75rem 0; font-weight: 700; color: #0b1437; }
-    p { font-size: 0.875rem; line-height: 1.5; color: #6b7280; margin: 0 0 1.25rem 0; }
-    a { color: #2563eb; text-decoration: none; font-size: 0.875rem; font-weight: 600; }
-    a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="badge">403 Forbidden</div>
-    <h1>Cross-Tenant Access Denied</h1>
-    <p>${reason}</p>
-    <a href="/login">Sign in with authorized lodge account &rarr;</a>
-  </div>
-</body>
-</html>`,
-    {
-      status: 403,
-      headers: { "content-type": "text/html; charset=utf-8" },
-    }
-  );
-}
-
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // 1. Bypass root onboarding and marketing routes where tenant is not yet provisioned
-  const isGlobalRoute =
-    pathname === "/" ||
-    pathname.startsWith("/register") ||
-    pathname.startsWith("/install") ||
-    pathname.startsWith("/login");
 
   const subdomain = extractSubdomain(request);
 
@@ -179,7 +147,11 @@ export async function middleware(request: NextRequest) {
   // - If user is not logged in: updateSession redirects protected routes (/admin, /reception) to /login
   // - If on global route (/register, /install): proceeds cleanly
   if (!subdomain) {
-    return await updateSession(request);
+    const cleanHeaders = new Headers(request.headers);
+    cleanHeaders.delete('x-lodge-id');
+    cleanHeaders.delete('x-lodge-subdomain');
+    cleanHeaders.delete('x-lodge-name');
+    return await updateSession(request, cleanHeaders);
   }
 
 

@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant";
@@ -80,7 +79,7 @@ export default async function CustomerProfilePage({
         </div>
         <Link
           href={`/reception/reservations/new`}
-          className="px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-xs"
+          className="px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-sm"
         >
           + Book Room for Customer
         </Link>
@@ -90,7 +89,7 @@ export default async function CustomerProfilePage({
         {/* Left: Customer Info Card */}
         <div className="lg:col-span-1 space-y-5">
           {/* Profile Card */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-xs">
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
             <div className="flex flex-col items-center text-center gap-3 pb-5 border-b border-gray-100">
               <Avatar name={customer.name} size="lg" />
               <div>
@@ -140,20 +139,20 @@ export default async function CustomerProfilePage({
 
           {/* Stats Card */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-xs text-center">
+            <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm text-center">
               <div className="text-2xl font-bold text-gray-900">{reservations.length}</div>
               <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mt-0.5">
                 Total Stays
               </div>
             </div>
-            <div className="bg-emerald-50/80 rounded-xl border border-emerald-100 p-4 shadow-xs text-center">
+            <div className="bg-emerald-50/80 rounded-xl border border-emerald-100 p-4 shadow-sm text-center">
               <div className="text-xl font-bold text-emerald-800">{fmt(liveTotalSpent)}</div>
               <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-600 mt-0.5">
                 Collected
               </div>
             </div>
             {liveOutstanding > 0 && (
-              <div className="col-span-2 bg-red-50/70 rounded-xl border border-red-100 p-4 shadow-xs text-center">
+              <div className="col-span-2 bg-red-50/70 rounded-xl border border-red-100 p-4 shadow-sm text-center">
                 <div className="text-xl font-bold text-red-700">{fmt(liveOutstanding)}</div>
                 <div className="text-[11px] font-bold uppercase tracking-wider text-red-400 mt-0.5">
                   Outstanding Balance
@@ -173,7 +172,7 @@ export default async function CustomerProfilePage({
           </div>
 
           {reservations.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center text-gray-400 shadow-xs">
+            <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center text-gray-400 shadow-sm">
               No reservations found for this customer at {tenant.lodgeName}.
             </div>
           ) : (
@@ -195,7 +194,7 @@ export default async function CustomerProfilePage({
               return (
                 <div
                   key={r.id}
-                  className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-4"
+                  className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm space-y-4"
                 >
                   {/* Reservation Header */}
                   <div className="flex items-center justify-between flex-wrap gap-2">
@@ -216,6 +215,7 @@ export default async function CustomerProfilePage({
                           href={`/reception/billing/${bill.id}/print`}
                           className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-md text-xs font-semibold hover:bg-gray-200 transition-colors"
                           target="_blank"
+                          rel="noopener noreferrer"
                         >
                           Print Invoice
                         </Link>

@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant";
@@ -32,8 +31,8 @@ export default async function RoomStayDetailsPage({
     notFound();
   }
 
-  // 2. Fetch Latest Reservation for this Room
-  const { data: reservationData } = await (supabase as any)
+  // 2. Fetch Active or Latest Reservation for this Room
+  let { data: reservationData } = await (supabase as any)
     .from("reservations")
     .select(`
       *,
@@ -41,9 +40,25 @@ export default async function RoomStayDetailsPage({
     `)
     .eq("room_id", room.id)
     .eq("lodge_id", tenant.lodgeId)
-    .order("created_at", { ascending: false })
+    .in("status", ["checked-in", "checked_in", "today"])
+    .order("check_in", { ascending: false })
     .limit(1)
     .maybeSingle();
+
+  if (!reservationData) {
+    const { data: fallbackRes } = await (supabase as any)
+      .from("reservations")
+      .select(`
+        *,
+        customers (*)
+      `)
+      .eq("room_id", room.id)
+      .eq("lodge_id", tenant.lodgeId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    reservationData = fallbackRes;
+  }
 
   const reservation: any = reservationData;
 
@@ -93,7 +108,7 @@ export default async function RoomStayDetailsPage({
         <div className="flex items-center gap-2">
           <Link
             href={`/reception/reservations/new?room_id=${room.id}`}
-            className="px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-xs"
+            className="px-4 py-2 bg-[#0b1437] text-white rounded-lg text-sm font-semibold hover:bg-[#162268] transition-colors shadow-sm"
           >
             + New Booking for Room
           </Link>
@@ -104,7 +119,7 @@ export default async function RoomStayDetailsPage({
         {/* Left Col: Room Specs + Active Guest Info */}
         <div className="lg:col-span-2 space-y-6">
           {/* Room Details Card */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-xs space-y-4">
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-4">
             <h2 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-3">
               Room Specifications
             </h2>
@@ -137,7 +152,7 @@ export default async function RoomStayDetailsPage({
           </div>
 
           {/* Current / Last Reservation Card */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-xs space-y-4">
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-4">
             <h2 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-3">
               Current / Most Recent Stay
             </h2>
@@ -182,10 +197,24 @@ export default async function RoomStayDetailsPage({
 
         {/* Right Col: Bill & Payments */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-xs space-y-4">
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <h2 className="text-base font-bold text-gray-900">Billing &amp; Folio</h2>
-              {bill && <PayBadge status={bill.payment_status} />}
+              <div className="flex items-center gap-2">
+                {bill && (
+                  <>
+                    <Link
+                      href={`/reception/billing/${bill.id}/print`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded-md transition-colors"
+                    >
+                      Print Invoice
+                    </Link>
+                    <PayBadge status={bill.payment_status} />
+                  </>
+                )}
+              </div>
             </div>
 
             {bill ? (
@@ -212,7 +241,7 @@ export default async function RoomStayDetailsPage({
                   <div className="space-y-2">
                     {payments.map((p) => (
                       <div key={p.id} className="flex justify-between text-xs bg-gray-50 p-2.5 rounded-lg">
-                        <span className="text-gray-600">{p.method} ({new Date(p.paid_at).toLocaleDateString()})</span>
+                        <span className="text-gray-600">{p.method} ({new Date(p.paid_at).toLocaleDateString("en-IN")})</span>
                         <span className="font-bold text-gray-900">{fmt(Number(p.amount))}</span>
                       </div>
                     ))}

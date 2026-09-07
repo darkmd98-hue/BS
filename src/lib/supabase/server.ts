@@ -28,39 +28,5 @@ export async function createClient() {
   );
 }
 
+/** @deprecated Use createClient directly */
 export const createServerSupabaseClient = createClient;
-
-/**
- * Server-side helper to fetch authenticated user and verify their profile + lodge_id.
- * Never trust a client-supplied lodge_id.
- */
-export async function getAuthenticatedUserWithLodge() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError || !user) {
-    return { user: null, profile: null, lodge: null, error: authError || new Error("Not authenticated") };
-  }
-
-  const { data, error: profileError } = await supabase
-    .from("profiles")
-    .select("*, lodges(*)")
-    .eq("id", user.id)
-    .single();
-
-  if (profileError || !data) {
-    return { user, profile: null, lodge: null, error: profileError || new Error("Profile not found") };
-  }
-
-  const profile = data as any;
-
-  return {
-    user,
-    profile,
-    lodge: profile.lodges,
-    error: null,
-  };
-}

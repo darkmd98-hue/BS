@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { StatusBadge, RoomStatus } from "@/components/shared/StatusBadge";
 import type { Room } from "@/types/database";
@@ -119,7 +119,7 @@ export function RoomGrid({ rooms }: { rooms: Room[] }) {
               onClick={() => setStatusF(f)}
               className={`px-2.5 py-1 rounded-md text-xs font-medium capitalize transition-colors ${
                 statusF === f
-                  ? "bg-white text-gray-900 shadow-xs"
+                  ? "bg-white text-gray-900 shadow-sm"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -136,7 +136,7 @@ export function RoomGrid({ rooms }: { rooms: Room[] }) {
               onClick={() => setTypeF(t)}
               className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
                 typeF === t
-                  ? "bg-white text-gray-900 shadow-xs"
+                  ? "bg-white text-gray-900 shadow-sm"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
