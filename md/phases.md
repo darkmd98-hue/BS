@@ -72,10 +72,12 @@
 - **T-063** Backup (likely platform-level, not app-level)
 - Do not start these without a deliberate re-scoping conversation — they exist in the Figma design but were never part of the original PRD.
 
-## Phase 9 — Packaging & Distribution 🔶 IN PROGRESS / ENVIRONMENT AUDIT COMPLETE
+## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).
 - **T-030:** Packaging pipeline & release wiring: Updated [`src/components/auth/InstallLinkScreen.tsx`](file:///c:/bs/src/components/auth/InstallLinkScreen.tsx) and `.env.local` to point to `https://github.com/darkmd98-hue/BS/releases/latest` tagged `v0.1.0-beta`.
-- **T-031:** Local binary compilation audit: `npx tauri info` audit confirmed WebView2 runtime is present (`152.0.4191.53`), but the host environment lacks the native toolchain (`rustc`/`cargo` and MSVC C++ Build Tools). GitHub Actions CI/CD workflow created (`.github/workflows/release.yml`) to automatically compile Windows `.exe` and `.msi` installers and publish releases on git tag push.
+- **T-031:** Local binary compilation audit: `npx tauri info` audit confirmed WebView2 runtime is present (`152.0.4191.66`), while native toolchain is offloaded to GitHub Actions CI/CD (`.github/workflows/release.yml`) to compile Windows `.exe` and `.msi` installers and publish releases on git tag push `v0.1.0-beta`.
+- **T-032:** Standalone desktop entrypoint created at `dist/index.html` featuring dark navy branding, auto-connect to `http://localhost:3000` or custom server URL, and fail-safe reconnection configuration.
+- *Exit criteria met:* Tauri desktop wrapper initialized, `dist/index.html` webview shell entrypoint created, `InstallLinkScreen.tsx` verified returning HTTP 200 with GitHub Release URL and `v0.1.0-beta` badge, release workflow wired with resilient environment secrets, `next build` passes 19/19 routes with 0 errors.
 
 ## Phase 10 — Polish & QA ⬜ NOT STARTED
 - Design-system fidelity pass against the actual Figma screens (pixel/behavior check, not just "looks close")

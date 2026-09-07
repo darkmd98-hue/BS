@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LodgeOS Front Desk</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #070d24 0%, #0b1437 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      user-select: none;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+    .logo-container {
+      width: 68px;
+      height: 68px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      fill: none;
+      stroke: #38bdf8;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      color: #f8fafc;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(56, 189, 248, 0.2);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .status-text {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+    .manual-config {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+    }
+    .input-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 600;
+    }
+    .url-input {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 13px;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .url-input:focus {
+      border-color: #38bdf8;
+    }
+    .connect-btn {
+      width: 100%;
+      padding: 12px;
+      background: #38bdf8;
+      color: #0b1437;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .connect-btn:hover {
+      background: #7dd3fc;
+    }
+    .connect-btn:active {
+      transform: scale(0.99);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-container">
+      <svg class="logo-icon" viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    </div>
+    <h1>LodgeOS Front Desk</h1>
+    <p class="subtitle">Secure Desktop Reception Terminal</p>
+
+    <div id="loading-state">
+      <div class="spinner"></div>
+      <p class="status-text" id="status-msg">Connecting to front desk service...</p>
+    </div>
+
+    <div class="manual-config" id="config-section">
+      <label class="input-label" for="server-url">Portal or Local Server URL</label>
+      <input type="text" id="server-url" class="url-input" placeholder="http://localhost:3000" />
+      <button class="connect-btn" onclick="connectToServer()">Connect to Terminal</button>
+    </div>
+
+    <div>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Client Terminal Ready</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_URL = "http://localhost:3000";
+    const savedUrl = localStorage.getItem("lodgeos_server_url") || DEFAULT_URL;
+    const urlInput = document.getElementById("server-url");
+    urlInput.value = savedUrl;
+
+    function connectToServer() {
+      const url = urlInput.value.trim() || DEFAULT_URL;
+      localStorage.setItem("lodgeos_server_url", url);
+      document.getElementById("status-msg").textContent = "Redirecting to " + url + "...";
+      document.getElementById("loading-state").style.display = "block";
+      window.location.href = url;
+    }
+
+    // Attempt automatic connection
+    const targetUrl = savedUrl;
+    const timeout = setTimeout(() => {
+      document.getElementById("status-msg").textContent = "Front desk server not reachable at " + targetUrl;
+      document.getElementById("config-section").style.display = "block";
+    }, 2500);
+
+    fetch(targetUrl, { mode: 'no-cors' })
+      .then(() => {
+        clearTimeout(timeout);
+        window.location.href = targetUrl;
+      })
+      .catch(() => {
+        // Timeout handler will show config section
+      });
+  </script>
+</body>
+</html>
+

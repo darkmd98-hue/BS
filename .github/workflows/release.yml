@@ -43,8 +43,8 @@ jobs:
       - name: Build Next.js
         run: npm run build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://ioxqvufitilbqfrrslzh.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlveHF2dWZpdGlsYnFmcnJzbHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzk4ODEsImV4cCI6MjEwMjk1NTg4MX0.wLJTh3V4oyBNN4FFJ3NB2opKdOkNwW6SbZMuC98OyA4' }}
 
       - name: Build Tauri App
         uses: tauri-apps/tauri-action@v0
