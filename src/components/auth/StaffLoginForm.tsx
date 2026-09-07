@@ -34,8 +34,8 @@ export function StaffLoginForm() {
       return;
     }
 
-    router.refresh();
-    router.push("/admin");
+    // Hard redirect so middleware can resolve the subdomain and route properly
+    window.location.replace("/admin");
   };
 
   return (
