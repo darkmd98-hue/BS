@@ -64,13 +64,21 @@
 - **Bonus fix:** `PayBadge` hardened against `null`/`undefined` payment_status; billing list "Details" link wired to real print invoice route; customers list "Profile" link wired to real customer profile route.
 - *Exit criteria met:* Both screens return HTTP 200 under correct lodge session, HTTP 404 for cross-lodge UUID access. Verified via `scripts/verify-phase8-secondary.ts` against production build (`next start`): Pinecrest Lodge A customer + bill → 200; Lakeside Lodge B customer + bill → 200; Lodge A → Lodge B customer UUID → 404; Lodge A → Lodge B bill UUID → 404. `next build` → 0 errors, 18 routes.
 
-## Deferred Phase — Extended Feature Set ⬜ EXPLICITLY NOT IN CURRENT SCOPE
-- **T-059** Housekeeping
-- **T-060** Maintenance
-- **T-061** Reports (beyond basic Dashboard summary)
-- **T-062** Settings
-- **T-063** Backup (likely platform-level, not app-level)
-- Do not start these without a deliberate re-scoping conversation — they exist in the Figma design but were never part of the original PRD.
+## Phase 11 — LodgeOS v1.1 (Post-Launch Extended Features) 🔶 IN PROGRESS
+- **T-059: Housekeeping Workflow (/admin/housekeeping) ✅ DONE**
+  * Migration `20260915000005_t059_housekeeping.sql` (rooms cleaning status & staff columns, `cleaning_log` table with RLS)
+  * Server actions: `startCleaningAction`, `markRoomCleanAction`, `bulkMarkCleanAction`, `flagRoomForCleaningAction`
+  * Client UI with queue count, status badges, bulk actions, and cleaning history log
+  * Admin layout and sidebar navigation wired
+  * Production build compiles cleanly
+- **T-060: Maintenance Tracking (/admin/maintenance) ✅ DONE**
+  * Migration `20260915000006_t060_maintenance.sql` (`maintenance_tickets` table with RLS policies, status/priority indexes)
+  * Server actions: `createMaintenanceTicketAction`, `updateTicketStatusAction`, `assignTicketAction`
+  * Kanban board (Open, In Progress, Resolved), room history log, report issue modal with room/issue type/priority/technician assignment, and resolution modal
+  * Verified with `scripts/verify-t060-maintenance.ts` on live production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect)
+- **T-061: Reports & Analytics (/admin/reports) ⬜ NEXT**
+- **T-062: Settings Panel (/admin/settings) ⬜ PENDING**
+- **T-063: Guest Portal (/guest/login & /guest/[reservationId]) ⬜ PENDING**
 
 ## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).

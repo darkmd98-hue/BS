@@ -6,8 +6,8 @@
 
 | Ticket | Feature | Status |
 |--------|---------|--------|
-| T-059  | Housekeeping Workflow (/admin/housekeeping) | ⬜ Pending |
-| T-060  | Maintenance Tracking (/admin/maintenance) | ⬜ Pending |
+| T-059  | Housekeeping Workflow (/admin/housekeeping) | ✅ DONE |
+| T-060  | Maintenance Tracking (/admin/maintenance) | ✅ DONE |
 | T-061  | Reports & Analytics (/admin/reports) | ⬜ Pending |
 | T-062  | Settings Panel (/admin/settings) | ⬜ Pending |
 | T-063  | Guest Portal (/guest/login & /guest/[reservationId]) | ⬜ Pending |
@@ -170,3 +170,4 @@
 **Data Model:**
 - `notification_templates` table
 - `notification_log` table
+

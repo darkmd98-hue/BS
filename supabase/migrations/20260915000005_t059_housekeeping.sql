@@ -65,3 +65,4 @@ create policy "cleaning_log_delete_policy" on public.cleaning_log
 -- ─────────────────────────────────────────────────────────────────────────────
 -- update public.rooms set cleaning_status = 'needs_cleaning'
 -- where status = 'occupied'; -- uncomment only if you want to seed existing rooms
+

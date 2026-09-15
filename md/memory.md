@@ -13,7 +13,7 @@
 ---
 
 ## Current Phase
-`Phase 10 — Polish & QA`
+`Phase 11 — LodgeOS v1.1 (Extended Features: T-059 to T-063)`
 
 ---
 
@@ -162,11 +162,26 @@
     - Form inputs paired with semantic `<label htmlFor>` associations and unique IDs.
     - Visual layout matches Figma reference palette (`#0b1437`, slate accents, clean border hierarchy).
   - **Results:** 38/38 QA assertions passed with 0 failures on production build. `next build` passes with 0 errors across 19 routes.
+ 
+---
+
+- [x] **Phase 11 — LodgeOS v1.1 Extended Features (IN PROGRESS):**
+  - **T-059 (Housekeeping Workflow — COMPLETE):**
+    * Created `supabase/migrations/20260915000005_t059_housekeeping.sql` (adds `cleaning_status`, `last_cleaned_at`, `cleaning_staff_assigned` to `rooms`; creates `cleaning_log` table with RLS).
+    * Created server fetchers `src/lib/housekeeping.ts` and actions `src/app/actions/housekeeping.ts` (`startCleaningAction`, `markRoomCleanAction`, `bulkMarkCleanAction`, `flagRoomForCleaningAction`).
+    * Created interactive `src/components/housekeeping/HousekeepingClient.tsx` and route `src/app/admin/housekeeping/page.tsx`.
+    * Wired admin sidebar with Operations, Analytics, Config navigation sections.
+  - **T-060 (Maintenance Tracking — COMPLETE):**
+    * Created `supabase/migrations/20260915000006_t060_maintenance.sql` (creates `maintenance_tickets` table with RLS policies, index on lodge_id, room_id, status, priority, created_at).
+    * Created server fetchers `src/lib/maintenance.ts` and actions `src/app/actions/maintenance.ts` (`createMaintenanceTicketAction`, `updateTicketStatusAction`, `assignTicketAction`).
+    * Created `src/components/maintenance/MaintenanceClient.tsx` with Kanban Board (Open, In Progress, Resolved), room history tab, filter bar, report issue modal with technician assignment, and resolution notes modal.
+    * Created route `src/app/admin/maintenance/page.tsx`.
+    * Verified live on production build with `scripts/verify-t060-maintenance.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect).
 
 ---
 
 ## Status
-**Project Core Phases (Phases 0 through 10) are COMPLETE and production-ready for real lodge onboarding.**
+**LodgeOS v1.1 in active execution: T-059 and T-060 COMPLETE, T-061 (Reports & Analytics) next.**
 
 ---
 
