@@ -27,18 +27,38 @@ const ADMIN_NAV: NavGroup[] = [
   {
     group: "Main",
     items: [
-      { id: "dashboard", label: "Dashboard", href: "/admin", icon: "⊞" },
-      { id: "rooms", label: "Room Management", href: "/admin/rooms", icon: "🏨" },
-      { id: "staff", label: "Users & Staff", href: "/admin/staff", icon: "👥" },
+      { id: "dashboard",     label: "Dashboard",       href: "/admin",                icon: "⊞" },
+      { id: "rooms",         label: "Room Management", href: "/admin/rooms",           icon: "🏨" },
+      { id: "staff",         label: "Users & Staff",   href: "/admin/staff",           icon: "👥" },
+    ],
+  },
+  {
+    group: "Operations",
+    items: [
+      { id: "housekeeping",  label: "Housekeeping",    href: "/admin/housekeeping",    icon: "🧹" },
+      { id: "maintenance",   label: "Maintenance",     href: "/admin/maintenance",     icon: "🔧" },
+    ],
+  },
+  {
+    group: "Analytics",
+    items: [
+      { id: "reports",       label: "Reports",         href: "/admin/reports",         icon: "📊" },
+    ],
+  },
+  {
+    group: "Config",
+    items: [
+      { id: "settings",      label: "Settings",        href: "/admin/settings",        icon: "⚙️" },
     ],
   },
   {
     group: "Shortcuts",
     items: [
-      { id: "reception-desk", label: "Front Desk View", href: "/reception", icon: "🛏" },
+      { id: "reception-desk", label: "Front Desk View", href: "/reception",            icon: "🛏" },
     ],
   },
 ];
+
 
 const RECEPTION_NAV: NavGroup[] = [
   {
