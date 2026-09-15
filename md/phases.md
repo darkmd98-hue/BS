@@ -76,8 +76,12 @@
   * Server actions: `createMaintenanceTicketAction`, `updateTicketStatusAction`, `assignTicketAction`
   * Kanban board (Open, In Progress, Resolved), room history log, report issue modal with room/issue type/priority/technician assignment, and resolution modal
   * Verified with `scripts/verify-t060-maintenance.ts` on live production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect)
-- **T-061: Reports & Analytics (/admin/reports) ⬜ NEXT**
-- **T-062: Settings Panel (/admin/settings) ⬜ PENDING**
+- **T-061: Reports & Analytics (/admin/reports) ✅ DONE**
+  * Created `src/lib/reports.ts` aggregate data engine computing occupancy rate today, revenue metrics (billed, received, outstanding, collection rate), payment method breakdown, payment status distribution, 14-day daily occupancy trend, and top repeat guest leaderboard.
+  * Created `src/components/reports/ReportsClient.tsx` featuring Recharts AreaChart (occupancy trend), BarChart (monthly billed vs. received), and PieChart (payment method share), plus CSV export generator and print/PDF trigger.
+  * Created route `src/app/admin/reports/page.tsx`.
+  * Verified live with `scripts/verify-t061-reports.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect).
+- **T-062: Settings Panel (/admin/settings) ⬜ NEXT**
 - **T-063: Guest Portal (/guest/login & /guest/[reservationId]) ⬜ PENDING**
 
 ## Phase 9 — Packaging & Distribution ✅ DONE

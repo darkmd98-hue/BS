@@ -176,12 +176,16 @@
     * Created server fetchers `src/lib/maintenance.ts` and actions `src/app/actions/maintenance.ts` (`createMaintenanceTicketAction`, `updateTicketStatusAction`, `assignTicketAction`).
     * Created `src/components/maintenance/MaintenanceClient.tsx` with Kanban Board (Open, In Progress, Resolved), room history tab, filter bar, report issue modal with technician assignment, and resolution notes modal.
     * Created route `src/app/admin/maintenance/page.tsx`.
-    * Verified live on production build with `scripts/verify-t060-maintenance.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect).
+  - **T-061 (Reports & Analytics — COMPLETE):**
+    * Created `src/lib/reports.ts` aggregate engine computing occupancy rates, revenue metrics, payment method distributions, and customer repeat metrics.
+    * Created `src/components/reports/ReportsClient.tsx` featuring Recharts visualizations (AreaChart, BarChart, PieChart), dynamic tabs, top repeat guests table, CSV export, and PDF print formatting.
+    * Created dynamic route `src/app/admin/reports/page.tsx`.
+    * Verified live on production build with `scripts/verify-t061-reports.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect).
 
 ---
 
 ## Status
-**LodgeOS v1.1 in active execution: T-059 and T-060 COMPLETE, T-061 (Reports & Analytics) next.**
+**LodgeOS v1.1 in active execution: T-059, T-060, T-061 COMPLETE, T-062 (Settings Panel) next.**
 
 ---
 

@@ -57,7 +57,7 @@ function testRequest(
 
 async function main() {
   console.log("================================================================================");
-  console.log("      T-060 LIVE VERIFICATION: MAINTENANCE TRACKING & TENANT ISOLATION          ");
+  console.log("        T-061 LIVE VERIFICATION: REPORTS & ANALYTICS DUAL-LODGE ISOLATION       ");
   console.log("================================================================================\n");
 
   // 1. Authenticate Lodge A
@@ -82,43 +82,43 @@ async function main() {
   await clientB.auth.signInWithPassword({ email: "test-lodge-b@example.com", password: "Password123!" });
   const cookieHeaderB = Object.entries(cookiesB).map(([k, v]) => `${k}=${v}`).join("; ");
 
-  console.log("1. Checking /admin/maintenance under Pinecrest (Lodge A)...");
-  const resA = await testRequest("pinecrest.localhost", "/admin/maintenance", cookieHeaderA);
+  console.log("1. Checking /admin/reports under Pinecrest (Lodge A)...");
+  const resA = await testRequest("pinecrest.localhost", "/admin/reports", cookieHeaderA);
   const aValid =
     resA.status === 200 &&
     resA.body.includes("Pinecrest Alpine Resort") &&
-    resA.body.includes("Maintenance &amp; Repairs") &&
+    resA.body.includes("Reports &amp; Financial Analytics") &&
     !resA.body.includes("Lakeside Haven Inn");
   console.log(`   - Status: HTTP ${resA.status}`);
   console.log(`   - Pinecrest Branding & Isolation: ${aValid ? "✅ PASS" : "❌ FAIL"}`);
 
-  console.log("\n2. Checking /admin/maintenance under Lakeside (Lodge B)...");
-  const resB = await testRequest("lakeside.localhost", "/admin/maintenance", cookieHeaderB);
+  console.log("\n2. Checking /admin/reports under Lakeside (Lodge B)...");
+  const resB = await testRequest("lakeside.localhost", "/admin/reports", cookieHeaderB);
   const bValid =
     resB.status === 200 &&
     resB.body.includes("Lakeside Haven Inn") &&
-    resB.body.includes("Maintenance &amp; Repairs") &&
+    resB.body.includes("Reports &amp; Financial Analytics") &&
     !resB.body.includes("Pinecrest Alpine Resort");
   console.log(`   - Status: HTTP ${resB.status}`);
   console.log(`   - Lakeside Branding & Isolation: ${bValid ? "✅ PASS" : "❌ FAIL"}`);
 
   console.log("\n3. Cross-Tenant Session Mismatch Guard Check...");
-  const resCross = await testRequest("lakeside.localhost", "/admin/maintenance", cookieHeaderA);
+  const resCross = await testRequest("lakeside.localhost", "/admin/reports", cookieHeaderA);
   const crossValid = resCross.status === 403;
-  console.log(`   - Lodge A accessing Lakeside Maintenance: HTTP ${resCross.status} (Expected: 403 Forbidden) -> ${crossValid ? "✅ PASS" : "❌ FAIL"}`);
+  console.log(`   - Lodge A accessing Lakeside Reports: HTTP ${resCross.status} (Expected: 403 Forbidden) -> ${crossValid ? "✅ PASS" : "❌ FAIL"}`);
 
   console.log("\n4. Unauthenticated Access Guard Check...");
-  const resAnon = await testRequest("pinecrest.localhost", "/admin/maintenance", "");
+  const resAnon = await testRequest("pinecrest.localhost", "/admin/reports", "");
   const anonValid = resAnon.status === 307;
-  console.log(`   - Anonymous request to Maintenance: HTTP ${resAnon.status} (Expected: 307 Redirect) -> ${anonValid ? "✅ PASS" : "❌ FAIL"}`);
+  console.log(`   - Anonymous request to Reports: HTTP ${resAnon.status} (Expected: 307 Redirect) -> ${anonValid ? "✅ PASS" : "❌ FAIL"}`);
 
   if (!aValid || !bValid || !crossValid || !anonValid) {
-    console.error("\n❌ Some T-060 verification checks failed!");
+    console.error("\n❌ Some T-061 verification checks failed!");
     process.exit(1);
   }
 
   console.log("\n================================================================================");
-  console.log("🎉 ALL T-060 MAINTENANCE TRACKING CHECKS PASSED!");
+  console.log("🎉 ALL T-061 REPORTS & ANALYTICS CHECKS PASSED!");
   console.log("================================================================================");
 }
 
@@ -126,4 +126,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

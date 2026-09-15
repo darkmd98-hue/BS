@@ -15,7 +15,7 @@ create table if not exists public.maintenance_tickets (
     issue_type          text        not null default 'other',
     description         text        not null,
     priority            text        not null default 'medium',  -- 'low' | 'medium' | 'high' | 'urgent'
-    status              text        not null default 'ope   n',    -- 'open' | 'in_progress' | 'resolved'
+    status              text        not null default 'open',    -- 'open' | 'in_progress' | 'resolved'
     assigned_to_user_id uuid        references auth.users(id),
     assigned_to_name    text,
     resolved_at         timestamptz,
@@ -54,3 +54,4 @@ create policy "maintenance_tickets_update_policy" on public.maintenance_tickets
 create policy "maintenance_tickets_delete_policy" on public.maintenance_tickets
     for delete to authenticated
     using (lodge_id = public.get_auth_lodge_id() and public.get_auth_role() = 'admin');
+

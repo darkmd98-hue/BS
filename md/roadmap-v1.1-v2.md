@@ -8,7 +8,7 @@
 |--------|---------|--------|
 | T-059  | Housekeeping Workflow (/admin/housekeeping) | ✅ DONE |
 | T-060  | Maintenance Tracking (/admin/maintenance) | ✅ DONE |
-| T-061  | Reports & Analytics (/admin/reports) | ⬜ Pending |
+| T-061  | Reports & Analytics (/admin/reports) | ✅ DONE |
 | T-062  | Settings Panel (/admin/settings) | ⬜ Pending |
 | T-063  | Guest Portal (/guest/login & /guest/[reservationId]) | ⬜ Pending |
 
