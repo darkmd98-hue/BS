@@ -6,7 +6,7 @@ import { Download, CheckCircle2, Monitor, Rocket, ArrowRight, ShieldCheck } from
 export function InstallLinkScreen() {
   const downloadUrl =
     process.env.NEXT_PUBLIC_TAURI_RELEASES_URL ||
-    "https://github.com/darkmd98-hue/BS/releases/latest";
+    "https://github.com/darkmd98-hue/BS/releases/download/v0.1.0-beta/LodgeOS_0.1.0_x64-setup.exe";
 
   return (
     <div className="max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
