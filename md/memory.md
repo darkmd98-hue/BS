@@ -180,12 +180,17 @@
     * Created `src/lib/reports.ts` aggregate engine computing occupancy rates, revenue metrics, payment method distributions, and customer repeat metrics.
     * Created `src/components/reports/ReportsClient.tsx` featuring Recharts visualizations (AreaChart, BarChart, PieChart), dynamic tabs, top repeat guests table, CSV export, and PDF print formatting.
     * Created dynamic route `src/app/admin/reports/page.tsx`.
-    * Verified live on production build with `scripts/verify-t061-reports.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect).
+  - **T-062 (Settings Panel — COMPLETE):**
+    * Created `supabase/migrations/20260916000007_t062_settings.sql` (expanded `lodges` with logo_url, website, contact_phone, contact_email, check_in_time, check_out_time, currency, timezone, pet_friendly, cancellation_policy, extra_person_charge_default, gst_number, updated_at).
+    * Created data fetcher `src/lib/settings.ts` (`getLodgeSettings`) and server action `src/app/actions/settings.ts` (`updateLodgeSettingsAction`) with admin role checks and tenant scoping.
+    * Created `src/components/settings/SettingsClient.tsx` featuring tabbed interface: General (lodge identity, address, subdomain, contact, GST), Business Rules (check-in/check-out operating hours, default extra person charges, cancellation policy, pet friendly switch), and Roles & Security (staff summary, database RLS architecture, full permission matrix).
+    * Created route `src/app/admin/settings/page.tsx`.
+    * Verified live on production build with `scripts/verify-t062-settings.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v1.1 in active execution: T-059, T-060, T-061 COMPLETE, T-062 (Settings Panel) next.**
+**LodgeOS v1.1 in active execution: T-059, T-060, T-061, T-062 COMPLETE, T-063 (Guest Portal) next.**
 
 ---
 

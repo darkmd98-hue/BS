@@ -81,8 +81,13 @@
   * Created `src/components/reports/ReportsClient.tsx` featuring Recharts AreaChart (occupancy trend), BarChart (monthly billed vs. received), and PieChart (payment method share), plus CSV export generator and print/PDF trigger.
   * Created route `src/app/admin/reports/page.tsx`.
   * Verified live with `scripts/verify-t061-reports.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect).
-- **T-062: Settings Panel (/admin/settings) ⬜ NEXT**
-- **T-063: Guest Portal (/guest/login & /guest/[reservationId]) ⬜ PENDING**
+- **T-062: Settings Panel (/admin/settings) ✅ DONE**
+  * Migration `20260916000007_t062_settings.sql` (expanded `lodges` table with `logo_url`, `website`, `contact_phone`, `contact_email`, `check_in_time`, `check_out_time`, `currency`, `timezone`, `pet_friendly`, `cancellation_policy`, `extra_person_charge_default`, `gst_number`, `updated_at`).
+  * Created `src/lib/settings.ts` data fetcher (`getLodgeSettings`) and `src/app/actions/settings.ts` server action (`updateLodgeSettingsAction`) with admin role check and tenant scoping.
+  * Created `src/components/settings/SettingsClient.tsx` featuring tabbed interface: General (lodge identity, address, subdomain, contact, GST), Business Rules (check-in/check-out operating hours, default extra person charges, cancellation policy, pet friendly switch), and Roles & Security (staff summary, database RLS architecture, full permission matrix).
+  * Created route `src/app/admin/settings/page.tsx`.
+  * Verified live with `scripts/verify-t062-settings.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+- **T-063: Guest Portal (/guest/login & /guest/[reservationId]) ⬜ NEXT**
 
 ## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).

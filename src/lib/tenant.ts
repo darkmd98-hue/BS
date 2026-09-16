@@ -54,10 +54,19 @@ export async function getTenantContext(): Promise<TenantContext> {
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
+  let user: any = null;
+  let authError: any = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const authRes = await supabase.auth.getUser();
+    user = authRes.data?.user;
+    authError = authRes.error;
+    if (user || (authError && !authError.message.includes("fetch failed"))) {
+      break;
+    }
+    if (attempt < 2) {
+      await new Promise((r) => setTimeout(r, 200 * (attempt + 1)));
+    }
+  }
 
   if (authError || !user) {
     throw new UnauthenticatedTenantError(authError?.message || "User is not logged in");

@@ -11,6 +11,14 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;');
 }
 
+let cachedAnonClient: ReturnType<typeof createClient> | null = null;
+function getAnonSupabase(url: string, key: string) {
+  if (!cachedAnonClient) {
+    cachedAnonClient = createClient(url, key);
+  }
+  return cachedAnonClient;
+}
+
 /**
  * Extracts the tenant subdomain from the incoming request hostname or dev overrides.
  *
@@ -168,12 +176,22 @@ export async function middleware(request: NextRequest) {
   }
 
   // 3. Resolve subdomain against lodges table using the unprivileged anon key
-  const supabase = createClient(supabaseUrl, anonKey);
+  const supabase = getAnonSupabase(supabaseUrl, anonKey);
 
-  const { data, error } = await (supabase.from("lodges") as any)
-    .select("id, name, subdomain")
-    .eq("subdomain", subdomain)
-    .maybeSingle();
+  let data: any = null;
+  let error: any = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const res = await (supabase.from("lodges") as any)
+      .select("id, name, subdomain")
+      .eq("subdomain", subdomain)
+      .maybeSingle();
+    data = res.data;
+    error = res.error;
+    if (!error) break;
+    if (attempt < 2) {
+      await new Promise((resolve) => setTimeout(resolve, 150 * (attempt + 1)));
+    }
+  }
 
   // Distinguish transient query/network errors from "lodge not found"
   if (error) {
