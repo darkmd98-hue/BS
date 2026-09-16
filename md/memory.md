@@ -227,12 +227,19 @@
     * Created `src/app/actions/rbac.ts` server actions (`saveCustomRoleAction`, `deleteRoleAction`, `assignStaffRoleAction`) with admin role validation and audit trail logging.
     * Created `src/components/rbac/AdvancedRBACClient.tsx` featuring permissions matrix, role builder drawer, staff assignment manager, and audit log viewer.
     * Created route `src/app/admin/roles/page.tsx` with admin security checks and wired `Sidebar.tsx` navigation.
-    * Verified live on production build with `scripts/verify-t105-rbac.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+  - **T-106 (Payment Gateway Integration — COMPLETE):**
+    * Created `supabase/migrations/20260916000014_t106_payment_gateway.sql` (`lodge_payment_gateways` and `payment_gateway_webhooks` tables with RLS policies, plus extended `payments` tracking columns).
+    * Created `src/types/payments.ts` and `src/lib/payments-gateway.ts` engine aggregating gateway merchant configurations, online transaction history, webhook streams, and folio metrics.
+    * Created `src/app/actions/payments-gateway.ts` server actions (`saveGatewayConfigAction`, `simulateOnlinePaymentAction`, `refundPaymentAction`) with admin role checks and audit log emission.
+    * Created webhook route `src/app/api/webhooks/payments/route.ts` with service-role admin ingestion and automated folio balance adjustments.
+    * Created `src/components/payments/PaymentGatewayClient.tsx` featuring Dual Gateway credentials cards, test sandbox terminal, folio transaction ledger, and webhook stream.
+    * Created route `src/app/admin/payments/page.tsx` with admin security check and wired `Sidebar.tsx` navigation under Config.
+    * Verified live on production build with `scripts/verify-t106-payments.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect), Webhook Health Probe (200 OK). 5/5 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v2 in active execution: T-105 COMPLETE, T-106 (Payment Gateway Integration) next.**
+**LodgeOS v2 in active execution: T-106 COMPLETE, T-107 (Email & SMS Notifications) next.**
 
 ---
 

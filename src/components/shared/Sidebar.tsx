@@ -53,6 +53,7 @@ const ADMIN_NAV: NavGroup[] = [
     items: [
       { id: "settings",      label: "Settings",        href: "/admin/settings",        icon: "⚙️" },
       { id: "roles",         label: "Roles & RBAC",    href: "/admin/roles",           icon: "🛡️" },
+      { id: "payments",      label: "Payment Gateways", href: "/admin/payments",       icon: "💳" },
     ],
   },
   {

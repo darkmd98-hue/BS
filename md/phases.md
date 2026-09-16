@@ -129,9 +129,15 @@
   * Created `src/app/actions/rbac.ts` server actions (`saveCustomRoleAction`, `deleteRoleAction`, `assignStaffRoleAction`) with admin role enforcement and audit log emission.
   * Created `src/components/rbac/AdvancedRBACClient.tsx` featuring permissions matrix, role builder drawer, staff assignment manager, and audit log viewer.
   * Created route `src/app/admin/roles/page.tsx` with admin security checks and wired `Sidebar.tsx` navigation.
-  * Verified live on production build with `scripts/verify-t105-rbac.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
-- **T-106: Payment Gateway Integration (Stripe & Razorpay) ⬜ NEXT**
-- **T-107: Email & SMS Notifications (Twilio) ⬜ PENDING**
+- **T-106: Payment Gateway Integration (Stripe & Razorpay) ✅ DONE**
+  * Migration `20260916000014_t106_payment_gateway.sql` (`lodge_payment_gateways` and `payment_gateway_webhooks` tables with RLS policies, plus extended `payments` tracking columns).
+  * Created `src/types/payments.ts` and `src/lib/payments-gateway.ts` engine aggregating gateway merchant configurations, online transaction history, webhook streams, and folio metrics.
+  * Created `src/app/actions/payments-gateway.ts` server actions (`saveGatewayConfigAction`, `simulateOnlinePaymentAction`, `refundPaymentAction`) with admin role checks and audit log emission.
+  * Created webhook route `src/app/api/webhooks/payments/route.ts` with service-role admin ingestion and automated folio balance adjustments.
+  * Created `src/components/payments/PaymentGatewayClient.tsx` featuring Dual Gateway credentials cards, test sandbox terminal, folio transaction ledger, and webhook stream.
+  * Created route `src/app/admin/payments/page.tsx` with admin security check and wired `Sidebar.tsx` navigation under Config.
+  * Verified live on production build with `scripts/verify-t106-payments.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect), Webhook Health Probe (200 OK). 5/5 assertions passed.
+- **T-107: Email & SMS Notifications (Twilio) ⬜ NEXT**
 
 ## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).
