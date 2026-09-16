@@ -52,6 +52,7 @@ const ADMIN_NAV: NavGroup[] = [
     group: "Config",
     items: [
       { id: "settings",      label: "Settings",        href: "/admin/settings",        icon: "⚙️" },
+      { id: "roles",         label: "Roles & RBAC",    href: "/admin/roles",           icon: "🛡️" },
     ],
   },
   {

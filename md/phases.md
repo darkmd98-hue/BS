@@ -123,8 +123,14 @@
   * Touch-optimized UI featuring cleaning turnover queue, one-tap room completion, maintenance ticket resolver, simulated offline mode (basement Wi-Fi deadzone), automatic task cache sync, and fast QR check-in pass lookup.
   * Wired `Sidebar.tsx` with Mobile Companion shortcut; updated middleware `isProtectedRoute` to guard `/mobile` with strict cross-tenant (403) and unauthenticated (307) protection.
   * Verified live with `scripts/verify-t104-mobile.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
-- **T-105: Advanced RBAC ⬜ NEXT**
-- **T-106: Payment Gateway (Stripe, Razorpay) ⬜ PENDING**
+- **T-105: Advanced RBAC & Security Audit Log ✅ DONE**
+  * Migration `20260916000013_t105_advanced_rbac.sql` (`roles`, `role_permissions`, and `audit_log` tables with RLS policies and indexes).
+  * Created `src/types/rbac.ts` and `src/lib/rbac.ts` data fetcher aggregating system roles, custom roles, staff role assignments, permission taxonomy, and the security audit trail.
+  * Created `src/app/actions/rbac.ts` server actions (`saveCustomRoleAction`, `deleteRoleAction`, `assignStaffRoleAction`) with admin role enforcement and audit log emission.
+  * Created `src/components/rbac/AdvancedRBACClient.tsx` featuring permissions matrix, role builder drawer, staff assignment manager, and audit log viewer.
+  * Created route `src/app/admin/roles/page.tsx` with admin security checks and wired `Sidebar.tsx` navigation.
+  * Verified live on production build with `scripts/verify-t105-rbac.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+- **T-106: Payment Gateway Integration (Stripe & Razorpay) ⬜ NEXT**
 - **T-107: Email & SMS Notifications (Twilio) ⬜ PENDING**
 
 ## Phase 9 — Packaging & Distribution ✅ DONE

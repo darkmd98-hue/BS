@@ -221,10 +221,18 @@
     * Wired `Sidebar.tsx` with Mobile Companion shortcut; updated middleware `isProtectedRoute` to guard `/mobile` with strict cross-tenant (403) and unauthenticated (307) protection.
     * Verified live on production build with `scripts/verify-t104-mobile.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
 
+  - **T-105 (Advanced RBAC & Security Audit Log — COMPLETE):**
+    * Created `supabase/migrations/20260916000013_t105_advanced_rbac.sql` (`roles`, `role_permissions`, and `audit_log` tables with RLS policies and tenant-isolated indexes).
+    * Created `src/types/rbac.ts` and `src/lib/rbac.ts` aggregating system roles, custom roles, staff profiles, permission categories, and security audit entries.
+    * Created `src/app/actions/rbac.ts` server actions (`saveCustomRoleAction`, `deleteRoleAction`, `assignStaffRoleAction`) with admin role validation and audit trail logging.
+    * Created `src/components/rbac/AdvancedRBACClient.tsx` featuring permissions matrix, role builder drawer, staff assignment manager, and audit log viewer.
+    * Created route `src/app/admin/roles/page.tsx` with admin security checks and wired `Sidebar.tsx` navigation.
+    * Verified live on production build with `scripts/verify-t105-rbac.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+
 ---
 
 ## Status
-**LodgeOS v2 in active execution: T-104 COMPLETE, T-105 (Advanced RBAC) next.**
+**LodgeOS v2 in active execution: T-105 COMPLETE, T-106 (Payment Gateway Integration) next.**
 
 ---
 
