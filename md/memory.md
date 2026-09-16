@@ -185,12 +185,18 @@
     * Created data fetcher `src/lib/settings.ts` (`getLodgeSettings`) and server action `src/app/actions/settings.ts` (`updateLodgeSettingsAction`) with admin role checks and tenant scoping.
     * Created `src/components/settings/SettingsClient.tsx` featuring tabbed interface: General (lodge identity, address, subdomain, contact, GST), Business Rules (check-in/check-out operating hours, default extra person charges, cancellation policy, pet friendly switch), and Roles & Security (staff summary, database RLS architecture, full permission matrix).
     * Created route `src/app/admin/settings/page.tsx`.
-    * Verified live on production build with `scripts/verify-t062-settings.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+  - **T-063 (Guest Portal — COMPLETE):**
+    * Created `supabase/migrations/20260916000008_t063_guest_portal.sql` (`guest_sessions` and `guest_messages` tables with RLS policies and indexes).
+    * Created data fetcher `src/lib/guest.ts` (`getGuestReservationDetails`) enforcing strict lodge-scoped isolation.
+    * Created server actions `src/app/actions/guest.ts`: `requestGuestOtpAction`, `verifyGuestOtpAction`, `requestEarlyCheckoutAction`, `sendGuestMessageAction`.
+    * Created `src/components/guest/GuestLoginForm.tsx` with branded passwordless OTP authentication and route `src/app/guest/login/page.tsx`.
+    * Created `src/components/guest/GuestPortalClient.tsx` with stay details, folio summary, print invoice trigger, early checkout request modal, and front desk live messaging thread, plus dynamic route `src/app/guest/[reservationId]/page.tsx`.
+    * Verified live on production build with `scripts/verify-t063-guest.ts`: Pinecrest login (200 OK), Lakeside login (200 OK), Pinecrest stay portal (200 OK), Lakeside stay portal (200 OK), Pinecrest cross-access blocked (404 Not Found), Lakeside cross-access blocked (404 Not Found), Invalid UUID guard (404 Not Found). 7/7 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v1.1 in active execution: T-059, T-060, T-061, T-062 COMPLETE, T-063 (Guest Portal) next.**
+**LodgeOS v1.1 COMPLETE! All 5 post-launch deferred features (T-059 Housekeeping, T-060 Maintenance, T-061 Reports, T-062 Settings, T-063 Guest Portal) are built, fully isolated, verified live, and pushed. Ready for v2 features (T-101 to T-107).**
 
 ---
 

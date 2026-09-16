@@ -64,7 +64,7 @@
 - **Bonus fix:** `PayBadge` hardened against `null`/`undefined` payment_status; billing list "Details" link wired to real print invoice route; customers list "Profile" link wired to real customer profile route.
 - *Exit criteria met:* Both screens return HTTP 200 under correct lodge session, HTTP 404 for cross-lodge UUID access. Verified via `scripts/verify-phase8-secondary.ts` against production build (`next start`): Pinecrest Lodge A customer + bill → 200; Lakeside Lodge B customer + bill → 200; Lodge A → Lodge B customer UUID → 404; Lodge A → Lodge B bill UUID → 404. `next build` → 0 errors, 18 routes.
 
-## Phase 11 — LodgeOS v1.1 (Post-Launch Extended Features) 🔶 IN PROGRESS
+## Phase 11 — LodgeOS v1.1 (Post-Launch Extended Features) ✅ DONE
 - **T-059: Housekeeping Workflow (/admin/housekeeping) ✅ DONE**
   * Migration `20260915000005_t059_housekeeping.sql` (rooms cleaning status & staff columns, `cleaning_log` table with RLS)
   * Server actions: `startCleaningAction`, `markRoomCleanAction`, `bulkMarkCleanAction`, `flagRoomForCleaningAction`
@@ -87,7 +87,14 @@
   * Created `src/components/settings/SettingsClient.tsx` featuring tabbed interface: General (lodge identity, address, subdomain, contact, GST), Business Rules (check-in/check-out operating hours, default extra person charges, cancellation policy, pet friendly switch), and Roles & Security (staff summary, database RLS architecture, full permission matrix).
   * Created route `src/app/admin/settings/page.tsx`.
   * Verified live with `scripts/verify-t062-settings.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
-- **T-063: Guest Portal (/guest/login & /guest/[reservationId]) ⬜ NEXT**
+- **T-063: Guest Portal (/guest/login & /guest/[reservationId]) ✅ DONE**
+  * Migration `20260916000008_t063_guest_portal.sql` (`guest_sessions` and `guest_messages` tables with RLS and indexes).
+  * Created `src/lib/guest.ts` data fetcher (`getGuestReservationDetails`) enforcing strict lodge-scoped isolation.
+  * Created `src/app/actions/guest.ts` server actions: `requestGuestOtpAction`, `verifyGuestOtpAction`, `requestEarlyCheckoutAction`, `sendGuestMessageAction`.
+  * Created `src/components/guest/GuestLoginForm.tsx` with branded passwordless OTP authentication and `src/app/guest/login/page.tsx`.
+  * Created `src/components/guest/GuestPortalClient.tsx` with stay details, folio summary, print invoice trigger, early checkout request modal, and front desk live messaging thread, plus dynamic route `src/app/guest/[reservationId]/page.tsx`.
+  * Verified live with `scripts/verify-t063-guest.ts` on production build: Pinecrest login (200 OK), Lakeside login (200 OK), Pinecrest stay portal (200 OK), Lakeside stay portal (200 OK), Pinecrest cross-access blocked (404 Not Found), Lakeside cross-access blocked (404 Not Found), Invalid UUID guard (404 Not Found). 7/7 assertions passed.
+  * *Exit criteria met:* All 5 deferred features in LodgeOS v1.1 (T-059 to T-063) are fully built, isolated, verified live, and production ready.
 
 ## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).

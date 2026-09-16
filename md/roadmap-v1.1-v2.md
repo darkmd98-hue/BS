@@ -10,7 +10,7 @@
 | T-060  | Maintenance Tracking (/admin/maintenance) | ✅ DONE |
 | T-061  | Reports & Analytics (/admin/reports) | ✅ DONE |
 | T-062  | Settings Panel (/admin/settings) | ✅ DONE |
-| T-063  | Guest Portal (/guest/login & /guest/[reservationId]) | ⬜ Pending |
+| T-063  | Guest Portal (/guest/login & /guest/[reservationId]) | ✅ DONE |
 
 ---
 
