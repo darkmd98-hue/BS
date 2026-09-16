@@ -234,12 +234,18 @@
     * Created webhook route `src/app/api/webhooks/payments/route.ts` with service-role admin ingestion and automated folio balance adjustments.
     * Created `src/components/payments/PaymentGatewayClient.tsx` featuring Dual Gateway credentials cards, test sandbox terminal, folio transaction ledger, and webhook stream.
     * Created route `src/app/admin/payments/page.tsx` with admin security check and wired `Sidebar.tsx` navigation under Config.
-    * Verified live on production build with `scripts/verify-t106-payments.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect), Webhook Health Probe (200 OK). 5/5 assertions passed.
+  - **T-107 (Email & SMS Notifications — COMPLETE):**
+    * Created `supabase/migrations/20260916000015_t107_notifications.sql` (`lodge_notification_settings`, `notification_templates`, and `notification_log` tables with RLS policies).
+    * Created `src/types/notifications.ts` and `src/lib/notifications.ts` engine aggregating omnichannel triggers, template customizers, provider credentials, and delivery logs.
+    * Created `src/app/actions/notifications.ts` server actions (`saveProviderSettingsAction`, `saveNotificationTemplateAction`, `dispatchTestNotificationAction`) with admin role guards and audit tracking.
+    * Created `src/components/notifications/NotificationsManagerClient.tsx` featuring mustache template builder, Twilio/SendGrid credentials manager, live test dispatch terminal, and delivery audit ledger.
+    * Created route `src/app/admin/notifications/page.tsx` with admin security checks and wired `Sidebar.tsx` navigation under Config.
+    * Verified live on production build with `scripts/verify-t107-notifications.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v2 in active execution: T-106 COMPLETE, T-107 (Email & SMS Notifications) next.**
+**LodgeOS v1.1 (Phases T-059 to T-063) and v2 Enterprise (Phases T-101 to T-107) are 100% COMPLETE, verified with raw live assertions against production build, committed, and synced to master.**
 
 ---
 

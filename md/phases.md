@@ -96,7 +96,7 @@
   * Verified live with `scripts/verify-t063-guest.ts` on production build: Pinecrest login (200 OK), Lakeside login (200 OK), Pinecrest stay portal (200 OK), Lakeside stay portal (200 OK), Pinecrest cross-access blocked (404 Not Found), Lakeside cross-access blocked (404 Not Found), Invalid UUID guard (404 Not Found). 7/7 assertions passed.
   * *Exit criteria met:* All 5 deferred features in LodgeOS v1.1 (T-059 to T-063) are fully built, isolated, verified live, and production ready.
 
-## Phase 12 — LodgeOS v2 (Enterprise & Scaling Features) 🔶 IN PROGRESS
+## Phase 12 — LodgeOS v2 (Enterprise & Scaling Features) ✅ DONE
 - **T-101: Multi-Property Management ✅ DONE**
   * Migration `20260916000009_t101_multi_property.sql` (`user_organizations` table and `lodges.organization_id` foreign key with RLS and indexes).
   * Created `src/lib/multi-property.ts` data fetcher (`getMultiPropertyData`) computing unified portfolio metrics (total properties, combined rooms, portfolio occupancy %, total billed/received/balance, collection rate, and cross-property staff registry).
@@ -137,7 +137,14 @@
   * Created `src/components/payments/PaymentGatewayClient.tsx` featuring Dual Gateway credentials cards, test sandbox terminal, folio transaction ledger, and webhook stream.
   * Created route `src/app/admin/payments/page.tsx` with admin security check and wired `Sidebar.tsx` navigation under Config.
   * Verified live on production build with `scripts/verify-t106-payments.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect), Webhook Health Probe (200 OK). 5/5 assertions passed.
-- **T-107: Email & SMS Notifications (Twilio) ⬜ NEXT**
+- **T-107: Email & SMS Notifications (Twilio & SendGrid) ✅ DONE**
+  * Migration `20260916000015_t107_notifications.sql` (`lodge_notification_settings`, `notification_templates`, and `notification_log` tables with RLS policies).
+  * Created `src/types/notifications.ts` and `src/lib/notifications.ts` engine aggregating omnichannel triggers, template customizers, provider credentials, and delivery logs.
+  * Created `src/app/actions/notifications.ts` server actions (`saveProviderSettingsAction`, `saveNotificationTemplateAction`, `dispatchTestNotificationAction`) with admin role guards and audit tracking.
+  * Created `src/components/notifications/NotificationsManagerClient.tsx` featuring mustache template builder, Twilio/SendGrid credentials manager, live test dispatch terminal, and delivery audit ledger.
+  * Created route `src/app/admin/notifications/page.tsx` with admin security checks and wired `Sidebar.tsx` navigation under Config.
+  * Verified live on production build with `scripts/verify-t107-notifications.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+  * *Exit criteria met:* All 7 enterprise features in LodgeOS v2 (T-101 to T-107) are fully built, isolated, verified live, and production ready.
 
 ## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).

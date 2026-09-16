@@ -108,7 +108,7 @@
 | T-104  | Mobile App — Staff (iOS & Android) | ✅ DONE |
 | T-105  | Advanced RBAC | ✅ DONE |
 | T-106  | Payment Gateway (Stripe, Razorpay) | ✅ DONE |
-| T-107  | Email & SMS Notifications (Twilio) | ⬜ Pending |
+| T-107  | Email & SMS Notifications (Twilio) | ✅ DONE |
 
 ---
 
