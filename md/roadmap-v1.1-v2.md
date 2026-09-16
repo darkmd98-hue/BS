@@ -103,7 +103,7 @@
 | Ticket | Feature | Status |
 |--------|---------|--------|
 | T-101  | Multi-Property Management | ✅ DONE |
-| T-102  | Channel Manager (Airbnb, Booking.com) | ⬜ Pending |
+| T-102  | Channel Manager (Airbnb, Booking.com) | ✅ DONE |
 | T-103  | Advanced Reporting & BI | ⬜ Pending |
 | T-104  | Mobile App — Staff (iOS & Android) | ⬜ Pending |
 | T-105  | Advanced RBAC | ⬜ Pending |

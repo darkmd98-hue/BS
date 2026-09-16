@@ -37,6 +37,7 @@ const ADMIN_NAV: NavGroup[] = [
     items: [
       { id: "housekeeping",  label: "Housekeeping",    href: "/admin/housekeeping",    icon: "🧹" },
       { id: "maintenance",   label: "Maintenance",     href: "/admin/maintenance",     icon: "🔧" },
+      { id: "channels",      label: "Channel Manager", href: "/admin/channels",        icon: "🌐" },
     ],
   },
   {
