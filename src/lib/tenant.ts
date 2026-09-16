@@ -56,15 +56,15 @@ export async function getTenantContext(): Promise<TenantContext> {
   const supabase = await createClient();
   let user: any = null;
   let authError: any = null;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 4; attempt++) {
     const authRes = await supabase.auth.getUser();
     user = authRes.data?.user;
     authError = authRes.error;
-    if (user || (authError && !authError.message.includes("fetch failed"))) {
+    if (user || (authError && !authError.message?.toLowerCase().includes("fetch"))) {
       break;
     }
-    if (attempt < 2) {
-      await new Promise((r) => setTimeout(r, 200 * (attempt + 1)));
+    if (attempt < 3) {
+      await new Promise((r) => setTimeout(r, 250 * Math.pow(2, attempt)));
     }
   }
 

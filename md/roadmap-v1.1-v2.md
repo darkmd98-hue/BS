@@ -104,7 +104,7 @@
 |--------|---------|--------|
 | T-101  | Multi-Property Management | ✅ DONE |
 | T-102  | Channel Manager (Airbnb, Booking.com) | ✅ DONE |
-| T-103  | Advanced Reporting & BI | ⬜ Pending |
+| T-103  | Advanced Reporting & BI | ✅ DONE |
 | T-104  | Mobile App — Staff (iOS & Android) | ⬜ Pending |
 | T-105  | Advanced RBAC | ⬜ Pending |
 | T-106  | Payment Gateway (Stripe, Razorpay) | ⬜ Pending |
@@ -142,13 +142,8 @@
 
 ---
 
-### T-104: Mobile App (React Native)
 
-**Tech Stack:** React Native, Supabase JS SDK, SQLite offline cache, Firebase Cloud Messaging
-
----
-
-### T-105: Advanced RBAC
+### T-104: Advanced RBAC
 
 **Data Model:**
 - `roles` table
@@ -157,7 +152,7 @@
 
 ---
 
-### T-106: Payment Gateway Integration
+### T-105: Payment Gateway Integration
 
 **Data Model:**
 - Extend `payments` table
@@ -165,7 +160,7 @@
 
 ---
 
-### T-107: Email & SMS Notifications
+### T-106: Email & SMS Notifications
 
 **Data Model:**
 - `notification_templates` table

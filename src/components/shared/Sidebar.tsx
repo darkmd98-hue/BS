@@ -44,6 +44,7 @@ const ADMIN_NAV: NavGroup[] = [
     group: "Analytics",
     items: [
       { id: "reports",       label: "Reports",         href: "/admin/reports",         icon: "📊" },
+      { id: "bi",            label: "Advanced BI & P&L", href: "/admin/bi",             icon: "📈" },
       { id: "multi-property", label: "Multi-Property", href: "/admin/multi-property", icon: "🏢" },
     ],
   },

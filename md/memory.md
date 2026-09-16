@@ -207,12 +207,18 @@
     * Created `src/app/actions/channels.ts` server actions (`saveChannelIntegrationAction`, `triggerChannelSyncAction`, `importDemoChannelBookingAction`).
     * Created `src/components/channels/ChannelManagerClient.tsx` featuring real-time OTA connection cards (Airbnb, Booking.com, Agoda, MakeMyTrip), credentials configuration modal, bidirectional inventory synchronization trigger, inbound simulated webhook booking injector, and sync audit timeline.
     * Created route `src/app/admin/channels/page.tsx` and updated `src/components/shared/Sidebar.tsx` navigation.
-    * Verified live on production build with `scripts/verify-t102-channels.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+  - **T-103 (Advanced Reporting & BI — COMPLETE):**
+    * Created `supabase/migrations/20260916000011_t103_advanced_bi.sql` (`lodge_expenses` table with RLS policies, indexes on `lodge_id`, `expense_date`, and `category`).
+    * Created `src/types/bi.ts` and `src/lib/bi.ts` analytics engine computing Gross Revenue, Operating Expenses, Net Operating Income (NOI), Net Margin %, RevPAR, ADR, Occupancy %, and categorized expense allocations.
+    * Created `src/app/actions/bi.ts` server actions (`createExpenseAction`, `deleteExpenseAction`) with admin role enforcement.
+    * Created `src/components/bi/AdvancedBIClient.tsx` featuring executive KPI cards, 6-month Revenue vs Expenses vs NOI chart, RevPAR & ADR yield trend line chart, formal P&L statement table with print formatting, expense allocation donut chart, interactive expense logger modal, and CSV export.
+    * Created route `src/app/admin/bi/page.tsx` and updated `src/components/shared/Sidebar.tsx` navigation.
+    * Verified live on production build with `scripts/verify-t103-bi.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v2 in active execution: T-102 COMPLETE, T-103 (Advanced Reporting & BI) next.**
+**LodgeOS v2 in active execution: T-103 COMPLETE, T-104 (Mobile App — Staff) next.**
 
 ---
 
