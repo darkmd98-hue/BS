@@ -492,3 +492,4 @@ export function GuestPortalClient({ data }: { data: GuestReservationData }) {
     </div>
   );
 }
+

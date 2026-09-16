@@ -43,6 +43,7 @@ const ADMIN_NAV: NavGroup[] = [
     group: "Analytics",
     items: [
       { id: "reports",       label: "Reports",         href: "/admin/reports",         icon: "📊" },
+      { id: "multi-property", label: "Multi-Property", href: "/admin/multi-property", icon: "🏢" },
     ],
   },
   {
@@ -101,13 +102,13 @@ export function Sidebar({
 
   return (
     <aside className="w-[240px] bg-[#0b1437] flex flex-col h-full shrink-0 select-none">
-      {/* Lodge Branding Logo */}
-      <div className="px-5 py-4 border-b border-white/8">
+      {/* Lodge Branding Logo & Property Switcher */}
+      <div className="px-5 py-3.5 border-b border-white/8 space-y-2.5">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm">
             {lodgeInitials}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <div className="text-white font-bold text-sm leading-none truncate" title={lodgeName}>
               {lodgeName}
             </div>
@@ -116,6 +117,20 @@ export function Sidebar({
             </div>
           </div>
         </div>
+
+        {portalType === "admin" && (
+          <Link
+            href="/admin/multi-property"
+            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/6 hover:bg-white/10 text-blue-200/80 hover:text-white text-[11px] font-medium transition-colors border border-white/6"
+            title="Switch property or view enterprise portfolio"
+          >
+            <span className="flex items-center gap-1.5 truncate">
+              <span className="text-xs">🏢</span>
+              <span className="truncate">Switch Property</span>
+            </span>
+            <span className="text-[10px] text-blue-300/60 font-mono">▾</span>
+          </Link>
+        )}
       </div>
 
       {/* Navigation items */}

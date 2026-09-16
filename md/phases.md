@@ -96,6 +96,21 @@
   * Verified live with `scripts/verify-t063-guest.ts` on production build: Pinecrest login (200 OK), Lakeside login (200 OK), Pinecrest stay portal (200 OK), Lakeside stay portal (200 OK), Pinecrest cross-access blocked (404 Not Found), Lakeside cross-access blocked (404 Not Found), Invalid UUID guard (404 Not Found). 7/7 assertions passed.
   * *Exit criteria met:* All 5 deferred features in LodgeOS v1.1 (T-059 to T-063) are fully built, isolated, verified live, and production ready.
 
+## Phase 12 — LodgeOS v2 (Enterprise & Scaling Features) 🔶 IN PROGRESS
+- **T-101: Multi-Property Management ✅ DONE**
+  * Migration `20260916000009_t101_multi_property.sql` (`user_organizations` table and `lodges.organization_id` foreign key with RLS and indexes).
+  * Created `src/lib/multi-property.ts` data fetcher (`getMultiPropertyData`) computing unified portfolio metrics (total properties, combined rooms, portfolio occupancy %, total billed/received/balance, collection rate, and cross-property staff registry).
+  * Created `src/app/actions/multi-property.ts` server actions (`createOrganizationAction`, `reassignStaffAction`).
+  * Created `src/components/organization/MultiPropertyClient.tsx` featuring portfolio KPI header, property comparative cards with live occupancy meters, portfolio financials breakdown table, and staff reassignment modal.
+  * Created route `src/app/admin/multi-property/page.tsx` and updated `src/components/shared/Sidebar.tsx` with property switcher trigger and navigation link.
+  * Verified live with `scripts/verify-t101-multiproperty.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+- **T-102: Channel Manager Integration (Airbnb, Booking.com) ⬜ NEXT**
+- **T-103: Advanced Reporting & BI ⬜ PENDING**
+- **T-104: Mobile App — Staff (iOS & Android) ⬜ PENDING**
+- **T-105: Advanced RBAC ⬜ PENDING**
+- **T-106: Payment Gateway (Stripe, Razorpay) ⬜ PENDING**
+- **T-107: Email & SMS Notifications (Twilio) ⬜ PENDING**
+
 ## Phase 9 — Packaging & Distribution ✅ DONE
 - **T-029:** Tauri wrapper initialized (`@tauri-apps/cli` 2.11.4, `src-tauri/` created with `Cargo.toml`, `build.rs`, `tauri.conf.json`, `capabilities/`, `icons/`, `src/`). Configured `tauri.conf.json` (`com.lodgeos.frontdesk`, dimensions 1280x800, `frontendDist: "../dist"`).
 - **T-030:** Packaging pipeline & release wiring: Updated [`src/components/auth/InstallLinkScreen.tsx`](file:///c:/bs/src/components/auth/InstallLinkScreen.tsx) and `.env.local` to point to `https://github.com/darkmd98-hue/BS/releases/latest` tagged `v0.1.0-beta`.

@@ -23,3 +23,4 @@ export default async function GuestReservationPage(props: {
 
   return <GuestPortalClient data={data} />;
 }
+

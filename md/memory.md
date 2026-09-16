@@ -13,7 +13,7 @@
 ---
 
 ## Current Phase
-`Phase 11 — LodgeOS v1.1 (Extended Features: T-059 to T-063)`
+`Phase 12 — LodgeOS v2 (Enterprise Features: T-101 to T-107)`
 
 ---
 
@@ -191,12 +191,22 @@
     * Created server actions `src/app/actions/guest.ts`: `requestGuestOtpAction`, `verifyGuestOtpAction`, `requestEarlyCheckoutAction`, `sendGuestMessageAction`.
     * Created `src/components/guest/GuestLoginForm.tsx` with branded passwordless OTP authentication and route `src/app/guest/login/page.tsx`.
     * Created `src/components/guest/GuestPortalClient.tsx` with stay details, folio summary, print invoice trigger, early checkout request modal, and front desk live messaging thread, plus dynamic route `src/app/guest/[reservationId]/page.tsx`.
-    * Verified live on production build with `scripts/verify-t063-guest.ts`: Pinecrest login (200 OK), Lakeside login (200 OK), Pinecrest stay portal (200 OK), Lakeside stay portal (200 OK), Pinecrest cross-access blocked (404 Not Found), Lakeside cross-access blocked (404 Not Found), Invalid UUID guard (404 Not Found). 7/7 assertions passed.
+- [x] **Phase 11 — LodgeOS v1.1 Extended Features (COMPLETE):**
+  - T-059 (Housekeeping Workflow), T-060 (Maintenance Tracking), T-061 (Reports & Analytics), T-062 (Settings Panel), T-063 (Guest Portal) — all 5 features fully built, tested, and verified live on production builds.
+
+- [ ] **Phase 12 — LodgeOS v2 Enterprise Features (IN PROGRESS):**
+  - **T-101 (Multi-Property Management — COMPLETE):**
+    * Created `supabase/migrations/20260916000009_t101_multi_property.sql` (`user_organizations` table, `lodges.organization_id` foreign key, RLS policies, indexes).
+    * Created data fetcher `src/lib/multi-property.ts` (`getMultiPropertyData`) aggregating cross-property occupancy, revenue metrics, collection rates, and staff assignments.
+    * Created server actions `src/app/actions/multi-property.ts` (`createOrganizationAction`, `reassignStaffAction`).
+    * Created `src/components/organization/MultiPropertyClient.tsx` featuring portfolio header, property comparative cards, portfolio financials breakdown table, and staff reassignment modal.
+    * Created route `src/app/admin/multi-property/page.tsx` and updated `src/components/shared/Sidebar.tsx` with property switcher trigger and navigation item.
+    * Verified live on production build with `scripts/verify-t101-multiproperty.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v1.1 COMPLETE! All 5 post-launch deferred features (T-059 Housekeeping, T-060 Maintenance, T-061 Reports, T-062 Settings, T-063 Guest Portal) are built, fully isolated, verified live, and pushed. Ready for v2 features (T-101 to T-107).**
+**LodgeOS v2 in active execution: T-101 COMPLETE, T-102 (Channel Manager Integration) next.**
 
 ---
 
