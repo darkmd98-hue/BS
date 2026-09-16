@@ -15,8 +15,12 @@ export function StatusBadge({ status }: { status: RoomStatus | string }) {
   const c = STATUS_CFG[normalized] || STATUS_CFG.available;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-bold tracking-wider ${c.bg} ${c.text}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
+    <span
+      role="status"
+      aria-label={`Room status: ${c.label}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-bold tracking-wider ${c.bg} ${c.text}`}
+    >
+      <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
       {c.label}
     </span>
   );

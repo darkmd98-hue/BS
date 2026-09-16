@@ -28,18 +28,6 @@ function getAnonSupabase(url: string, key: string) {
  * - Local Dev override (non-production only): ?subdomain=<subdomain> or x-subdomain: <subdomain>
  */
 function extractSubdomain(request: NextRequest): string | null {
-  // 1. Dev/Testing overrides — STRICTLY gated to non-production environments
-  if (process.env.NODE_ENV !== "production") {
-    const paramOverride = request.nextUrl.searchParams.get("subdomain");
-    if (paramOverride) {
-      return paramOverride.toLowerCase().trim();
-    }
-    const headerOverride = request.headers.get("x-subdomain");
-    if (headerOverride) {
-      return headerOverride.toLowerCase().trim();
-    }
-  }
-
   const host = request.headers.get("host") || "";
   const hostname = host.split(":")[0]; // Strip port (e.g. "localhost:3000" -> "localhost")
 
@@ -145,6 +133,16 @@ function render404Response(subdomain: string): NextResponse {
 
 
 export async function middleware(request: NextRequest) {
+  // Force HTTPS in production
+  if (
+    process.env.NODE_ENV === "production" &&
+    request.headers.get("x-forwarded-proto") !== "https"
+  ) {
+    const httpsUrl = request.nextUrl.clone();
+    httpsUrl.protocol = "https:";
+    return NextResponse.redirect(httpsUrl, 301);
+  }
+
   const { pathname } = request.nextUrl;
 
   const subdomain = extractSubdomain(request);
@@ -180,25 +178,28 @@ export async function middleware(request: NextRequest) {
 
   let data: any = null;
   let error: any = null;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const res = await (supabase.from("lodges") as any)
-      .select("id, name, subdomain")
-      .eq("subdomain", subdomain)
-      .maybeSingle();
-    data = res.data;
-    error = res.error;
-    if (!error) break;
-    if (attempt < 2) {
-      await new Promise((resolve) => setTimeout(resolve, 150 * (attempt + 1)));
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await (supabase.from("lodges") as any)
+        .select("id, name, subdomain")
+        .eq("subdomain", subdomain)
+        .maybeSingle();
+      data = res.data;
+      error = res.error;
+      if (!error || !error.message?.toLowerCase().includes("fetch")) break;
+    } catch (e: any) {
+      error = e;
+    }
+    if (attempt < 1) {
+      await new Promise((resolve) => setTimeout(resolve, Math.min(100, 50 * Math.pow(2, attempt))));
     }
   }
 
   // Distinguish transient query/network errors from "lodge not found"
   if (error) {
-    console.error("[Middleware] Database lookup failure during tenant resolution:", error.message);
     return render500Response(
-      "Lookup Failed",
-      "An error occurred while resolving the lodge tenant. Please try again shortly."
+      "Service Temporarily Unavailable",
+      "Unable to resolve lodge tenant at this time. Please try again later."
     );
   }
 

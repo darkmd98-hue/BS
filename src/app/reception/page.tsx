@@ -2,8 +2,7 @@ import Link from "next/link";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
 import { Avatar } from "@/components/shared/Avatar";
-
-const fmt = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN");
+import { fmt, formatDate } from "@/lib/format";
 
 export default async function ReceptionDashboardPage() {
   const tenant = await getTenantContext();
@@ -23,7 +22,7 @@ export default async function ReceptionDashboardPage() {
   const cleaningRooms = allRooms.filter((r) => r.status === "cleaning").length;
 
   // 2. Fetch Reservations for Today
-  const todayStr = new Date().toLocaleDateString("en-CA");
+  const todayStr = new Date().toISOString().split("T")[0];
   const { data: reservations } = await supabase
     .from("reservations")
     .select(`
@@ -38,21 +37,24 @@ export default async function ReceptionDashboardPage() {
       customers ( name, mobile )
     `)
     .eq("lodge_id", tenant.lodgeId)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .limit(100);
 
   const allRes: any[] = (reservations as any[]) || [];
   const checkIns = allRes
-    .filter((r) => (r.check_in === todayStr || r.status === "today") && r.status !== "completed" && r.status !== "cancelled")
+    .filter((r) => (r.check_in === todayStr || r.status === "upcoming") && r.status !== "checked_out" && r.status !== "cancelled")
     .slice(0, 5);
   const checkOuts = allRes
-    .filter((r) => r.check_out === todayStr && (r.status === "checked-in" || r.status === "checked_in"))
+    .filter((r) => r.check_out === todayStr && (r.status === "checked_in" || r.status === "checked-in"))
     .slice(0, 5);
 
   // 3. Fetch Bills & Payments
   const { data: bills } = await supabase
     .from("bills")
     .select("*")
-    .eq("lodge_id", tenant.lodgeId);
+    .eq("lodge_id", tenant.lodgeId)
+    .order("created_at", { ascending: false })
+    .limit(200);
 
   const allBills: any[] = (bills as any[]) || [];
   const totalBilled = allBills.reduce((acc, b) => acc + (Number(b.net_amount) || 0), 0);

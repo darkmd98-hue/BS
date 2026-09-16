@@ -2,6 +2,9 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { registrationLimiter } from "@/lib/rate-limit";
+import { headers } from "next/headers";
+import isEmail from "validator/lib/isEmail";
 
 export interface RegisterLodgeInput {
   email: string;
@@ -34,15 +37,46 @@ export async function registerLodgeAction(
 ): Promise<AuthActionResult> {
   const { email, password, fullName, lodgeName, address } = input;
 
+  // Rate limiting check
+  try {
+    const headersList = await headers();
+    const forwarded = headersList.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0].trim() : "unknown";
+
+    if (process.env.UPSTASH_REDIS_REST_URL) {
+      const { success, reset } = await registrationLimiter.limit(ip);
+      if (!success) {
+        const waitMin = Math.ceil((reset - Date.now()) / 60000);
+        return {
+          success: false,
+          error: `Too many registration attempts. Try again in ${waitMin} minutes.`,
+        };
+      }
+    }
+  } catch (rateLimitErr) {
+    console.warn("[RateLimit] Check failed, failing open:", rateLimitErr);
+  }
+
   // 1. Server-side validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || !emailRegex.test(email)) {
+  if (!email || !isEmail(email)) {
     return { success: false, error: "Please provide a valid email address." };
   }
-  if (!password || password.length < 6) {
+  if (!password || password.length < 8) {
     return {
       success: false,
-      error: "Password must be at least 6 characters long.",
+      error: "Password must be at least 8 characters long.",
+    };
+  }
+  if (!/[A-Z]/.test(password)) {
+    return {
+      success: false,
+      error: "Password must contain at least one uppercase letter.",
+    };
+  }
+  if (!/[0-9]/.test(password)) {
+    return {
+      success: false,
+      error: "Password must contain at least one number.",
     };
   }
   if (!fullName || !fullName.trim()) {
@@ -199,3 +233,33 @@ export async function registerLodgeAction(
     };
   }
 }
+
+/**
+ * Request password reset email.
+ * Always returns success to prevent email enumeration.
+ */
+export async function requestPasswordResetAction(
+  email: string
+): Promise<{ success: boolean; message: string }> {
+  const normalizedEmail = email?.trim().toLowerCase();
+  if (!normalizedEmail || !isEmail(normalizedEmail)) {
+    return { success: false, message: "Please provide a valid email address." };
+  }
+
+  try {
+    const supabase = await createServerSupabaseClient();
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+      redirectTo: `${appUrl}/auth/reset-password`,
+    });
+  } catch (err) {
+    console.error("[requestPasswordResetAction] Error:", err);
+  }
+
+  // Always return success to prevent email enumeration
+  return {
+    success: true,
+    message: "If that email is registered, a password reset link has been sent.",
+  };
+}
+

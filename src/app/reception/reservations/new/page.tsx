@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
+import { sanitizeText } from "@/lib/sanitize";
 
 export default async function CreateReservationPage({
   searchParams,
@@ -28,21 +29,25 @@ export default async function CreateReservationPage({
     const tenantCtx = await getTenantContext();
     const serverSupabase = await createClient();
 
-    const name = (formData.get("name") as string)?.trim();
-    const mobile = (formData.get("mobile") as string)?.trim();
-    const email = (formData.get("email") as string)?.trim() || null;
+    const name = sanitizeText(formData.get("name"));
+    const rawMobile = sanitizeText(formData.get("mobile"));
+    const mobile = rawMobile.replace(/[\s\-()]/g, "");
+    const email = sanitizeText(formData.get("email")) || null;
     const roomId = formData.get("room_id") as string;
     const checkIn = formData.get("check_in") as string;
     const checkOut = formData.get("check_out") as string;
-    const guests = parseInt((formData.get("guests") as string) || "1", 10);
-    const advance = parseFloat((formData.get("advance") as string) || "0");
-    const specialRequest = (formData.get("special_request") as string)?.trim() || null;
+    const guests = Math.max(1, Math.min(50, parseInt((formData.get("guests") as string) || "1", 10)));
+    const advance = Math.max(0, Math.min(100_000_000, parseFloat((formData.get("advance") as string) || "0")));
+    const specialRequest = sanitizeText(formData.get("special_request")) || null;
 
     if (!roomId) {
       throw new Error("Please select a room.");
     }
     if (!name || !mobile) {
       throw new Error("Guest name and mobile number are required.");
+    }
+    if (!/^\+?[0-9]{10,15}$/.test(mobile)) {
+      throw new Error("Please enter a valid mobile number (10 to 15 digits).");
     }
     if (!checkIn || !checkOut || checkOut <= checkIn) {
       throw new Error("Check-out date must be after check-in date.");
@@ -104,53 +109,74 @@ export default async function CreateReservationPage({
       .select("id")
       .single();
 
-    if (resErr || !newRes) {
-      throw new Error(`Failed to create reservation: ${resErr?.message}`);
+    if (resErr) {
+      if (resErr.code === '23P01') {
+        throw new Error("This room is already booked for the selected dates. Please choose different dates or another room.");
+      }
+      throw new Error(`Failed to create reservation: ${resErr.message}`);
+    }
+    if (!newRes) {
+      throw new Error("Failed to create reservation: No data returned.");
     }
 
-    // 3. Mark room as reserved
-    await (serverSupabase as any)
-      .from("rooms")
-      .update({ status: "reserved" })
-      .eq("id", roomId)
-      .eq("lodge_id", tenantCtx.lodgeId);
+    try {
+      // 3. Mark room as reserved
+      await (serverSupabase as any)
+        .from("rooms")
+        .update({ status: "reserved" })
+        .eq("id", roomId)
+        .eq("lodge_id", tenantCtx.lodgeId);
 
-    // 4. Calculate stay totals & create Bill and Payment record
-    const { data: roomData } = await (serverSupabase as any)
-      .from("rooms")
-      .select("rent")
-      .eq("id", roomId)
-      .eq("lodge_id", tenantCtx.lodgeId)
-      .single();
+      // 4. Calculate stay totals & create Bill and Payment record
+      const { data: roomData } = await (serverSupabase as any)
+        .from("rooms")
+        .select("rent")
+        .eq("id", roomId)
+        .eq("lodge_id", tenantCtx.lodgeId)
+        .single();
 
-    const rent = Number(roomData?.rent || 0);
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
-    const nights = Math.max(1, Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / 86400000));
-    const netAmount = rent * nights;
-    const advanceAmount = Number(advance) || 0;
+      const rent = Math.max(0, Math.min(10_000_000, Number(roomData?.rent || 0)));
+      const checkInDate = new Date(checkIn);
+      const checkOutDate = new Date(checkOut);
+      const diffDays = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / 86400000);
+      const nights = Math.max(1, Math.min(365, diffDays));
+      const netAmount = Math.round(rent * nights * 100) / 100;
+      const advanceAmount = Math.round(Math.min(netAmount, Number(advance) || 0) * 100) / 100;
 
-    const { data: billData } = await (serverSupabase as any)
-      .from("bills")
-      .insert({
-        lodge_id: tenantCtx.lodgeId,
-        reservation_id: newRes.id,
-        net_amount: netAmount,
-        received: advanceAmount,
-        balance: Math.max(0, netAmount - advanceAmount),
-        payment_status: advanceAmount >= netAmount ? "paid" : advanceAmount > 0 ? "partial" : "unpaid",
-      })
-      .select("id")
-      .single();
+      const { data: billData, error: billErr } = await (serverSupabase as any)
+        .from("bills")
+        .insert({
+          lodge_id: tenantCtx.lodgeId,
+          reservation_id: newRes.id,
+          net_amount: netAmount,
+          received: advanceAmount,
+          balance: Math.max(0, netAmount - advanceAmount),
+          payment_status: advanceAmount >= netAmount ? "paid" : advanceAmount > 0 ? "partial" : "unpaid",
+        })
+        .select("id")
+        .single();
 
-    if (advanceAmount > 0 && billData) {
-      await (serverSupabase as any).from("payments").insert({
-        lodge_id: tenantCtx.lodgeId,
-        bill_id: billData.id,
-        amount: advanceAmount,
-        method: "Cash",
-        paid_at: new Date().toISOString(),
-      });
+      if (billErr) {
+        throw new Error(`Failed to create bill: ${billErr.message}`);
+      }
+
+      if (advanceAmount > 0 && billData) {
+        await (serverSupabase as any).from("payments").insert({
+          lodge_id: tenantCtx.lodgeId,
+          bill_id: billData.id,
+          amount: advanceAmount,
+          method: "Cash",
+          paid_at: new Date().toISOString(),
+        });
+      }
+    } catch (postResErr: any) {
+      // Rollback reservation on cascade step failure
+      await (serverSupabase as any)
+        .from("reservations")
+        .delete()
+        .eq("id", newRes.id)
+        .eq("lodge_id", tenantCtx.lodgeId);
+      throw postResErr;
     }
 
     revalidatePath("/reception/reservations");

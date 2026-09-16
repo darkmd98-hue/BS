@@ -85,14 +85,14 @@ export async function getPaymentGatewaysData(
   const dbWebhooks = webhooksResult?.data || [];
   const dbBills = billsResult?.data || [];
 
-  // Default gateway configurations
+  // Default gateway configurations (empty when not configured)
   const defaultStripe: PaymentGatewayConfig = {
     lodge_id: lodgeId,
     gateway_name: "stripe",
-    is_enabled: true,
-    publishable_key: "pk_test_51MzDemoKeyLodgeOSStripe",
-    secret_key: "sk_test_••••••••••••••••••••942",
-    webhook_secret: "whsec_mock_stripe_987",
+    is_enabled: false,
+    publishable_key: "",
+    secret_key: "",
+    webhook_secret: "",
     currency: "INR",
     is_test_mode: true,
   };
@@ -100,10 +100,10 @@ export async function getPaymentGatewaysData(
   const defaultRazorpay: PaymentGatewayConfig = {
     lodge_id: lodgeId,
     gateway_name: "razorpay",
-    is_enabled: true,
-    publishable_key: "rzp_test_DemoLodgeKey98",
-    secret_key: "rzp_secret_••••••••••••831",
-    webhook_secret: "whsec_mock_razorpay_554",
+    is_enabled: false,
+    publishable_key: "",
+    secret_key: "",
+    webhook_secret: "",
     currency: "INR",
     is_test_mode: true,
   };

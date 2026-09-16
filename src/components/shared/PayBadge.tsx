@@ -14,7 +14,11 @@ export function PayBadge({ status }: { status: PaymentStatus | string | undefine
   const c = PAY_CFG[normalized] || PAY_CFG.pending;
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${c.bg} ${c.text}`}>
+    <span
+      role="status"
+      aria-label={`Payment status: ${c.label}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${c.bg} ${c.text}`}
+    >
       {c.label}
     </span>
   );

@@ -3,8 +3,7 @@ import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
 import { PayBadge } from "@/components/shared/PayBadge";
 import { Avatar } from "@/components/shared/Avatar";
-
-const fmt = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN");
+import { fmt, formatDate } from "@/lib/format";
 
 export default async function ReceptionBillingPage() {
   const tenant = await getTenantContext();
@@ -24,7 +23,8 @@ export default async function ReceptionBillingPage() {
       )
     `)
     .eq("lodge_id", tenant.lodgeId)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .limit(100);
 
   const billList: any[] = bills || [];
 

@@ -37,9 +37,11 @@ export function Avatar({
 
   return (
     <div
+      role="img"
+      aria-label={`Avatar for ${safeName}`}
       className={`${sz} ${AV_COLORS[idx]} rounded-full flex items-center justify-center font-bold shrink-0 ${className}`}
     >
-      {initials(safeName)}
+      <span aria-hidden="true">{initials(safeName)}</span>
     </div>
   );
 }

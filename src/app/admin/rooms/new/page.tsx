@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { sanitizeText } from "@/lib/sanitize";
 
 export default async function AddRoomPage() {
   const tenant = await getTenantContext();
@@ -15,7 +16,7 @@ export default async function AddRoomPage() {
     }
     const serverSupabase = await createClient();
 
-    const roomNumber = (formData.get("roomNumber") as string)?.trim();
+    const roomNumber = sanitizeText(formData.get("roomNumber"));
     const floorStr = formData.get("floor");
     const floor = floorStr ? Number(floorStr) : null;
     const roomType = (formData.get("roomType") as string) || "AC";

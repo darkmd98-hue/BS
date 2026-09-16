@@ -54,6 +54,16 @@ export async function getTenantContext(): Promise<TenantContext> {
   }
 
   const supabase = await createClient();
+
+  // Check session expiry and refresh if needed
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (session) {
+    const nowSec = Math.floor(Date.now() / 1000);
+    if ((session.expires_at ?? 0) - nowSec < 60) {
+      await supabase.auth.refreshSession();
+    }
+  }
+
   let user: any = null;
   let authError: any = null;
   for (let attempt = 0; attempt < 4; attempt++) {
