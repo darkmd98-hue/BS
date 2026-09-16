@@ -84,3 +84,4 @@ CREATE POLICY "lodge_channel_sync_log_insert"
     FOR INSERT
     TO authenticated
     WITH CHECK (lodge_id = public.get_auth_lodge_id());
+

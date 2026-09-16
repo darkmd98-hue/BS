@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "LodgeOS Staff Companion",
+    "slug": "lodgeos-staff",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0b1437"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.lodgeos.staff",
+      "infoPlist": {
+        "NSCameraUsageDescription": "LodgeOS uses the camera to attach proof photos to maintenance tickets and scan guest QR check-in passes.",
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0b1437"
+      },
+      "package": "com.lodgeos.staff",
+      "permissions": [
+        "CAMERA",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#2563eb"
+        }
+      ]
+    ]
+  }
+}
+

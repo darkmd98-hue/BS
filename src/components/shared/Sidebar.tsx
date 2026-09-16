@@ -58,6 +58,7 @@ const ADMIN_NAV: NavGroup[] = [
     group: "Shortcuts",
     items: [
       { id: "reception-desk", label: "Front Desk View", href: "/reception",            icon: "🛏" },
+      { id: "mobile-staff",   label: "Mobile Companion", href: "/mobile",              icon: "📱" },
     ],
   },
 ];
@@ -72,6 +73,7 @@ const RECEPTION_NAV: NavGroup[] = [
       { id: "reservations", label: "Reservations", href: "/reception/reservations", icon: "📋" },
       { id: "billing", label: "Bills & Payments", href: "/reception/billing", icon: "₹" },
       { id: "customers", label: "Customers", href: "/reception/customers", icon: "👥" },
+      { id: "mobile-staff", label: "Mobile Companion", href: "/mobile", icon: "📱" },
     ],
   },
 ];

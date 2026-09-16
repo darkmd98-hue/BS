@@ -105,7 +105,7 @@
 | T-101  | Multi-Property Management | ✅ DONE |
 | T-102  | Channel Manager (Airbnb, Booking.com) | ✅ DONE |
 | T-103  | Advanced Reporting & BI | ✅ DONE |
-| T-104  | Mobile App — Staff (iOS & Android) | ⬜ Pending |
+| T-104  | Mobile App — Staff (iOS & Android) | ✅ DONE |
 | T-105  | Advanced RBAC | ⬜ Pending |
 | T-106  | Payment Gateway (Stripe, Razorpay) | ⬜ Pending |
 | T-107  | Email & SMS Notifications (Twilio) | ⬜ Pending |

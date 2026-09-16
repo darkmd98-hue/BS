@@ -213,12 +213,18 @@
     * Created `src/app/actions/bi.ts` server actions (`createExpenseAction`, `deleteExpenseAction`) with admin role enforcement.
     * Created `src/components/bi/AdvancedBIClient.tsx` featuring executive KPI cards, 6-month Revenue vs Expenses vs NOI chart, RevPAR & ADR yield trend line chart, formal P&L statement table with print formatting, expense allocation donut chart, interactive expense logger modal, and CSV export.
     * Created route `src/app/admin/bi/page.tsx` and updated `src/components/shared/Sidebar.tsx` navigation.
-    * Verified live on production build with `scripts/verify-t103-bi.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+  - **T-104 (Mobile App — Staff — COMPLETE):**
+    * Created `supabase/migrations/20260916000012_t104_mobile_staff.sql` (`staff_device_tokens` table for FCM mobile push tokens and cross-platform device registry with RLS policies).
+    * Created standalone React Native / Expo workspace in `mobile/` (`package.json`, `app.json`, `App.tsx`) with `@supabase/supabase-js`, local SQLite/AsyncStorage offline queue, camera ticket capture, and push notifications. Excluded `mobile/` in root `tsconfig.json`.
+    * Created Next.js mobile companion route `/mobile` with `src/types/mobile.ts`, `src/lib/mobile.ts`, `src/app/actions/mobile.ts` (`registerStaffDeviceAction`, `syncMobileTasksAction`, `quickUpdateRoomStatusAction`), and `src/components/mobile/MobileStaffClient.tsx`.
+    * Touch-optimized UI featuring cleaning turnover queue, one-tap room completion, maintenance ticket resolver, simulated offline mode (basement Wi-Fi deadzone), automatic task cache sync, and fast QR check-in pass lookup.
+    * Wired `Sidebar.tsx` with Mobile Companion shortcut; updated middleware `isProtectedRoute` to guard `/mobile` with strict cross-tenant (403) and unauthenticated (307) protection.
+    * Verified live on production build with `scripts/verify-t104-mobile.ts`: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
 
 ---
 
 ## Status
-**LodgeOS v2 in active execution: T-103 COMPLETE, T-104 (Mobile App — Staff) next.**
+**LodgeOS v2 in active execution: T-104 COMPLETE, T-105 (Advanced RBAC) next.**
 
 ---
 

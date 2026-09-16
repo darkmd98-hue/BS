@@ -100,3 +100,4 @@ CREATE POLICY "anon_insert_guest_messages"
     FOR INSERT
     TO anon
     WITH CHECK (true);
+

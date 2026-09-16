@@ -92,3 +92,4 @@ export const CATEGORY_METADATA: Record<
   taxes_licenses: { label: "Taxes, GST & Licenses", color: "#64748b", icon: "📑" },
   other: { label: "Miscellaneous Operating", color: "#94a3b8", icon: "📦" },
 };
+

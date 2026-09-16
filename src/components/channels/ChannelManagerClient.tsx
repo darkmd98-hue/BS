@@ -430,3 +430,4 @@ export function ChannelManagerClient({ data }: { data: ChannelManagerData }) {
     </div>
   );
 }
+

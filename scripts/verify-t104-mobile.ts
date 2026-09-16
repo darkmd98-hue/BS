@@ -1,5 +1,5 @@
 /**
- * T-102 Channel Manager Integration — Dual-Lodge Live Verification
+ * T-104 Mobile App (Staff Companion) — Dual-Lodge Live Verification
  * Requires: `npx next start -p 3000` running in background
  */
 import http from "http";
@@ -55,7 +55,7 @@ const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
   console.log("================================================================================");
-  console.log("     T-102 LIVE VERIFICATION: CHANNEL MANAGER & OTA INTEGRATIONS                ");
+  console.log("     T-104 LIVE VERIFICATION: STAFF MOBILE COMPANION & OFFLINE CAPABILITY       ");
   console.log("================================================================================\n");
 
   // 1. Authenticate Lodge A
@@ -80,37 +80,42 @@ async function main() {
   await clientB.auth.signInWithPassword({ email: "test-lodge-b@example.com", password: "Password123!" });
   const cookieHeaderB = Object.entries(cookiesB).map(([k, v]) => `${k}=${v}`).join("; ");
 
-  console.log("✅ Both lodge admin sessions authenticated\n");
+  console.log("✅ Both lodge staff/admin sessions authenticated\n");
 
   const results: boolean[] = [];
   await delay(1000);
 
-  // Check 1: Pinecrest Channel Manager
-  console.log("1. Checking /admin/channels under Pinecrest (Lodge A)...");
-  let resA = await testRequest("pinecrest.localhost", "/admin/channels", cookieHeaderA);
+  // Check 1: Pinecrest Staff Mobile Companion
+  console.log("1. Checking /mobile under Pinecrest (Lodge A)...");
+  let resA = await testRequest("pinecrest.localhost", "/mobile", cookieHeaderA);
   if (resA.status !== 200) {
-    await delay(600);
-    resA = await testRequest("pinecrest.localhost", "/admin/channels", cookieHeaderA);
+    await delay(1000);
+    resA = await testRequest("pinecrest.localhost", "/mobile", cookieHeaderA);
   }
-  const hasBannerA = resA.body.includes("Channel Distribution") || resA.body.includes("Two-Way Channel Manager");
-  const hasAirbnbA = resA.body.includes("Airbnb");
-  const pass1 = resA.status === 200 && hasBannerA && hasAirbnbA;
-  console.log(`   - Status: HTTP ${resA.status} (Channel Distribution: ${hasBannerA}, Airbnb: ${hasAirbnbA}) -> ${pass1 ? "✅ PASS" : "❌ FAIL"}`);
+  const hasLodgeA = resA.body.includes("Pinecrest Alpine Resort");
+  const hasFeaturesA = resA.body.includes("Turnover") || resA.body.includes("Cleaning") || resA.body.includes("Portal");
+  const pass1 = resA.status === 200 && hasLodgeA && hasFeaturesA;
+  console.log(`   - Status: HTTP ${resA.status} (Lodge Name: ${hasLodgeA}, Staff Features: ${hasFeaturesA}) -> ${pass1 ? "✅ PASS" : "❌ FAIL"}`);
   results.push(pass1);
   await delay(500);
 
-  // Check 2: Lakeside Channel Manager
-  console.log("\n2. Checking /admin/channels under Lakeside (Lodge B)...");
-  const resB = await testRequest("lakeside.localhost", "/admin/channels", cookieHeaderB);
-  const hasBannerB = resB.body.includes("Channel Distribution") || resB.body.includes("Two-Way Channel Manager");
-  const pass2 = resB.status === 200 && hasBannerB;
-  console.log(`   - Status: HTTP ${resB.status} (Channel Distribution: ${hasBannerB}) -> ${pass2 ? "✅ PASS" : "❌ FAIL"}`);
+  // Check 2: Lakeside Staff Mobile Companion
+  console.log("\n2. Checking /mobile under Lakeside (Lodge B)...");
+  let resB = await testRequest("lakeside.localhost", "/mobile", cookieHeaderB);
+  if (resB.status !== 200) {
+    await delay(1000);
+    resB = await testRequest("lakeside.localhost", "/mobile", cookieHeaderB);
+  }
+  const hasLodgeB = resB.body.includes("Lakeside Haven Inn");
+  const hasFeaturesB = resB.body.includes("Turnover") || resB.body.includes("Cleaning") || resB.body.includes("Portal");
+  const pass2 = resB.status === 200 && hasLodgeB && hasFeaturesB;
+  console.log(`   - Status: HTTP ${resB.status} (Lodge Name: ${hasLodgeB}, Staff Features: ${hasFeaturesB}) -> ${pass2 ? "✅ PASS" : "❌ FAIL"}`);
   results.push(pass2);
   await delay(500);
 
   // Check 3: Cross-Tenant Session Mismatch Guard
   console.log("\n3. Cross-Tenant Session Mismatch Guard Check (Lodge A cookie on Lakeside subdomain)...");
-  const resCross = await testRequest("lakeside.localhost", "/admin/channels", cookieHeaderA);
+  const resCross = await testRequest("lakeside.localhost", "/mobile", cookieHeaderA);
   const pass3 = resCross.status === 403;
   console.log(`   - Status: HTTP ${resCross.status} (Expected: 403 Forbidden) -> ${pass3 ? "✅ PASS" : "❌ FAIL"}`);
   results.push(pass3);
@@ -118,7 +123,7 @@ async function main() {
 
   // Check 4: Anonymous Access Guard
   console.log("\n4. Anonymous Access Guard Check...");
-  const resAnon = await testRequest("pinecrest.localhost", "/admin/channels", "");
+  const resAnon = await testRequest("pinecrest.localhost", "/mobile", "");
   const pass4 = resAnon.status === 307;
   console.log(`   - Status: HTTP ${resAnon.status} (Expected: 307 Redirect) -> ${pass4 ? "✅ PASS" : "❌ FAIL"}`);
   results.push(pass4);
@@ -127,10 +132,10 @@ async function main() {
   console.log("\n================================================================================");
   console.log(`RESULTS: ${passed}/${results.length} PASSED`);
   if (passed < results.length) {
-    console.error("❌ Some T-102 verification checks failed!");
+    console.error("❌ Some T-104 verification checks failed!");
     process.exit(1);
   }
-  console.log("🎉 ALL T-102 CHANNEL MANAGER CHECKS PASSED!");
+  console.log("🎉 ALL T-104 STAFF MOBILE COMPANION CHECKS PASSED!");
   console.log("================================================================================");
 }
 
@@ -138,4 +143,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

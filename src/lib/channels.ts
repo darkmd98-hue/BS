@@ -184,3 +184,4 @@ export async function getChannelManagerData(lodgeId: string): Promise<ChannelMan
     totalChannelRevenue,
   };
 }
+

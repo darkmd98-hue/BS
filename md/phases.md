@@ -116,8 +116,14 @@
   * Created `src/components/bi/AdvancedBIClient.tsx` with executive KPI cards, 6-month Revenue vs Expenses vs NOI chart, RevPAR & ADR yield trend line chart, formal P&L statement table with print formatting, expense allocation donut chart, interactive expense logger modal, and CSV export.
   * Created route `src/app/admin/bi/page.tsx` and updated `src/components/shared/Sidebar.tsx` navigation.
   * Verified live with `scripts/verify-t103-bi.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
-- **T-104: Mobile App — Staff (iOS & Android) ⬜ NEXT**
-- **T-105: Advanced RBAC ⬜ PENDING**
+- **T-104: Mobile App — Staff (iOS & Android) ✅ DONE**
+  * Migration `20260916000012_t104_mobile_staff.sql` (`staff_device_tokens` table for FCM mobile push tokens and cross-platform device registry with RLS policies).
+  * Created standalone React Native / Expo workspace in `mobile/` (`package.json`, `app.json`, `App.tsx`) with `@supabase/supabase-js`, local SQLite/AsyncStorage offline queue, camera ticket capture, and push notifications.
+  * Created Next.js mobile companion route `/mobile` with `src/types/mobile.ts`, `src/lib/mobile.ts`, `src/app/actions/mobile.ts` (`registerStaffDeviceAction`, `syncMobileTasksAction`, `quickUpdateRoomStatusAction`), and `src/components/mobile/MobileStaffClient.tsx`.
+  * Touch-optimized UI featuring cleaning turnover queue, one-tap room completion, maintenance ticket resolver, simulated offline mode (basement Wi-Fi deadzone), automatic task cache sync, and fast QR check-in pass lookup.
+  * Wired `Sidebar.tsx` with Mobile Companion shortcut; updated middleware `isProtectedRoute` to guard `/mobile` with strict cross-tenant (403) and unauthenticated (307) protection.
+  * Verified live with `scripts/verify-t104-mobile.ts` on production build: Pinecrest (200 OK), Lakeside (200 OK), Cross-Tenant Guard (403 Forbidden), Anonymous Access Guard (307 Redirect). 4/4 assertions passed.
+- **T-105: Advanced RBAC ⬜ NEXT**
 - **T-106: Payment Gateway (Stripe, Razorpay) ⬜ PENDING**
 - **T-107: Email & SMS Notifications (Twilio) ⬜ PENDING**
 

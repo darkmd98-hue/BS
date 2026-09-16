@@ -49,7 +49,10 @@ export async function updateSession(request: NextRequest, customHeaders?: Header
 
   const pathname = request.nextUrl.pathname;
   const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register");
-  const isProtectedRoute = pathname.startsWith("/admin") || pathname.startsWith("/reception");
+  const isProtectedRoute =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/reception") ||
+    pathname.startsWith("/mobile");
 
   if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone();

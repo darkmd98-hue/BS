@@ -69,3 +69,4 @@ CREATE POLICY "lodge_expenses_delete"
         lodge_id = public.get_auth_lodge_id() 
         AND public.get_auth_role() = 'admin'
     );
+
